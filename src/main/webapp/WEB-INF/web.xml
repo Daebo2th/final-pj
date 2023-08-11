@@ -10,14 +10,19 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/spring/root-context.xml
+            /WEB-INF/spring/appServlet/security-context.xml
         </param-value>
     </context-param>
-<!--            /WEB-INF/spring/appServlet/security-context.xml-->
+
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+    </listener>
 
     <!-- Encoding 관련 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
 
     <filter>
         <filter-name>EncodingFilter</filter-name>
@@ -33,14 +38,14 @@
     </filter-mapping>
 
     <!-- 시큐리티 인증권한 관련 Filter -->
-   <!-- <filter>
+    <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
+    </filter-mapping>
 
     <!-- Processes application requests -->
     <servlet>

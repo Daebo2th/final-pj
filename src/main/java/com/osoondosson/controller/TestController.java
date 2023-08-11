@@ -20,4 +20,14 @@ public class TestController {
         return "index";
     }
 
+
+    @GetMapping("/auth/login")
+    public String login(Model model){
+
+        model.addAttribute("test", testService.getUser());
+
+        return "auth/login";
+    }
+
+
 }

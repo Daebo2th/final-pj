@@ -4,6 +4,6 @@
 					
 <mapper namespace="com.osoondosson.dao.TestDAO">
 	<select id="getUser" resultType="user">
-		SELECT * FROM USER2
+		SELECT * FROM member
 	</select>
 </mapper>
