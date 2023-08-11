@@ -15,6 +15,7 @@ target/
 .idea
 mvnw.cmd
 mvnw
+db.properties
 
 ### Eclipse ###
 .apt_generated
