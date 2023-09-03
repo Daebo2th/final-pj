@@ -1,9 +1,9 @@
 package com.osoondosson.service;
 
-import com.osoondosson.vo.User;
+import com.osoondosson.vo.UserVO;
 
 import java.util.List;
 
 public interface TestService {
-    List<User> getUser();
+    List<UserVO> getUser();
 }
