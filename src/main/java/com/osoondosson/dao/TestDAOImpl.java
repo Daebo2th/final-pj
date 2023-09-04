@@ -1,6 +1,6 @@
 package com.osoondosson.dao;
 
-import com.osoondosson.vo.User;
+import com.osoondosson.vo.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,8 +15,8 @@ public class TestDAOImpl implements TestDAO {
     private SqlSession sqlSession;
 
     @Override
-    public List<User> getUser() {
-        List<User> list = new ArrayList<>();
+    public List<UserVO> getUser() {
+        List<UserVO> list = new ArrayList<>();
 
         try {
             TestDAO dao = sqlSession.getMapper(TestDAO.class);
