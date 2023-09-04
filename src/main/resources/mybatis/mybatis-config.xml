@@ -12,6 +12,7 @@
     <!-- Alias 설정 -->
     <typeAliases>
         <typeAlias alias="user" type="com.osoondosson.vo.User"/>
+        <typeAlias alias="taskVO" type="com.osoondosson.vo.TaskVO"/>
     </typeAliases>
 </configuration>
 

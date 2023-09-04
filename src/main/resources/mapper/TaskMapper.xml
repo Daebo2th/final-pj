@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osoondosson.dao.TaskDAO">
+    <insert id="insertTask" >
+        INSERT INTO Task (task_seq,author, title, content, create_Date, update_Date, status)
+        VALUES (task_seq.nextval, #{author}, #{title}, #{content},current_timestamp ,current_timestamp , 0)
+    </insert>
+
+</mapper>
