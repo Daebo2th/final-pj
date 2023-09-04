@@ -39,6 +39,10 @@
     </table>
 
     <a href="/auth/logout">로그아웃</a>
+
+    <hr>
+
+    <a href ="/student/daily-taskform">학생 페이지- 일일과제 작성으로 일단 진행</a>
 </div>
 </body>
 </html>
