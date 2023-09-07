@@ -58,7 +58,7 @@
     <security:authentication-manager>
         <security:authentication-provider>
             <security:jdbc-user-service data-source-ref="datasource"
-                                        users-by-username-query="select id, pwd, 1 enabled from member where id = ?"
+                                        users-by-username-query="select user_id, user_pwd, 1 enabled from member where user_id = ?"
                                         authorities-by-username-query="select u_id, role_type from role where u_id = ?"/>
             <!--<security:password-encoder ref="passwordEncorder">
                 <security:salt-source user-property="username"/>
