@@ -2,9 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <security:http pattern="/include/**" security="none"/>
     <security:http auto-config="true" use-expressions="true"
@@ -13,8 +13,9 @@
         <security:intercept-url pattern="/admin/**"
                                 access="hasRole('ROLE_ADMIN')"/>
         <!-- 권한에 관계없이 접속 가능한 영역(guest 가능) -->
-        <security:intercept-url pattern="/auth/**"
-                                access="permitAll"/>
+        <security:intercept-url pattern="/favicon.ico" access="permitAll" />
+        <security:intercept-url pattern="/auth/login" access="permitAll"/>
+        <security:intercept-url pattern="/auth/sign-up" access="permitAll"/>
 
         <!-- 권한 있는 사용자 -->
         <security:intercept-url pattern="/user/**"
@@ -52,23 +53,25 @@
         <!--        <security:remember-me key="userKey"-->
         <!--                              token-validity-seconds="3600"/>-->
     </security:http>
-
+<!--    <bean id="userDAOImpl" class="com.osoondosson.dao.user.UserDAOImpl" />-->
+<!--    <bean id="userDetailsService" class="com.osoondosson.security.config.PrincipalDetailsService" >-->
+<!--        <constructor-arg name="userDAO" ref="userDAOImpl"/>-->
+<!--    </bean>-->
 
     <!-- 사용자가 입력한 비밀번호를 암호화된 비밀번호와 체크하는 로직이 포함 --><!-- user-service-ref="userService"-->
     <security:authentication-manager>
-        <security:authentication-provider>
+        <security:authentication-provider >
             <security:jdbc-user-service data-source-ref="datasource"
                                         users-by-username-query="select user_id, user_pwd, 1 enabled from member where user_id = ?"
                                         authorities-by-username-query="select u_id, role_type from role where u_id = ?"/>
             <!--<security:password-encoder ref="passwordEncorder">
                 <security:salt-source user-property="username"/>
             </security:password-encoder>-->
+            <security:password-encoder ref="passwordEncorder"/>
         </security:authentication-provider>
     </security:authentication-manager>
-
     <!-- 비밀번호 암호화 빈 -->
     <bean id="passwordEncorder"
-          class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
-        <constructor-arg name="strength" value="256"/>
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
     </bean>
 </beans>
