@@ -16,6 +16,7 @@ target/
 mvnw.cmd
 mvnw
 db.properties
+email.properties
 
 ### Eclipse ###
 .apt_generated
