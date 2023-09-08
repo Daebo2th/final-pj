@@ -4,7 +4,15 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:db.properties"/>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:db.properties</value>
+                <value>classpath:email.properties</value>
+            </list>
+        </property>
+    </bean>
+<!--    <context:property-placeholder location="classpath:db.properties"/>-->
     <!-- DB -->
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="${jdbc.driver}"/>
@@ -27,12 +35,13 @@
         <constructor-arg index="0" ref="sqlSessionFactory"/>
     </bean>
 
+<!--    <context:property-placeholder location="classpath:email.properties"/>-->
     <!-- 메일 보내기 (SEND) -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com" />
         <property name="port" value="587" />
-        <property name="username" value="ghgsb6200@gmail.com" />
-        <property name="password" value="xuqknyszvhxypepo" />
+        <property name="username" value="${mail.username}" />
+        <property name="password" value="${mail.password}" />
 
 
         <!-- email 요청시는 SMTP -->
