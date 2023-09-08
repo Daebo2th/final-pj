@@ -36,7 +36,7 @@
         <tr>
             <td colspan="2" align="center">
                 <input type="submit" value="로그인">
-                <input type="button" onclick="alert('안만듬')" value="회원가입">
+                <input type="button" onclick="location.href='/auth/sign-up'" value="회원가입">
             </td>
         </tr>
         </tbody>

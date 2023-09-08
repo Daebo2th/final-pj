@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @Slf4j
-public class TestController {
+public class HomeController {
 
     @Autowired
     private TestService testService;
 
+    //  http://localhost:8080/
     @GetMapping("/")
     public String test(Model model){
 
@@ -21,15 +22,5 @@ public class TestController {
         log.info("index");
         return "index";
     }
-
-
-    @GetMapping("/auth/login")
-    public String login(Model model){
-
-        model.addAttribute("test", testService.getUser());
-
-        return "auth/login";
-    }
-
 
 }

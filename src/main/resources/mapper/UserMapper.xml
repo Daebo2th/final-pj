@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.osoondosson.dao.UserDAO">
+<mapper namespace="com.osoondosson.dao.user.UserDAO">
+    <select id="findById" parameterType="String" resultType="userVO">
+        select * from member where user_id = #{id}
+    </select>
 
+    <select id="findRoleById" parameterType="String" resultType="userRoleVO">
+        select * from role where u_id=#{id};
+    </select>
+
+
+    <insert id="insertUser" parameterType="UserVO">
+        insert into member(USER_ID, USER_PWD, NAME, BIRTHDAY, GENDER, PHONE, ADDR1, ADDR2)
+        VALUES ( #{userId}, #{userPwd}, #{name}, #{birthday}, #{gender}, #{phone}, #{addr1}, #{addr2} )
+    </insert>
 </mapper>
