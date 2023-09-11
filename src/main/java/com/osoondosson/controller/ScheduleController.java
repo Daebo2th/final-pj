@@ -19,24 +19,12 @@ public class ScheduleController {
     @Autowired
     private ScheduleServiceImpl scheduleService;
 
-//    @GetMapping("/schedule/main")
-//    public String ScheduleMain(){
-//        return "/schedule/schedule";
-//    }
-
-//    @GetMapping("/schedule/main")
-//    public String calendarList() {
-//        return "/schedule/main";
-//    }
-
     // 일정 조회
     @GetMapping("/schedule/main")
     public String data(Model model) {
         model.addAttribute("list",scheduleService.calendarList());
         return "/admin/schedule-management";
     }
-
-    // 달력
 
     // 일정 등록
 //    @PostMapping("/adms/schedule/create")
@@ -66,7 +54,6 @@ public class ScheduleController {
             ScheduleVO scheduleVO
     ) throws Exception {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         System.out.println("데이터: " + scheduleVO);
 
         scheduleService.updateSchedule(scheduleVO);
