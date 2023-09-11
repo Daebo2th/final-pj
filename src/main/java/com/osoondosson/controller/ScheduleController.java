@@ -47,7 +47,6 @@ public class ScheduleController {
             ScheduleVO scheduleVO
             ) throws Exception {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         System.out.println("데이터: " + scheduleVO);
 
         scheduleService.insertSchedule(scheduleVO);
@@ -79,12 +78,13 @@ public class ScheduleController {
         return map;
     }
 
+    // 일정 삭제
     @RequestMapping(value = "/schedule/delete", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap deleteSchedule(@RequestBody Map<String, String> payload) {
-        int scheduleSeq = Integer.parseInt(payload.get("scheduleSeq"));
-        System.out.println("스케줄 :" + scheduleSeq);
-        scheduleService.deleteSchedule(scheduleSeq);
+    public HashMap deleteSchedule(@RequestBody String scheduleSeq) {
+        int seq = Integer.parseInt(scheduleSeq);
+        System.out.println("스케줄 :" + seq);
+        scheduleService.deleteSchedule(seq);
         HashMap map = new HashMap<>();
         map.put("status","success");
         return map;

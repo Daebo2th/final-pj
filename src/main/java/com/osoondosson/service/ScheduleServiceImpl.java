@@ -23,11 +23,11 @@ public class ScheduleServiceImpl implements ScheduleService{
         scheduleDAO.insertSchedule(scheduleVO);
     }
 
-
+    @Override
     public void updateSchedule(ScheduleVO scheduleVO) {
         scheduleDAO.updateSchedule(scheduleVO);
     }
-
+    @Override
     public void deleteSchedule(int scheduleSeq) {
         scheduleDAO.deleteSchedule(scheduleSeq);
     }

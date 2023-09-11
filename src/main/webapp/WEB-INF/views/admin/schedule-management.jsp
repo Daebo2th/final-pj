@@ -151,8 +151,8 @@
             $.ajax({
                 url: "/schedule/delete",
                 type: "POST",
-                data: JSON.stringify({ scheduleSeq: scheduleSeq }),
-                contentType: "application/json",
+                data: scheduleSeq,
+                contentType: "text/plain",
                 dataType: "json",
                 success: function (response) {
                     alert("삭제되었습니다");
