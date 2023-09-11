@@ -12,7 +12,7 @@
     <title>교육생 관리</title>
 </head>
 <body>
-    <h2>클래스 명 + 학생명단</h2>
+    <h2>${list[0].groupName} + 학생명단</h2>
     <table>
         <tr>
             <td>번호</td>
@@ -21,12 +21,16 @@
             <td>바로가기 링크</td>
         </tr>
         <%-- rownum, 이름, 연락처, 바로가기 링크 가져오기 --%>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        <c:forEach var="student" items="${list}">
+            <tr>
+                <td>${student.rownum}</td>
+                <td>${student.name}</td>
+                <td>${student.phone}</td>
+                <td>
+                    <%--<a href="<c:url value='/student/${student.id}' />">바로가기</a>--%>
+                </td>
+            </tr>
+        </c:forEach>
     </table>
 </body>
 </html>
