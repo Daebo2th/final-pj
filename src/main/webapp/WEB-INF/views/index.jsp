@@ -30,9 +30,9 @@
         <tbody>
         <c:forEach var="list" items="${test}">
             <tr>
-                <td>${list.id}</td>
-                <td>${list.pwd}</td>
-                <td>${list.regdate}</td>
+                <td>${list.userId}</td>
+                <td>${list.userPwd}</td>
+                <td>${list.regDate}</td>
             </tr>
         </c:forEach>
         </tbody>
@@ -43,6 +43,8 @@
     <hr>
 
     <a href ="/student/daily-taskform">학생 페이지- 일일과제 작성으로 일단 진행</a>
+    <a href ="/schedule/main">일정관리 페이지</a>
+    <a href ="/admin/student-record">학생기록부 페이지</a>
 </div>
 </body>
 </html>
