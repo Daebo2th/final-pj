@@ -45,6 +45,8 @@
     <a href ="/student/daily-taskform">학생 페이지- 일일과제 작성으로 일단 진행</a>
     <a href ="/schedule/main">일정관리 페이지</a>
     <a href ="/admin/student-record">학생기록부 페이지</a>
+    <a href="/student/todolist">칸반보드</a>
+
 </div>
 </body>
 </html>

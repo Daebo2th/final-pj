@@ -16,6 +16,7 @@
         <typeAlias alias="userVO" type="com.osoondosson.vo.UserVO"/>
         <typeAlias alias="userRoleVO" type="com.osoondosson.vo.UserRoleVO"/>
         <typeAlias alias="scheduleVO" type="com.osoondosson.vo.ScheduleVO"/>
+        <typeAlias alias="todolistVO" type="com.osoondosson.vo.ToDoListVO"/>
     </typeAliases>
 </configuration>
 
