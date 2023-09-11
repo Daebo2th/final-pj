@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberWithClassVO">
+    <select id="selectByGroup" parameterType="Integer" resultType="MemberWithClassVO">
+        select rownum, m.name, m.phone, m.gender, c.group_name, c.start_date, c.end_date
+        from member m inner join class c ON m.group_seq = c.group_seq
+        where c.group_seq = #{groupSeq}
+    </select>
+</mapper>
