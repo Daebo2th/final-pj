@@ -19,24 +19,24 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public void insertTask(TaskVO vo ) {
         System.out.println("==> mybatis insertTask() 호출 ");
-        mybatis.insert("com.osoondosson.dao.TaskDAO.insertTask", vo);
+        mybatis.insert("insertTask", vo);
     }
 
     @Override
     public List<TaskVO> getTaskUserList(HashMap map) {
         System.out.println("===> Mybatis  getTaskUserList() 호출");
-        return mybatis.selectList("com.osoondosson.dao.TaskDAO.selectUserTaskList", map);
+        return mybatis.selectList("selectUserTaskList", map);
     }
 
     @Override
     public TaskVO getDetailTask(TaskVO vo) {
         System.out.println(vo);
         System.out.println("===> Mybatis 상세 보기 호출");
-        return mybatis.selectOne("com.osoondosson.dao.TaskDAO.detailTask", vo);
+        return mybatis.selectOne("detailTask", vo);
     }
 
     @Override
     public List<TaskVO> getTaskList(HashMap map) {
-        return mybatis.selectList("com.osoondosson.dao.TaskDAO.selectAllTask",map);
+        return mybatis.selectList("selectAllTask",map);
     }
 }

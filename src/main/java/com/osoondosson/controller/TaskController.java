@@ -4,9 +4,11 @@ import com.osoondosson.service.TaskService;
 import com.osoondosson.vo.TaskVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -29,11 +31,12 @@ public class TaskController {
 
 
     //학생 일일과제 작성 기능
-    @GetMapping("/student/daily-task-write")
+    @GetMapping("/student/daily-task")
     public String StudentTemplate(Model model, Principal principal) {
         model.addAttribute("userId", principal.getName());
         return "student/daily-task-write";
     }
+
 
     @PostMapping("/student/daily-task")
     @ResponseBody

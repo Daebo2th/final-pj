@@ -44,7 +44,7 @@
 
     <a href ="/schedule/main">일정관리 페이지</a>
     <a href ="/admin/student-record">학생기록부 페이지</a>
-    <a href ="/student/daily-task-write">학생 일일과제 작성 페이지</a>
+    <a href ="/student/daily-task">학생 일일과제 작성 페이지</a>
     <hr>
     <a href="/student/SMain"> 학생 LayoutForm</a>
     <a href="teacher/TMain"> 교직원 LayoutForm</a>
