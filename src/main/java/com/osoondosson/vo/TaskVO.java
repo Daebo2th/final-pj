@@ -9,6 +9,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskVO {
+    private int taskSeq;
+    private String userId; // 로그인한 userId 값
     private String author;
     private String title;
     private String content;
