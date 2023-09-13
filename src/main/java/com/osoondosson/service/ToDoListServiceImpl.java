@@ -42,12 +42,6 @@ public class ToDoListServiceImpl implements ToDoListService {
 		todolistDAO.cardTaxisUpdate(vo);
 		
 	}
-
-//	@Override
-//	public void updateKanban(ToDoListVO vo) {
-//		kanbanDAO.updateKanban(vo);
-//		
-//	}
 	
 
 }

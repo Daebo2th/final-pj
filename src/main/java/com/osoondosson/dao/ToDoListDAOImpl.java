@@ -45,10 +45,4 @@ public class ToDoListDAOImpl implements ToDoListDAO {
 		mybatis.update("com.osoondosson.dao.ToDoListDAO.cardTaxisUpdate", vo);
 	}
 
-//	@Override
-//	public void updateKanban(ToDoListVO vo) {
-//		System.out.println("==> mybatis updateKanban() 호출 ");
-//        mybatis.update("com.osoondosson.dao.KanbanDAO.updateKanban", vo);
-//	}
-
 }

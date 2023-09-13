@@ -22,18 +22,10 @@ public class ToDoListController {
 	@Autowired
 	private ToDoListService todolistService;
 	
-//	@PostMapping("/updateToDoList")
-//	@ResponseBody
-//	public void updateCard(@RequestBody ToDoListVO vo) {
-//		kanbanService.updateKanban(vo);
-//		System.out.println(vo);
-//	}
-	
 	@PostMapping("/insertToDoList")
 	@ResponseBody
-	public void insertToDoList(@RequestBody ToDoListVO vo) {
-		log.error(vo.getCardName()+"========================================================================");
-//		model.addAttribute("userId", principal.getName());
+	public void insertToDoList(@RequestBody ToDoListVO vo, Principal principal) {
+		vo.setUserId(principal.getName());
 		todolistService.insertToDoList(vo);
 	}
 	// http://localhost:8080/student/todolist

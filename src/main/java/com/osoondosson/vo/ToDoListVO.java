@@ -15,6 +15,5 @@ public class ToDoListVO {
 	private int cardNum; // 카드번호
 	private int listNum; // 리스트번호
 	private int cardTaxis; // 카드순서
-	private int isDeleted; // 삭제여부
 
 }

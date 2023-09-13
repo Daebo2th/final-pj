@@ -5,7 +5,6 @@ import java.util.List;
 import com.osoondosson.vo.ToDoListVO;
 
 public interface ToDoListDAO {
-//	public void updateKanban(ToDoListVO vo);
 	public void insertToDoList(ToDoListVO vo);
 	public List<ToDoListVO> selectToDoList();
 	public void updateToDoList(ToDoListVO vo);

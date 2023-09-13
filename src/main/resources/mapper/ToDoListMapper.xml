@@ -3,45 +3,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.osoondosson.dao.ToDoListDAO">
-	<!-- 카드 순서 변경 -->
-<!-- 	<update id="updateKanban">
-
-		update card
-
-		set listnum = #{listNum}, cardtaxis = #{cardTaxis}
-
-		<choose>
-
-			<when test="userId == null">
-
-				, userid = null
-
-			</when>
-
-			<otherwise>
-
-				, userid = #{userId}
-
-			</otherwise>
-
-		</choose>
-
-		where cardnum = #{cardNum}
-
-	</update> -->
-	
-	<!-- <insert id="insert" -->
 	
 	<insert id="insertToDoList" parameterType="todolistVO">
-		insert into todolist(CARD_SEQ, USER_ID, CARD_NAME, LIST_NUM, CARD_DATE, CARD_TAXIS, ISDELETED) values(CARD_SEQ.nextval,'qwe',#{cardName},1,CURRENT_TIMESTAMP,1,1)
+	  insert into todolist (CARD_SEQ, USER_ID, CARD_NAME, LIST_NUM, CARD_DATE, CARD_TAXIS)
+	  values (
+	    CARD_SEQ.nextval,
+	    #{userId},
+	    #{cardName},
+	    #{listNum},
+	    CURRENT_TIMESTAMP,
+	    (
+	      select coalesce(max(card_taxis), 0) + 1 from todolist where list_num = #{listNum}
+	    ))
 	</insert>
+
+
 	
 	<select id="selectToDoList" resultType="todolistVO">
-		SELECT CARD_SEQ AS CARDNUM,CARD_NAME,l.LIST_NUM,CARD_TAXIS,ISDELETED,l.LIST_NAME
-		FROM TODOLIST t
-		JOIN LIST l ON t.LIST_NUM = l.LIST_NUM
-		JOIN MEMBER m on m.USER_ID = t.USER_ID
+	    SELECT CARD_SEQ AS CARDNUM, CARD_NAME, l.LIST_NUM, CARD_TAXIS, l.LIST_NAME
+	    FROM TODOLIST t
+	    JOIN LIST l ON t.LIST_NUM = l.LIST_NUM
+	    JOIN MEMBER m on m.USER_ID = t.USER_ID
+	    ORDER BY CARD_TAXIS ASC
 	</select>
+
 	
  	<update id="updateToDoList" parameterType="todolistVO">
 		update todolist set card_name = #{cardName} where card_seq = #{cardNum}
@@ -52,8 +37,11 @@
 	</delete> 
 	
 	<update id="cardTaxisUpdate" parameterType="todolistVO">
-		update todolist set list_num = #{listNum}, card_taxis = #{cardTaxis} where card_seq = #{cardNum}
-	</update>
+	  update todolist set list_num = #{listNum}, card_taxis = (
+	    select coalesce(max(card_taxis), 0) + 1 from todolist where list_num = #{listNum}) where card_seq = #{cardNum}
+</update>
+
+
 	
 	
 </mapper>

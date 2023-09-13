@@ -1,25 +1,3 @@
-/*
-HTML 드래그 앤 드랍 API < MDN에 detail
-https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
-
-Drag Event Properties
-이벤트		이벤트 핸들러	설명
->drag		ondrag		요소나 텍스트 블록을 드래그 할 때 발생한다.
-dragend		ondragend	드래그를 끝냈을 때 발생한다. (마우스 버튼을 떼거나 ESC 키를 누를 때) (드래그 끝내기를 보시오)
-dragenter	ondragenter	드래그한 요소나 텍스트 블록을 적합한 드롭 대상위에 올라갔을 때 발생한다. (드롭 대상 지정하기를 보시오.)
-dragexit	ondragexit	요소가 더 이상 드래그의 직접적인 대상이 아닐 때 발생한다.
-dragleave	ondragleave	드래그하는 요소나 텍스트 블록이 적합한 드롭 대상에서 벗어났을 때 발생한다.
->dragover	ondragover	요소나 텍스트 블록을 적합한 드롭 대상 위로 지나갈 때 발생한다. (매 수백 밀리초마다 발생한다.)
-dragstart	ondragstart	사용자가 요소나 텍스트 블록을 드래그하기 시작했을 때 발생한다. (드래그 시작하기를 보시오.)
-**drop		ondrop		요소나 텍스트 블록을 적합한 드롭 대상에 드롭했을 때 발생한다. (드롭하기를 보시오.)
-
-드래그 시작 : 
-dragstart > drag[계속] > drop가능한 요소에 올라왔다면 > dragenter > "dragover[계속]" > drop요소에 drop시 "drop"
-					  > drop가능한 요소에 있다가 벗어나면서 dragleave
-
-참고: dragstart와 dragend 이벤트는 파일을 브라우저로 드래그할 때는 발생하지 않습니다.
-*/
-
 window.onload = function(){
 	
 	var cards = document.querySelectorAll('.card'); 		//.card를 가진 elements 배열
@@ -52,22 +30,26 @@ window.onload = function(){
 	}
 	
 	function dragEnd(e) {
-  console.log($(this).parent().data("zone"));
+  //console.log($(this).parent().data("zone"));
+  console.log($(this).index());
+  //console.log($(this).parent().length);
   var content = this.querySelector('.content').textContent;
-  console.log(e)
+  //console.log(e)
   var cardNum = $(e.target).find("input[type=hidden]").val();
-  console.log(cardNum);
+  var cardTaxis = $(this).index();
+  //console.log(cardNum);
   
   // AJAX 요청 보내기
 $.ajax({
   url: '/cardTaxisUpdate',
   method: 'POST',
-  data: JSON.stringify({ "listNum" : $(this).parent().data("zone"), "cardNum" : cardNum}),
+  data: JSON.stringify({ "listNum" : $(this).parent().data("zone"), "cardNum" : cardNum, "cardTaxis" : cardTaxis}),
   
   contentType: 'application/json', // JSON 형식으로 데이터 전송
   success: function(response) {
     console.log('AJAX 요청 성공:', response);
     // 성공한 경우 추가적인 처리 로직 작성
+    
   },
   error: function(xhr, status, error) {
     console.error('AJAX 요청 실패:', error);

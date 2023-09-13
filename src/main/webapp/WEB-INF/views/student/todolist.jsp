@@ -37,11 +37,11 @@
 			<h3>To Do List</h3>
 			<!-- Button trigger modal -->
 			<button type="button" class="btn btn-outline-success" data-toggle="modal"
-				data-target="#insertModal">추가</button>
+				data-target="#insertModal" data-zone="1">추가</button>
 			<div class="dropzone" data-zone="1">
 				<c:forEach items="${list }" var="list">
 					<c:if test="${list.listNum == 1 }">
-
+						
 						<div class="card" draggable="true">
 							<div class="status green"></div>
 							<div class="content">${list.cardName }</div>
@@ -68,7 +68,7 @@
 			<h3>In Progress</h3>
 					<!-- Button trigger modal -->
 			<button type="button" class="btn btn-outline-success" data-toggle="modal"
-				data-target="#insertModal">추가</button>
+				data-target="#insertModal" data-zone="2">추가</button>
 			<div class="dropzone" data-zone="2">
 				<c:forEach items="${list }" var="list">
 					<c:if test="${list.listNum == 2 }">
@@ -101,7 +101,7 @@
 			<h3>Done</h3>
 					<!-- Button trigger modal -->
 			<button type="button" class="btn btn-outline-success" data-toggle="modal"
-				data-target="#insertModal">추가</button>
+				data-target="#insertModal" data-zone="3">추가</button>
 			<div class="dropzone" data-zone="3">
 				<c:forEach items="${list }" var="list">
 					<c:if test="${list.listNum == 3 }">
@@ -183,35 +183,22 @@
 </body>
 
 <script>
-	/* $(document).ready(function() {
-	 $("#confirmButton").click(function() {
-	 var content = $("#todolistInput").val();
-	 console.log(content);
-	 $.ajax({
-	 url: "/insertToDoList",
-	 type: "POST",
-	 contentType: "application/json",
-	 data: JSON.stringify(content),
-	 success: function(response) {
-	 console.log("요청이 성공했습니다.");
-	 // 성공 시 수행할 동작을 여기에 작성하세요
-	 },
-	 error: function(xhr, status, error) {
-	 console.error("요청이 실패했습니다. 오류:", error);
-	 // 실패 시 수행할 동작을 여기에 작성하세요
-	 }
-	 });
-	 });
-	 }); */
+
+	 let zone = '';
+	 $(".btn").on("click", function() {
+		zone = $(this).data('zone');
+	})
 
 	function insertData() {
-
+		 
+		
 		$.ajax({
 			url : '/insertToDoList',
 			type : 'POST',
 			contentType : 'application/json',
 			data : JSON.stringify({
-				"cardName" : $("#todolistInput").val()
+				"cardName" : $("#todolistInput").val(),
+				"listNum": zone
 			}),
 			success : function(response) {
 				alert('등록완료')
@@ -275,5 +262,6 @@
 			}
 		});
 	});
+
 </script>
 </html>
