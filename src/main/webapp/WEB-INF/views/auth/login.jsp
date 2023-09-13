@@ -397,6 +397,7 @@
             data: to.val(),
             success: function (response) {
                 console.log('Data sent successfully!' + response.status);
+                alert("이메일 전송!")
                 if (response.status == "duplication") {
                     alert("중복된 이메일입니다.")
                     to.val('');
@@ -431,6 +432,8 @@
                     emailVerified = true;
                     $('input[name="authCode"]').attr("disabled", "disabled")
                     alert("인증 완료");
+                } else if(response.status == 'FAIL'){
+                    alert("인증 실패");
                 }
                 // window.location.href=response;
             },

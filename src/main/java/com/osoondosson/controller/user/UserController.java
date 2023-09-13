@@ -90,9 +90,13 @@ public class UserController {
     @ResponseBody
     public Map<String, String> verifyAuthCode(@RequestBody Map<String,String> data, HttpSession session) {
         Map<String, String> status = new HashMap<>();
+        String to = data.get("to");
+        String authCode = data.get("authCode");
 
-        if (emailAuthService.verifyAuthCode(data.get("to"), data.get("authCode"), session)) {
+        if (emailAuthService.verifyAuthCode(to, authCode, session)) {
             status.put("status", "SUCCESS");
+            session.removeAttribute(to);
+            session.removeAttribute("validTime");
         } else {
             status.put("status", "FAIL");
         }

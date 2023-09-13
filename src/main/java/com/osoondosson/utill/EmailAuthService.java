@@ -36,6 +36,8 @@ public class EmailAuthService {
             mailSender.send(mail);
 
             session.setAttribute(to,authCode);
+            // 유효시간
+            session.setAttribute("validTime", System.currentTimeMillis() + (3 * 60 * 1000)); // 3분(밀리초 단위) 후 만료
 
             return true;
         } catch(Exception e) {
@@ -46,12 +48,13 @@ public class EmailAuthService {
 
     public boolean verifyAuthCode(String to, String authCode, HttpSession session) {
         String correctAuthCode = (String)session.getAttribute(to);
-        System.out.println(correctAuthCode);
-        if (correctAuthCode == null) {
+        Long validTime = (Long) session.getAttribute("validTime");
+
+        if (correctAuthCode != null && validTime != null && validTime > System.currentTimeMillis()) {
+            return correctAuthCode.equals(authCode);  // 사용자가 입력한 인증 코드와 일치하는지 확인
+        } else {
             return false;  // 인증 코드가 없거나 만료된 경우
         }
-
-        return correctAuthCode.equals(authCode);  // 사용자가 입력한 인증 코드와 일치하는지 확인
     }
 
 }
