@@ -347,40 +347,40 @@
         </li><!-- End Tables Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>수업 관리</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-gem"></i><span>수업 관리</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="tables-general.html">
+                    <a href="icons-bootstrap.html">
                         <i class="bi bi-circle"></i><span>일일과제 현황</span>
                     </a>
                 </li>
                 <li>
-                    <a href="tables-data.html">
-                        <i class="bi bi-circle"></i><span>자료공유실</span>
+                    <a href="icons-remix.html">
+                        <i class="bi bi-circle"></i><span>자료 공유실</span>
                     </a>
                 </li>
             </ul>
-        </li><!-- End Tables Nav -->
+        </li><!-- End Icons Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>기타</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-bar-chart"></i><span>기타</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="tables-general.html">
-                        <i class="bi bi-circle"></i><span>자료공유실</span>
+                    <a href="charts-chartjs.html">
+                        <i class="bi bi-circle"></i><span>자료 공유실</span>
                     </a>
                 </li>
                 <li>
-                    <a href="tables-data.html">
+                    <a href="charts-apexcharts.html">
                         <i class="bi bi-circle"></i><span>만족도 조사</span>
                     </a>
                 </li>
             </ul>
-        </li><!-- End Tables Nav -->
+        </li><!-- End Charts Nav -->
 
         <!-- <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">

@@ -5,6 +5,8 @@ import com.osoondosson.vo.ScheduleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -30,5 +32,10 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public void deleteSchedule(int scheduleSeq) {
         scheduleDAO.deleteSchedule(scheduleSeq);
+    }
+
+    @Override
+    public void updateByDropSchedule(ScheduleVO scheduleVO) {
+        scheduleDAO.updateByDropSchedule(scheduleVO);
     }
 }

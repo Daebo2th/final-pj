@@ -27,6 +27,11 @@
                             importance = #{importance}
             where schedule_seq = #{scheduleSeq}
     </update>
+    <update id="updateByDropSchedule" parameterType="scheduleVO">
+        UPDATE SCHEDULE SET start_date = #{startDate},
+                            end_date = #{endDate}
+        where schedule_seq = #{scheduleSeq}
+    </update>
     <delete id="deleteSchedule" parameterType="Integer">
         DELETE FROM SCHEDULE WHERE schedule_seq = #{scheduleSeq}
     </delete>

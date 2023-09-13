@@ -27,7 +27,7 @@
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- moment.js -->
-    <script src="/resources/js/moment.js"></script> all
+    <script src="/resources/js/moment.js"></script>
     <!-- fullcalendar CDN -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
@@ -61,7 +61,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">일정 생성</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <input type="hidden" name="actType" value="C" /> <!-- C:등록 U:수정 D:삭제 -->
                                 <input type="hidden" name="userId" value="qwe" />
-                                <input type="text" name="scheduleSeq" id="schedule_seq"  />
+                                <input type="hidden" name="scheduleSeq" id="schedule_seq"  />
 
                                 <%--@declare id="taskid"--%>
                                 <label for="taskId" class="col-form-label">제목</label>
@@ -298,8 +298,32 @@
                         });
                         //info.event.title // modal 나타내기
                     },
-                    eventDidMount:function(info) {
-                        console.log();
+                    eventDrop:function(info) {
+                        // 이벤트가 드래그 앤 드롭하여 변경될 때 호출되는 콜백 함수
+                        var event = info.event;
+                        console.log(event)
+                        var formData = {};
+                        formData.scheduleSeq = event._def.extendedProps.extendsProps.scheduleSeq;
+                        formData.startDate = event.start.toISOString()
+                        formData.endDate = event.end.toISOString()
+                        console.log(formData)
+
+                        $.ajax({
+                            url: "/schedule/updateByDrop",
+                            type: "POST",
+                            data: JSON.stringify(formData),
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (response) {
+                                alert("수정되었습니다");
+                                //location.href="/schedule/main";
+                            },
+                            error: function(xhr, status, error) {
+                                // 요청이 실패했을 때의 처리 로직
+                                console.error(error); // 에러 메시지 출력
+                                // 추가적인 로직 구현 가능
+                            }
+                        })
                     },
 
                     events: [
@@ -307,13 +331,14 @@
                         {
                             color:'E9BFD1',
                             textColor:'5D082D',
-                            title: '${userlist.title}+${userlist.scheduleSeq}',
+                            title: '${userlist.title}',
                             start: '<fmt:formatDate value="${userlist.startDate}" pattern="yyyy-MM-dd HH:mm" />',
                             end: '<fmt:formatDate value="${userlist.endDate}" pattern="yyyy-MM-dd HH:mm" />',
                             extendsProps: {
                                 xcontent:'${userlist.xcontent}',
                                 importance:'${userlist.importance}',
                                 scheduleSeq:'${userlist.scheduleSeq}',
+
                             }
                         },
 

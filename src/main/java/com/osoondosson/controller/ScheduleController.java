@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -64,6 +65,19 @@ public class ScheduleController {
         return map;
     }
 
+    // 일정 드레그 드롭시 날짜 수정
+    @RequestMapping(value = "/schedule/updateByDrop", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap updateByDropSchedule (
+            @RequestBody ScheduleVO scheduleVO) {
+        System.out.println("시작: " + scheduleVO.getStartDate());
+        System.out.println("끝: " + scheduleVO.getEndDate());
+        scheduleService.updateByDropSchedule(scheduleVO);
+        
+        HashMap map = new HashMap<>();
+        map.put("status","success");
+        return map;
+    }
     // 일정 삭제
     @RequestMapping(value = "/schedule/delete", method = RequestMethod.POST)
     @ResponseBody
