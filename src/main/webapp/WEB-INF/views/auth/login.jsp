@@ -326,7 +326,7 @@
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <span>or use your account</span>
-            <input type="email" placeholder="Email" name="id" />
+            <input type="text" placeholder="Email" name="id" />
             <input type="password" placeholder="Password" name="pwd" />
             <a href="#">비밀번호를 잊어버리셧나요?</a>
             <button type="submit">로그인</button>

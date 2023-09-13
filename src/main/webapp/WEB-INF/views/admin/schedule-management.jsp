@@ -54,36 +54,6 @@
 
     <h1>일정관리</h1>
     <div id="contents">
-        <%--<div id="dialog" title="일정 관리" style="display:none;">
-            <div id="form-div">
-                <form class="diaForm" id="diaForm" >
-                    <input type="hidden" name="actType" value="C" /> <!-- C:등록 U:수정 D:삭제 -->
-                    <input type="hidden" name="userId" value="qwe" />
-                    <input type="hidden" name="startDate" value="" />
-                    <input type="hidden" name="endDate" value="" />
-                    <input type="hidden" name="type" value="" />
-
-                    <p class="name">
-                        <input name="title" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="일정타이틀" id="name" />
-                    </p>
-                    <p class="importance">
-                        <select name="importance">
-                            <option value="top">상</option>
-                            <option value="mid">중</option>
-                            <option value="bottom">하</option>
-                        </select>
-                    </p>
-                    <p class="email">
-                        <input name="xdate" type="text" readonly="readonly" class="validate[required,custom[email]] feedback-input"  placeholder="선택된날짜 및 시간" />
-                    </p>
-
-                    <p class="text">
-                        <textarea name="xcontent" class="validate[required,length[6,300]] feedback-input" id="comment" placeholder="일정내용"></textarea>
-                    </p>
-                </form>
-            </div>
-        </div>--%>
-        <br/>
         <div id='calendar'></div>
         <%-- modal 추가--%>
             <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

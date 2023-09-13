@@ -65,6 +65,7 @@
     <hr>
     <a href="/student/SMain"> 학생 LayoutForm</a>
     <a href="teacher/TMain"> 교직원 LayoutForm</a>
+    <a href ="/index2.jsp">UI 예시</a>
 
 </div>
 </body>
