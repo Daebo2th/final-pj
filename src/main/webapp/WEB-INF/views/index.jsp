@@ -5,7 +5,7 @@
 <head>
     <title>JSP - Hello World</title>
     <style>
-        #container{
+        #container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -13,6 +13,19 @@
     </style>
 </head>
 <body>
+<c:if test="${user[0] != null}">
+    <c:choose>
+        <c:when test="${user[0] == 'ROLE_ADMIN'}">
+<%--            <c:redirect url="/teacher" />--%>
+        </c:when>
+        <c:when test="${user[0] == 'ROLE_USER'}">
+<%--            <c:redirect url="/student" />--%>
+        </c:when>
+        <c:when test="${user[0] == 'ROLE_GUEST'}">
+
+        </c:when>
+    </c:choose>
+</c:if>
 <div id="container">
     <h1><%= "Hello World!" %>
     </h1>
