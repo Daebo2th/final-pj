@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
     public boolean insertUser(UserVO user) {
         return userDAO.insertUser(user) > 0?true:false;
     }
+
+    @Override
+    public UserVO findById(String id) {
+        return userDAO.findById(id);
+    }
 }

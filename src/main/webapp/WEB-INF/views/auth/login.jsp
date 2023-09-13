@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="https://code.jquery.com/jquery-latest.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
@@ -111,8 +111,8 @@
         .container {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 14px 28px rgba(0,0,0,0.25),
-            0 10px 10px rgba(0,0,0,0.22);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+            0 10px 10px rgba(0, 0, 0, 0.22);
             position: relative;
             overflow: hidden;
             width: 1080px;
@@ -174,7 +174,7 @@
             z-index: 100;
         }
 
-        .container.right-panel-active .overlay-container{
+        .container.right-panel-active .overlay-container {
             transform: translateX(-100%);
         }
 
@@ -270,10 +270,14 @@
             text-decoration: none;
         }
 
-        #email-box{
+        .box {
             display: flex;
             flex-wrap: wrap;
             width: 100%;
+        }
+
+        .w-5 {
+            width: 50%;
         }
     </style>
 </head>
@@ -283,7 +287,7 @@
     <div>
         로그인실패<br>
         <c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
-            이유 : <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+            이유 : <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
         </c:if>
     </div>
 </c:if>
@@ -312,28 +316,31 @@
 
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="#">
-            <div id="email-box">
-                <input type="email" name="email" placeholder="이메일을 입력해주세요" value="ghgsb6200@gmail.com" style="width: 50%">
-                <button type="button" class="btn_custom" onclick="sendEmail()" style="width: 50%">이메일 전송</button>
-                <input type="text" name="certNum" placeholder="인증번호" maxlength="6"  style="width: 50%">
-                <button type="button" class="btn_custom" onclick="chkCertNum()" style="width: 50%">인증 확인</button>
+        <form action="/auth/sign-up">
+            <div class="box">
+                <input class="w-5" type="email" name="email" placeholder="이메일을 입력해주세요">
+                <button type="button" class="btn_custom w-5" onclick="sendEmail()">이메일 전송</button>
+                <input class="w-5" type="text" name="authCode" placeholder="인증번호" maxlength="6">
+                <button type="button" class="btn_custom w-5" onclick="chkCertNum()">인증 확인</button>
             </div>
 
-            <input type="password" name="pwd" placeholder="비밀번호를 입력해주세요" value="qwe">
-            <input type="password" id="chkPwdVal" placeholder="비밀번호를 입력해주세요">
-            <input type="text" name="name" placeholder="이름을 입력해주세요" value="test">
-            <input type="date" name="birthday" placeholder="생일을 입력해주세요" value="1900-01-01">
+            <input type="password" name="pwd" placeholder="비밀번호">
+            <input type="password" id="chkPwdVal" placeholder="비밀번호 확인">
+            <input type="text" name="name" placeholder="이름">
+            <input type="date" name="birthday">
             <select name="gender" id="gender">
                 <option value="M" selected>남자</option>
                 <option value="W">여자</option>
             </select>
-            <input type="text" name="phone" placeholder="핸드폰 번호를 입력해주세요" value="010-0000-0000">
-            <input type="text" id="postcode" name="postcode" placeholder="우편번호">
-            <input type="button" onclick="DaumPostcode()" value="우편번호 찾기"><br>
-            <input type="text" id="roadAddress" name="addr1" placeholder="도로명주소">
-            <input type="text" id="detailAddress" name="addr2" placeholder="상세주소">
-            <button>Sign Up</button>
+            <input type="text" name="phone" placeholder="000-0000-0000">
+            <div class="box">
+                <input style="width: 50%" type="text" id="postcode" name="postcode" placeholder="우편번호">
+                <button style="width: 50%" type="button" class="btn_custom" onclick="DaumPostcode()">우편번호 찾기</button>
+                <br>
+                <input type="text" id="roadAddress" name="addr1" placeholder="도로명주소">
+                <input type="text" id="detailAddress" name="addr2" placeholder="상세주소">
+            </div>
+            <button type="button" onclick="signUp()">Sign Up</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
@@ -345,8 +352,8 @@
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <span>or use your account</span>
-            <input type="text" placeholder="Email" name="id" />
-            <input type="password" placeholder="Password" name="pwd" />
+            <input type="text" placeholder="Email" name="id"/>
+            <input type="password" placeholder="Password" name="pwd"/>
             <a href="#">비밀번호를 잊어버리셧나요?</a>
             <button type="submit">로그인</button>
         </form>
@@ -366,7 +373,7 @@
         </div>
     </div>
 </div>
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
@@ -380,18 +387,20 @@
         container.classList.remove("right-panel-active");
     });
 
-    function sendEmail(){
+    function sendEmail() {
         console.log("이메일 전송 이벤트 시작")
-        const to = $("input[name=email]").val();
+        const to = $("input[name=email]");
         $.ajax({
             url: '/auth/mail-check',
             type: 'POST',
             contentType: 'plain/text',
-            data: to,
+            data: to.val(),
             success: function (response) {
-                console.log('Data sent successfully!'+response.status);
-                if(response.status == "duplication"){
+                console.log('Data sent successfully!' + response.status);
+                if (response.status == "duplication") {
                     alert("중복된 이메일입니다.")
+                    to.val('');
+                    to.focus();
                     return false;
                 }
                 // window.location.href=response;
@@ -402,25 +411,141 @@
         });
     }
 
-    function chkCertNum(){
-        console.log($('input[name="certNum"]').val())
-        // $.ajax({
-        //     url: '/auth/mail-check',
-        //     type: 'POST',
-        //     contentType: 'plain/text',
-        //     data: to,
-        //     success: function (response) {
-        //         console.log('Data sent successfully!'+response.status);
-        //         if(response.status == "duplication"){
-        //             alert("중복된 이메일입니다.")
-        //             return false;
-        //         }
-        //         // window.location.href=response;
-        //     },
-        //     error: function (xhr, status, error) {
-        //         console.error('Error occurred while sending data:', error);
-        //     }
-        // });
+    let emailVerified = false;
+
+    function chkCertNum() {
+
+        let data = {};
+        data.authCode = $('input[name="authCode"]').val();
+        data.to = $('input[name="email"]').val()
+
+        console.log(data)
+        $.ajax({
+            url: '/auth/verify-authCode',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                console.log('이메일 검증' + response.status);
+                if (response.status == 'SUCCESS') {
+                    emailVerified = true;
+                    $('input[name="authCode"]').attr("disabled", "disabled")
+                    alert("인증 완료");
+                }
+                // window.location.href=response;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred while sending data:', error);
+            }
+        });
+    }
+
+    function signUp() {
+
+        if (!emailVerified) {
+            alert("이메일 인증을 완료해주세요.");
+            return;
+        }
+        // 폼 내의 모든 필드 값 가져오기
+        let email = $('input[name="email"]').val();
+        let pwd = $('input[name="pwd"]').val();
+        let chkPwdVal = $('#chkPwdVal').val();
+        let name = $('input[name="name"]').val();
+        let birthday = $('input[name="birthday"]').val();
+        let gender = $('#gender').val();
+        let phone = $('input[name="phone"]').val();
+        let postcode = $('#postcode').val();
+        let addr1 = $('#roadAddress').val();
+        let addr2 = $('#detailAddress').val();
+
+        // 비밀번호 확인
+        if (pwd !== chkPwdVal) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        // 필수항목 체크
+        if (!email || !pwd || !name || !birthday || !gender || !phone || !postcode || !addr1) {
+            alert("모든 필드를 채워주세요.");
+            return;
+        }
+
+        // 회원 가입 데이터 객체 생성
+        var registerData = {
+            userId: email,
+            userPwd: pwd,
+            name: name,
+            birthday: birthday,
+            gender: gender,
+            phone: phone,
+            postcode: postcode,
+            addr1: addr1,
+            addr2: addr2
+        };
+
+        $.ajax({
+            url: "/auth/sign-up",
+            type: "POST",
+            data: JSON.stringify(registerData),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                if (response.status == "sucess") {
+                    alert("회원가입에 성공하셧습니다.")
+                    location.href = "/";
+                } else {
+                    alert(response.status)
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function DaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('postcode').value = data.zonecode;
+                document.getElementById("roadAddress").value = roadAddr;
+
+                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if (data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if (data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
     }
 </script>
 </body>
