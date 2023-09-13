@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osoondosson.dao.ToDoListDAO">
+	
+	<insert id="insertToDoList" parameterType="todolistVO">
+	  insert into todolist (CARD_SEQ, USER_ID, CARD_NAME, LIST_NUM, CARD_DATE, CARD_TAXIS)
+	  values (
+	    CARD_SEQ.nextval,
+	    #{userId},
+	    #{cardName},
+	    #{listNum},
+	    CURRENT_TIMESTAMP,
+	    (
+	      select coalesce(max(card_taxis), 0) + 1 from todolist where list_num = #{listNum}
+	    ))
+	</insert>
+
+
+	
+	<select id="selectToDoList" resultType="todolistVO">
+	    SELECT CARD_SEQ AS CARDNUM, CARD_NAME, l.LIST_NUM, CARD_TAXIS, l.LIST_NAME
+	    FROM TODOLIST t
+	    JOIN LIST l ON t.LIST_NUM = l.LIST_NUM
+	    JOIN MEMBER m on m.USER_ID = t.USER_ID
+	    ORDER BY CARD_TAXIS ASC
+	</select>
+
+	
+ 	<update id="updateToDoList" parameterType="todolistVO">
+		update todolist set card_name = #{cardName} where card_seq = #{cardNum}
+	</update>
+	
+	<delete id="deleteToDoList" parameterType="todolistVO">
+		delete from todolist where card_seq = #{cardNum}
+	</delete> 
+	
+	<update id="cardTaxisUpdate" parameterType="todolistVO">
+	  update todolist set list_num = #{listNum}, card_taxis = (
+	    select coalesce(max(card_taxis), 0) + 1 from todolist where list_num = #{listNum}) where card_seq = #{cardNum}
+</update>
+
+
+	
+	
+</mapper>
