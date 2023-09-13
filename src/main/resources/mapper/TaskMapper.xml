@@ -4,8 +4,20 @@
 
 <mapper namespace="com.osoondosson.dao.TaskDAO">
     <insert id="insertTask" >
-        INSERT INTO Task (task_seq,author, title, content, create_Date, update_Date, status)
-        VALUES (task_seq.nextval, #{author}, #{title}, #{content},current_timestamp ,current_timestamp , 0)
+        INSERT INTO Task (task_seq, user_id, author, title, content, create_Date, update_Date, status)
+        VALUES (task_seq.nextval,#{userId}, #{author}, #{title}, #{content},current_timestamp ,current_timestamp , 0)
     </insert>
+
+    <select id="selectAllTask" resultType="taskVO" parameterType="hashmap">
+        select * from Task order by task_seq desc
+    </select>
+
+    <select id="selectUserTaskList" resultType="taskVO" parameterType="hashmap">
+        select * from Task where user_id = #{userId}
+    </select>
+
+    <select id="detailTask" resultType="taskVO">
+        select * from Task where task_seq=#{taskSeq}
+    </select>
 
 </mapper>
