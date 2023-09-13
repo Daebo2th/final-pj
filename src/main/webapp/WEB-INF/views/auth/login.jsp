@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-latest.min.js" ></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
@@ -67,6 +68,12 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             transition: transform 80ms ease-in;
+        }
+
+        .btn_custom {
+            border-radius: 0px;
+            padding: 12px 15px;
+            margin: 8px 0;
         }
 
         button:active {
@@ -262,6 +269,12 @@
             color: #3c97bf;
             text-decoration: none;
         }
+
+        #email-box{
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -300,7 +313,13 @@
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         <form action="#">
-            <input type="email" name="email" placeholder="이메일을 입력해주세요" value="ghgsb6200@gmail.com">
+            <div id="email-box">
+                <input type="email" name="email" placeholder="이메일을 입력해주세요" value="ghgsb6200@gmail.com" style="width: 50%">
+                <button type="button" class="btn_custom" onclick="sendEmail()" style="width: 50%">이메일 전송</button>
+                <input type="text" name="certNum" placeholder="인증번호" maxlength="6"  style="width: 50%">
+                <button type="button" class="btn_custom" onclick="chkCertNum()" style="width: 50%">인증 확인</button>
+            </div>
+
             <input type="password" name="pwd" placeholder="비밀번호를 입력해주세요" value="qwe">
             <input type="password" id="chkPwdVal" placeholder="비밀번호를 입력해주세요">
             <input type="text" name="name" placeholder="이름을 입력해주세요" value="test">
@@ -360,6 +379,49 @@
     signInButton.addEventListener('click', () => {
         container.classList.remove("right-panel-active");
     });
+
+    function sendEmail(){
+        console.log("이메일 전송 이벤트 시작")
+        const to = $("input[name=email]").val();
+        $.ajax({
+            url: '/auth/mail-check',
+            type: 'POST',
+            contentType: 'plain/text',
+            data: to,
+            success: function (response) {
+                console.log('Data sent successfully!'+response.status);
+                if(response.status == "duplication"){
+                    alert("중복된 이메일입니다.")
+                    return false;
+                }
+                // window.location.href=response;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred while sending data:', error);
+            }
+        });
+    }
+
+    function chkCertNum(){
+        console.log($('input[name="certNum"]').val())
+        // $.ajax({
+        //     url: '/auth/mail-check',
+        //     type: 'POST',
+        //     contentType: 'plain/text',
+        //     data: to,
+        //     success: function (response) {
+        //         console.log('Data sent successfully!'+response.status);
+        //         if(response.status == "duplication"){
+        //             alert("중복된 이메일입니다.")
+        //             return false;
+        //         }
+        //         // window.location.href=response;
+        //     },
+        //     error: function (xhr, status, error) {
+        //         console.error('Error occurred while sending data:', error);
+        //     }
+        // });
+    }
 </script>
 </body>
 </html>
