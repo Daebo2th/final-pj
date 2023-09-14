@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface TaskService {
-
-
+     
      void insertTask(TaskVO vo);
 
      TaskVO getDetailTask(TaskVO vo);
@@ -15,4 +14,8 @@ public interface TaskService {
      List<TaskVO> getTaskUserList(HashMap map);
 
      List<TaskVO> getTaskList(HashMap map);
+
+     void UpdateTask(TaskVO vo);
+
+     void deleteTask(int taskSeq);
 }

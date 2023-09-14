@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -27,9 +28,7 @@ public class TaskController {
         model.addAttribute("userId", principal.getName());
         return "/student/SMain";
     }
-
-
-
+    
     //학생 일일과제 작성 기능
     @GetMapping("/student/daily-task")
     public String StudentTemplate(Model model, Principal principal) {
@@ -58,16 +57,42 @@ public class TaskController {
     @GetMapping("/student/daily-task-detail")
     public String DetailDailyTask(Model model, TaskVO vo) {
         TaskVO task = taskService.getDetailTask(vo);
-        System.out.println("이부부부ㅜ부부부부부부부부부ㅜㄴ");
         model.addAttribute("taskVO", task);
         return "/student/daily-task-detail";
     }
 
-    /*일일과제 수정*/
+    /*일일과제 수정 페이지로 이동*/
+    @GetMapping("/student/daily-task-update")
+    public String UpdateDailyTaskForm(Model model, @RequestParam("taskSeq") int taskSeq) {
+        TaskVO vo = new TaskVO();
+        vo.setTaskSeq(taskSeq);
+        System.out.println(vo);
+        TaskVO task = taskService.getDetailTask(vo);
+        System.out.println(task);
+        model.addAttribute("taskVO", task);
+        return "/student/daily-task-update";
+    }
+    
+    /*일일과제 수정 기능 처리*/
+    @PostMapping("/student/daily-task-update")
+    @ResponseBody
+    public String DailyTaskUpdate(@RequestBody TaskVO vo) {
+        System.out.println(vo);
+        System.out.println("수정 컨트롤러로 탐 ");
+        taskService.UpdateTask(vo);
+        return "/student/daily-task-list"; /*일일과제 확인 페이지로 이동하기 위한 response를 ajax로 전달  */
+    }
 
 
     /*일일과제 삭제 */
-/*    public String DeleteDailyTask()*/
+    @GetMapping("/student/daily-task-delete")
+    public String DeleteDailyTask(@RequestParam("taskSeq") int taskSeq, RedirectAttributes redirectAttrs ) {
+        System.out.println("삭제할 taskSeq: " + taskSeq);
+        taskService.deleteTask(taskSeq);
+        // 삭제가 완료되었음을 알리는 메시지를 추가합니다.
+        redirectAttrs.addFlashAttribute("message", "삭제 성공 !!!!!! ");
+        return "redirect:/student/daily-task-list";
+    }
 
 
     /*교직원*/

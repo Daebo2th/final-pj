@@ -14,4 +14,8 @@ public interface TaskDAO {
     List<TaskVO> getTaskUserList(HashMap map);
 
     List<TaskVO> getTaskList(HashMap map);
+
+    public void updateTask(TaskVO vo);
+
+    void deleteTask(int taskSeq);
 }
