@@ -20,4 +20,14 @@
         select * from Task where task_seq=#{taskSeq}
     </select>
 
+    <update id="updateTask">
+        UPDATE Task
+        SET title = #{title}, content = #{content}
+        WHERE task_seq = #{taskSeq}
+    </update>
+
+    <delete id="deleteTask">
+        Delete from Task where task_seq=#{taskSeq}
+    </delete>
+
 </mapper>

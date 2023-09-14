@@ -26,7 +26,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskVO getDetailTask(TaskVO vo) {
-        System.out.println(vo);
         System.out.println("service 까지 옴 ");
         return taskDAO.getDetailTask(vo);
     }
@@ -43,5 +42,15 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskVO> getTaskList(HashMap map) {
 
         return taskDAO.getTaskList(map);
+    }
+
+    @Override
+    public void UpdateTask(TaskVO vo) {
+        taskDAO.updateTask(vo);
+    }
+
+    @Override
+    public void deleteTask(int taskSeq) {
+        taskDAO.deleteTask(taskSeq);
     }
 }
