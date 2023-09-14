@@ -30,4 +30,9 @@
         Delete from Task where task_seq=#{taskSeq}
     </delete>
 
+    <!--교직원-->
+    <select id="getTaskGroupSeq" resultType="taskVO">
+        SELECT t.* FROM task t JOIN member m ON t.user_id = m.user_id WHERE m.group_seq = #{group_seq}
+    </select>
+
 </mapper>

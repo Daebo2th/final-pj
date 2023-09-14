@@ -12,8 +12,7 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskDAOImpl taskDAO;
-
-
+    /*학생*/
     @Override
     public void insertTask(TaskVO vo) {
 /*      Map<String, Object> map = new HashMap<>();
@@ -37,7 +36,6 @@ public class TaskServiceImpl implements TaskService {
         return taskDAO.getTaskUserList(map);
     }
 
-
     @Override
     public List<TaskVO> getTaskList(HashMap map) {
 
@@ -52,5 +50,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(int taskSeq) {
         taskDAO.deleteTask(taskSeq);
+    }
+
+    /*교직원*/
+    @Override
+    public List<TaskVO> getTaskGroupSeq(String groupSeq) {
+        return taskDAO.getTaskGroupSeq(groupSeq);
     }
 }
