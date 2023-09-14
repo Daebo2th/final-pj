@@ -39,4 +39,15 @@ public class TaskDAOImpl implements TaskDAO {
     public List<TaskVO> getTaskList(HashMap map) {
         return mybatis.selectList("selectAllTask",map);
     }
+
+    public void updateTask(TaskVO vo) {
+        System.out.println("==> mybatis UpdateTask() 호출 ");
+        mybatis.update("updateTask", vo);
+    }
+
+    @Override
+    public void deleteTask(int taskSeq) {
+        System.out.println("==> mybatis DeleteTask() 호출 ");
+        mybatis.delete("deleteTask", taskSeq);
+    }
 }
