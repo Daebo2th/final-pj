@@ -70,4 +70,10 @@ public class UserDAOImpl implements UserDAO{
 
         return result;
     }
+
+    @Override
+    public String getGroupSeqByUserId(String userId) {
+        System.out.println("userDAOIMPL만 까지 옴 ~~~~~~~~~~~~~~~~~~~~~~~");
+        return mybatis.selectOne("getGroupSeqByUserId",userId);
+    }
 }

@@ -10,4 +10,6 @@ public interface UserService {
     boolean insertUser(UserVO user);
 
     UserVO findById(String id);
+
+    String getGroupSeqByUserId(String userId);
 }
