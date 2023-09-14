@@ -11,6 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class MemberWithClassVO { // member + class join한 vo
         private int rownum;
+        private String userId;
         private String name;
         private String phone;
         private String gender;

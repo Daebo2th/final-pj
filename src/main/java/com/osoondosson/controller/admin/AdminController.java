@@ -27,4 +27,12 @@ public class AdminController {
         model.addAttribute("list", list);
         return "admin/student-record";
     }
+
+    @GetMapping("/admin/student-detail")
+    public String stuDetail(Model model) {
+        List<MemberWithClassVO> list = adminService.selectByGroup(1);
+        System.out.println("리스트: " + list);
+        model.addAttribute("list", list);
+        return "admin/student-detail";
+    }
 }

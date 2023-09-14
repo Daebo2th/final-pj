@@ -8,26 +8,42 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <title>일정관리</title>
-    <!-- Load the jQuery library -->
-<%--    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>--%>
-<%--    <!-- Load the jQuery UI library -->--%>
-<%--    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>--%>
-<%--    &lt;%&ndash; fullcalendar API &ndash;%&gt;--%>
-<%--    <script src="/resources/js/schedule.js"></script>--%>
-<%--    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>--%>
-<%--    &lt;%&ndash; CSS &ndash;%&gt;--%>
-<%--    <link rel="stylesheet" href="/resources/css/calendar.css">--%>
-    <!-- Bootstrap CSS -->
+
+    <!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        .breadcrumb { background-color: white;}
+    </style>
 
     <title>Hello, world!</title>
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- moment.js -->
-    <script src="/resources/js/moment.js"></script> all
+    <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
     <!-- fullcalendar CDN -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
@@ -49,59 +65,77 @@
     </style>
 </head>
 <body>
+    <%@include file="../include/header.jsp"%>
+    <%@include file="../include/aside.jsp"%>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <h1>일정관리</h1>
-    <div id="contents">
-        <div id='calendar'></div>
-        <%-- modal 추가--%>
-            <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input type="hidden" name="actType" value="C" /> <!-- C:등록 U:수정 D:삭제 -->
-                                <input type="hidden" name="userId" value="qwe" />
-                                <input type="text" name="scheduleSeq" id="schedule_seq"  />
+    <main id="main" class="main">
 
-                                <%--@declare id="taskid"--%>
-                                <label for="taskId" class="col-form-label">제목</label>
-                                <input type="text" class="form-control" id="calendar_content" name="title" placeholder="제목을 입력하세요">
-                                <label for="taskId" class="col-form-label">중요도</label>
-                                <select name="importance" id="importance">
-                                    <option value="up">상</option>
-                                    <option value="mid">중</option>
-                                    <option value="bottom">하</option>
-                                </select>
-                                <textarea name="xcontent" class="form-control" id="xcontent" cols="30" rows="10" placeholder="내용을 입력하세요."></textarea>
-                                <label for="taskId" class="col-form-label">시작 날짜</label>
-                                <input type="datetime-local" class="form-control" id="calendar_start_date" name="startDate" value="">
-                                <label for="taskId" class="col-form-label">종료 날짜</label>
-                                <input type="datetime-local" class="form-control" id="calendar_end_date" name="endDate" value="">
+        <div class="pagetitle">
+            <h1>일정관리</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">일정관리</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section">
+            <div id="contents">
+                <div id='calendar'></div>
+                <%-- modal 추가--%>
+                <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">일정 생성</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-warning" id="addCalendar" onclick="addBtn()">추가</button>
-                            <button type="button" class="btn btn-warning" id="delCalendar" onclick="delBtn()" style="display: none">삭제</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                    id="sprintSettingModalClose" onclick="cancelBtn()">취소</button>
-                        </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="hidden" name="actType" value="C" /> <!-- C:등록 U:수정 D:삭제 -->
+                                    <input type="hidden" name="userId" value="qwe" />
+                                    <input type="hidden" name="scheduleSeq" id="schedule_seq"  />
 
+                                    <%--@declare id="taskid"--%>
+                                    <label for="taskId" class="col-form-label">제목</label>
+                                    <input type="text" class="form-control" id="calendar_content" name="title" placeholder="제목을 입력하세요">
+                                    <label for="taskId" class="col-form-label">중요도</label>
+                                    <select name="importance" id="importance">
+                                        <option value="up">상</option>
+                                        <option value="mid">중</option>
+                                        <option value="bottom">하</option>
+                                    </select>
+                                    <textarea name="xcontent" class="form-control" id="xcontent" cols="30" rows="10" placeholder="내용을 입력하세요."></textarea>
+                                    <label for="taskId" class="col-form-label">시작 날짜</label>
+                                    <input type="datetime-local" class="form-control" id="calendar_start_date" name="startDate" value="">
+                                    <label for="taskId" class="col-form-label">종료 날짜</label>
+                                    <input type="datetime-local" class="form-control" id="calendar_end_date" name="endDate" value="">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" id="addCalendar" onclick="addBtn()">추가</button>
+                                <button type="button" class="btn btn-warning" id="delCalendar" onclick="delBtn()" style="display: none">삭제</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        id="sprintSettingModalClose" onclick="cancelBtn()">취소</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
             </div>
+        </section>
+
+    </main>
 
 
 
-    </div>
     <script>
         function cancelBtn() {
             // 입력 필드들의 값을 초기화
@@ -298,8 +332,32 @@
                         });
                         //info.event.title // modal 나타내기
                     },
-                    eventDidMount:function(info) {
-                        console.log();
+                    eventDrop:function(info) {
+                        // 이벤트가 드래그 앤 드롭하여 변경될 때 호출되는 콜백 함수
+                        var event = info.event;
+                        console.log(event)
+                        var formData = {};
+                        formData.scheduleSeq = event._def.extendedProps.extendsProps.scheduleSeq;
+                        formData.startDate = event.start.toISOString()
+                        formData.endDate = event.end.toISOString()
+                        console.log(formData)
+
+                        $.ajax({
+                            url: "/schedule/updateByDrop",
+                            type: "POST",
+                            data: JSON.stringify(formData),
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (response) {
+                                alert("수정되었습니다");
+                                //location.href="/schedule/main";
+                            },
+                            error: function(xhr, status, error) {
+                                // 요청이 실패했을 때의 처리 로직
+                                console.error(error); // 에러 메시지 출력
+                                // 추가적인 로직 구현 가능
+                            }
+                        })
                     },
 
                     events: [
@@ -307,13 +365,14 @@
                         {
                             color:'E9BFD1',
                             textColor:'5D082D',
-                            title: '${userlist.title}+${userlist.scheduleSeq}',
+                            title: '${userlist.title}',
                             start: '<fmt:formatDate value="${userlist.startDate}" pattern="yyyy-MM-dd HH:mm" />',
                             end: '<fmt:formatDate value="${userlist.endDate}" pattern="yyyy-MM-dd HH:mm" />',
                             extendsProps: {
                                 xcontent:'${userlist.xcontent}',
                                 importance:'${userlist.importance}',
                                 scheduleSeq:'${userlist.scheduleSeq}',
+
                             }
                         },
 
@@ -326,6 +385,17 @@
         })();
 
     </script>
+    <%@include file="../include/footer.jsp"%>
+    <!-- Vendor JS Files -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/chart.umd.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/echarts/echarts.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
 
+    <!-- Template Main JS File -->
+    <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 </html>

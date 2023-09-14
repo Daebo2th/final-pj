@@ -4,7 +4,7 @@
 
 <mapper namespace="memberWithClassVO">
     <select id="selectByGroup" parameterType="Integer" resultType="MemberWithClassVO">
-        select rownum, m.name, m.phone, m.gender, c.group_name, c.start_date, c.end_date
+        select rownum, SUBSTR(user_id, 1, INSTR(user_id, '@') - 1) AS user_id ,m.name, m.phone, m.gender, c.group_name, c.start_date, c.end_date
         from member m inner join class c ON m.group_seq = c.group_seq
         where c.group_seq = #{groupSeq}
     </select>
