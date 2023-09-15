@@ -1,14 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <security:http pattern="/include/**" security="none"/>
     <security:http pattern="/favicon.ico" security="none"/>
     <security:http pattern="/resources/**" security="none"/>
 
+    <context:component-scan base-package="com.osoondosson.dao"/>
     <security:http auto-config="true" use-expressions="true"
                    create-session="never">
 
@@ -51,17 +52,11 @@
                               token-validity-seconds="3600"/>
 
     </security:http>
-<!--    <bean id="userDAOImpl" class="com.osoondosson.dao.user.UserDAOImpl" />-->
-<!--    <bean id="userDetailsService" class="com.osoondosson.security.config.PrincipalDetailsService" >-->
-<!--        <constructor-arg name="userDAO" ref="userDAOImpl"/>-->
-<!--    </bean>-->
+    <bean id="customUserDetailsService" class="com.osoondosson.security.config.CustomUserDetailsService" />
 
     <!-- 사용자가 입력한 비밀번호를 암호화된 비밀번호와 체크하는 로직이 포함 --><!-- user-service-ref="userService"-->
     <security:authentication-manager>
-        <security:authentication-provider>
-            <security:jdbc-user-service data-source-ref="datasource"
-                                        users-by-username-query="select user_id, user_pwd, 1 enabled from member where user_id = ?"
-                                        authorities-by-username-query="select u_id, role_type from role where u_id = ?"/>
+        <security:authentication-provider user-service-ref="customUserDetailsService">
                      <security:password-encoder ref="passwordEncorder"/>
         </security:authentication-provider>
     </security:authentication-manager>

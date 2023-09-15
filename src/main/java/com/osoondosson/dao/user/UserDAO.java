@@ -11,4 +11,6 @@ public interface UserDAO {
     UserRoleVO findRoleById(String id);
     int insertUser(UserVO user);
     String getGroupSeqByUserId(String userId);
+
+    UserVO read(String id);
 }

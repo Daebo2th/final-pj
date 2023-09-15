@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -24,6 +25,8 @@ public class UserVO {
     private Date birthday;
     private String addr1;
     private String addr2;
-    private Blob profile;
+    private String profile;
+
+    private List<UserRoleVO> authList;
 
 }
