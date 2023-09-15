@@ -31,23 +31,13 @@ public class UserController {
     @Autowired
     private EmailAuthService emailAuthService;
 
-    @Autowired
-    private JavaMailSenderImpl mailSender;
-
     // http://localhost:8080/auth/login
     //GET 요청
     @GetMapping("/auth/login")
     public String loginForm(Model model, Principal principal) {
-        model.addAttribute("user",principal.getName());
+        if(principal!=null)
+            model.addAttribute("user",principal.getName());
         return "auth/login";
-    }
-
-    // http://localhost:8080/auth/sign-up
-    //GET 요청
-    @GetMapping("/auth/sign-up")
-    public String signUpForm() {
-
-        return "auth/signUp";
     }
 
     // http://localhost:8080/auth/sign-up

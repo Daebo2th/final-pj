@@ -291,7 +291,6 @@
     </style>
 </head>
 <body>
-${uset}
 <c:if test="${user!=null}">
     <c:redirect url="/"/>
 </c:if>
