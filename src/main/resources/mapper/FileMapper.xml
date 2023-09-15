@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.osoondosson.dao.FileDAO">
+
     <insert id="uploadDrive" parameterType="fileVO">
         INSERT INTO filetable (UUID, ORIGIN_NAME, UPLOAD_NAME, UPLOAD_PATH, FILE_SIZE, FILE_TYPE, UPLOAD_DATE, STATUS, GROUP_SEQ)
         SELECT
@@ -26,4 +27,13 @@
     <select id="getFileByUUID" resultType="fileVO" parameterType="String">
         select * from filetable where uuid = #{uuid}
     </select>
+    
+    <insert id="insertImage" parameterType="fileVO">
+		insert into FILETABLE VALUES(#{uuid}, #{originName}, #{uploadName}, #{uploadPath}, #{fileType}, CURRENT_TIMESTAMP, 1, GROUP_SEQ.nextval, #{fileSize})
+	</insert>
+	
+	<delete id="deleteImage" parameterType="fileVO">
+		delete from FILETABLE where uuid = #{uuid}
+	</delete>
 </mapper>
+

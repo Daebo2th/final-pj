@@ -34,6 +34,10 @@
         insert into member(USER_ID, USER_PWD, NAME, BIRTHDAY, GENDER, PHONE, ADDR1, ADDR2)
         VALUES ( #{userId}, #{userPwd}, #{name}, #{birthday}, #{gender}, #{phone}, #{addr1}, #{addr2} )
     </insert>
+    
+    <update id="updateProfile" parameterType="UserVO">
+    	update member set profile = #{profile} where user_id = #{userId} 
+    </update>
 
     <select id="getGroupSeqByUserId" resultType="string" parameterType="string">
         select group_seq from member where user_id= #{userId}

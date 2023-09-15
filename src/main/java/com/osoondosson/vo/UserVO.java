@@ -1,11 +1,15 @@
 package com.osoondosson.vo;
 
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 @Data
 @Builder
@@ -26,7 +30,7 @@ public class UserVO {
     private String addr1;
     private String addr2;
     private String profile;
-
     private List<UserRoleVO> authList;
+
 
 }

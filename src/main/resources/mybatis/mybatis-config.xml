@@ -20,6 +20,7 @@
         <typeAlias alias="todolistVO" type="com.osoondosson.vo.ToDoListVO"/>
         <typeAlias alias="fileVO" type="com.osoondosson.vo.FileVO"/>
         <typeAlias alias="memberWithClassVO" type="com.osoondosson.vo.MemberWithClassVO"/>
+        <typeAlias alias="fileVO" type="com.osoondosson.vo.FileVO"/>
 
     </typeAliases>
 </configuration>
