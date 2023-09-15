@@ -3,6 +3,25 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.osoondosson.dao.user.UserDAO">
+    <resultMap id="userMap" type="userVO">
+        <id property="userId" column="user_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="groupSeq" column="GROUP_SEQ"/>
+        <result property="userPwd" column="USER_PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="profile" column="PROFILE"/>
+        <collection property="authList" resultMap="authMap"/>
+    </resultMap>
+    <resultMap id="authMap" type="userRoleVO">
+        <result property="uId" column="U_ID"/>
+        <result property="roleType" column="ROLE_TYPE"/>
+    </resultMap>
+
+    <select id="read" parameterType="String"  resultMap="userMap">
+        SELECT M.USER_ID,GROUP_SEQ,USER_PWD,NAME,PROFILE,ROLE_TYPE
+        FROM MEMBER M LEFT OUTER JOIN ROLE R ON M.USER_ID = R.U_ID WHERE M.USER_ID = #{id}
+    </select>
+
     <select id="findById" parameterType="String" resultType="userVO">
         select * from member where user_id = #{id}
     </select>

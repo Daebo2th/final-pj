@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.net.URLDecoder;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,23 +31,13 @@ public class UserController {
     @Autowired
     private EmailAuthService emailAuthService;
 
-    @Autowired
-    private JavaMailSenderImpl mailSender;
-
     // http://localhost:8080/auth/login
     //GET 요청
     @GetMapping("/auth/login")
-    public String loginForm(Model model) {
-        model.addAttribute("test", userService.getUser());
+    public String loginForm(Model model, Principal principal) {
+        if(principal!=null)
+            model.addAttribute("user",principal.getName());
         return "auth/login";
-    }
-
-    // http://localhost:8080/auth/sign-up
-    //GET 요청
-    @GetMapping("/auth/sign-up")
-    public String signUpForm() {
-
-        return "auth/signUp";
     }
 
     // http://localhost:8080/auth/sign-up
