@@ -35,4 +35,9 @@
         SELECT t.* FROM task t JOIN member m ON t.user_id = m.user_id WHERE m.group_seq = #{group_seq}
     </select>
 
+    <update id="updateStatus">
+        UPDATE Task
+        SET status = #{status}
+        WHERE task_seq = #{taskSeq}
+    </update>
 </mapper>

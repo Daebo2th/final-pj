@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/student/daily-task-list">
                         <i class="bi bi-circle"></i><span>일일과제 목록</span>
                     </a>
                 </li>

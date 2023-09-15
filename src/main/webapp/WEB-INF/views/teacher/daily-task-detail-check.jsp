@@ -41,6 +41,104 @@
 
     <style>
         .breadcrumb { background-color: white;}
+
+        /*댓글 css*/
+        .user-comment{
+            width:70vw;
+            margin:0 auto;
+            margin-bottom:10px;
+        }
+        .comments-section img {
+            margin-top: 0px;
+            width: 60px;
+        }
+
+        .comments-section p {
+            line-height: 15px;
+            margin: 0 auto 5px;
+        }
+
+        .comments-section .comment-author {
+            font-weight: 600;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+            color: #547ef8;
+        }
+
+        .comments-section .comment-time {
+            font-size: 11px;
+            margin-left: 10px;
+            color: #a7a5a5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comments-section .comment-content {
+            font-size: 16px;
+            font-weight: 100;
+            padding-bottom: 0px;
+            line-height: 25px;
+            letter-spacing: 1px;
+            color: #888888;
+        }
+
+        .comments-section .comment-post-reply .comment-content,
+        .comments-section .comment-post-reply .comment-author {
+            color: #888888; }
+
+        .comments-section textarea {
+            width: 100%;
+            height: 80px;
+            border: 1px solid #ccccccad;
+            border-radius: 4px;
+            padding: 10px; }
+        .comment-like-unlike span i{
+            font-size: 18px;
+            color: #547ef89e;
+            cursor: pointer;
+            margin-right: 10px;
+            width: 30px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+        }
+        .comment-like-unlike span i:hover{
+            color: #547ef8;
+            transition: 0.3s ease-in-out;
+        }
+        .comment-post, .comment-post-reply{
+            display: flex;
+            margin-bottom: 25px;
+        }
+        .comment-details{
+            margin-left: 25px;
+        }
+        .comment-post-reply{
+            margin-left: 85px;
+            margin-bottom: 40px;
+        }
+        .comments-section{
+            padding-top: 40px;
+            border-top: 1px solid #cccccc8a;
+        }
+        .comments-section .btn--blue {
+            -webkit-box-shadow: 0 3px 32px rgba(85, 126, 248, .54);
+            box-shadow: 0 3px 32px rgba(85, 126, 248, .54);
+            background-color: #557ef8;
+            padding: 0 40px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            height: 50px;
+            line-height: 50px;
+            color: #fff;
+            font-size: 16px;
+            display: inline-block;
+            border: none;
+            font-family: Catamaran;
+            font-weight: 400;
+            text-decoration:none;
+            margin-top:10px;
+            float: inherit;
+        }
     </style>
 
     <title>Hello, world!</title>
@@ -69,6 +167,11 @@
             padding-top: 1em;
             padding-left: 1em;
             padding-right: 1em;
+        }
+        .btn-danger{
+            color:#fff !important;
+            border-color: red !important;
+            background-color: red !important;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
@@ -158,69 +261,92 @@
         </div>
     </section>
     <div class="con reply">
-        <h1 class="">댓글 입력</h1>
-        <section class="reply-form">
-            <form id ="replyData" action="return false;">
-                <div>
-                    작성자 : <input id="replyer" type="text" value="<sec:authentication property="principal.username"/>">
+        <h1>Comment</h1>
+        <div class="user-comment">
+            <div class="comments-section">
+                <div class="comment-post">
+                    <div class="comment-details">
+                        <div id="replyList">
+                            <p><span class="comment-author">Rajesh Gupta</span></p>
+                            <p class="comment-content">Maecenas eu maximus tellus, Suspendisse tincidunt hendrerit nisi, sit amet aliquet enim ornare at.</p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    내용 : <input id="replyContent" type="text">
-                    <input id='replyConfirm' type="button" value=" 입  력 ">
-                </div>
-                <input type="hidden" id="taskSeq" value="${taskVO.taskSeq}"/>
-            </form>
-        </section>
+                <%--                <div class="comment-post-reply">
+                                    <div class="comment-details">
+                                        <p><span class="comment-author">Amit Pradhan</span><span class="comment-time">10 minutes ago</span></p>
+                                        <p class="comment-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                        <div class="comment-like-unlike">
+                                            <span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                                            <span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></span>
+                                            <span><i class="fa fa-reply" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                                </div>--%>
+                <div class="comment-add">
+                    <div class="field-comment">
+                        <textarea id="replyContent" rows="4" cols="50"></textarea>
+                        <div id="replyConfirmBtn" style="display: flex; justify-content: flex-end">
+                        <input id='replyConfirm' type='button' value='Post Your Comment' class='btn btn--blue btn--medium pull-right'>
+                        </div>
+                    </div>
+                    <!-- hidden fields for replyer and taskSeq -->
+                    <input type="hidden" id="replyer" value="<sec:authentication property='principal.username'/>"/>
+                    <input type="hidden" id="taskSeq" value="${taskVO.taskSeq}"/>
 
-        <h1 class="">댓글 목록</h1>
-        <section class="reply-list table-common">
-            <table border="1" id='replyList'>
-                <colgroup>
-                    <col width="100px">
-                </colgroup>
-                <thead>
-                <tr>
-                    <%--<th>댓글번호</th>--%>
-                    <th>작성자</th>
-                    <th>내용</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="reply" items="${replyList}">
-                    <tr >
-                        <!-- 댓글 번호 -->
-                       <%-- <td>${reply.replySeq}</td>--%>
-                        <!-- 작성자 -->
-                        <td>${reply.replyer}</td>
-                        <!-- 내용 -->
-                        <td>${reply.replyContent}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </section>
+                </div>
+            </div>
+        </div>
     </div>
     <%--댓글 입력후 댓글목록 불러오는 ajax 요청--%>
     <script type="text/javascript">
-        /****************댓글 목록 불러오기 **********************/
+
         function replyList() {
             var taskSeq = $("#taskSeq").val();
+            var userId = $("#replyer").val();
 
             $.ajax({
                 type: 'GET',
                 url: '/teacher/reply-list?taskSeq='+taskSeq,  // 실제 댓글 목록 API URL로 변경 필요
                 success: function(data) {
-                    var userId = data.userId;
-                    var tbody = $('#replyList tbody');
-                    tbody.empty();  // 기존 목록 삭제
+                    var replyContainer = $('#replyList');
+                    replyContainer.empty();  // 기존 목록 삭제
 
                     data.forEach(function(reply) {  // 각 댓글에 대해
-                        var row = $('<tr>');  // 새 행 생성
-                       /* $('<td>').text(reply.replySeq).appendTo(row);*/
-                        $('<td>').text(reply.replyer).appendTo(row);
-                        $('<td>').text(reply.replyContent).appendTo(row);
+                        var commentPost = $('<div>').addClass('comment-post');
+                        var commentDetails = $('<div>').addClass('comment-details').appendTo(commentPost);
 
-                        row.appendTo(tbody);  // 완성된 행을 테이블에 추가
+                        $('<p>').append($('<span>').addClass('comment-author').text(reply.replyer)).appendTo(commentDetails);
+                        $('<p>').addClass('comment-content').text(reply.replyContent).appendTo(commentDetails);
+
+                        /*만약 현재 로그인한 사용자가 댓글 작성자와 동일하다면 수정 및 삭제 버튼 추가*/
+                        if (userId === reply.replyer) {
+                           /* var editButton = $('<button>Edit</button>');  // 수정 버튼 생성
+                            editButton.click(function() {
+                                // 여기에 댓글 수정 로직 구현
+                            });
+                            commentDetails.append(editButton);  // 수정 버튼 추가*/
+
+                            var deleteButton = $('<button type="button" id="deleteButton" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>');  // 삭제 버튼 생성  // 삭제 버튼 생성
+                            deleteButton.click(function() {
+                                // 여기에 댓글 삭제 로직 구현
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '/teacher/delete-reply?replySeq=' + reply.replySeq,  // 실제 댓글 삭제 API URL로 변경 필요
+                                    success: function(result) {
+                                        alert('댓글 삭제가 완료되었습니다.');
+                                        replyList();  // 댓글 목록 새로고침
+                                    },
+                                    error: function(error) {
+                                        alert('댓글을 삭제하는 중에 오류가 발생했습니다.');
+                                        console.log(error);
+                                    }
+                                });
+                            });
+                            commentDetails.append(deleteButton);  // 삭제 버튼 추가
+                        }
+
+                        commentPost.appendTo(replyContainer);  // 완성된 행을 테이블에 추가
                     });
                 },
                 error: function(error) {
@@ -229,6 +355,7 @@
                 }
             });
         }
+
 
 
         /*댓글 버튼이 눌렸을 때 */

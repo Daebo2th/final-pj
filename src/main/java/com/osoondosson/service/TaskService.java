@@ -20,4 +20,6 @@ public interface TaskService {
      void deleteTask(int taskSeq);
      /*교직원*/
      List<TaskVO> getTaskGroupSeq(String groupSeq);
+
+     void updateStatus(TaskVO vo);
 }

@@ -16,7 +16,7 @@ public class TaskVO {
     private String content;
     private Date createDate;
     private Date updateDate;
-    private String status;
+    private int status;
 
 }
 

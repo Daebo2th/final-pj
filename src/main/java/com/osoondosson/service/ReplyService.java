@@ -9,4 +9,6 @@ public interface ReplyService {
     void insertReply(ReplyVO vo);
 
     List<TaskVO> getReplyList(int taskSeq);
+
+    void deleteReply(int replySeq);
 }

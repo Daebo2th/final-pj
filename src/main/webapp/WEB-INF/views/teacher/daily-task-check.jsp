@@ -62,6 +62,10 @@
             padding-left: 1em;
             padding-right: 1em;
         }
+        .w3-pagination {
+            display: flex;
+            justify-content: center;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
 </head>
@@ -124,15 +128,30 @@
                                     <td>${groupTasks.userId}</td>
                                     <td><a href="/teacher/daily-task-detail?taskSeq=${groupTasks.taskSeq}">${groupTasks.title}</td>
                                     <td><fmt:formatDate value="${groupTasks.updateDate}" pattern="yyyy-MM-dd"/></td>
-                                    <td>${groupTasks.status}</td>
+                                    <input type="hidden" name="taskSeq" value="${groupTasks.taskSeq}" />
+                                    <td><input type="checkbox" value="${groupTasks.status}" ${groupTasks.status == '1'? 'checked':''} /></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
+                    <div id="chkbtn" style="display: flex; justify-content: flex-end">
+                        <button id="checkStatus" type="button" class="btn btn-dark">제출 확인 완료</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+    <div class="w3-center">
+        <ul class="w3-pagination">
+            <li><a href="#">&laquo;</a></li>
+            <li><a class="w3-green" href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </div>
 
 </main>
 
@@ -151,5 +170,41 @@
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#checkStatus').click(function() {
+            var successCount = 0;  // 성공적으로 처리된 체크박스의 수를 추적하는 카운터
+            $('input[type="checkbox"]').each(function() {
+                /*if ($(this).is(':checked')) {*/
+                    var status = $(this).is(':checked') ? '1' : '0'; // 체크박스 상태에 따라 status 값 변경
+                    var taskSeq = $(this).closest('tr').find('input[name=taskSeq]').val();
+
+                    $.ajax({
+                        url: '/teacher/updateTaskStatus',
+                        type: 'POST',
+                        contentType: 'application/json',  // 추가
+                        data: JSON.stringify({status: status, taskSeq: taskSeq}),  // 수정
+                        success: function(response) {
+                            // 요청이 성공적으로 완료된 후 수행할 작업을 여기에 작성합니다.
+                            console.log(response);
+                            successCount++;
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            // 요청이 실패했을 때 수행할 작업을 여기에 작성합니다.
+                            console.error(textStatus + " " + errorThrown);
+                        }
+                    });
+               /* }*/
+            });
+            // 모든 AJAX 요청이 완료되면 alert을 표시합니다.
+            $(document).ajaxStop(function () {
+                if (successCount > 0) {
+                    alert("상태 업데이트가 완료되었습니다.");
+                }
+                $(document).off("ajaxStop");  // 이 이벤트 핸들러를 제거합니다.
+            });
+        });
+    });
+</script>
 </body>
 </html>
