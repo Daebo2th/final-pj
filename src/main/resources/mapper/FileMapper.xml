@@ -3,5 +3,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.osoondosson.dao.FileDAO">
+    <insert id="uploadDrive" parameterType="fileVO">
+        INSERT INTO filetable (UUID, ORIGIN_NAME, UPLOAD_NAME, UPLOAD_PATH, FILE_SIZE, FILE_TYPE, UPLOAD_DATE, STATUS, GROUP_SEQ)
+        SELECT
+            #{uuid},
+            #{originName},
+            #{uploadName},
+            #{uploadPath},
+            null,
+            #{fileType},
+            CURRENT_TIMESTAMP,
+            1,
+            c.GROUP_SEQ
+        FROM class c
+        WHERE c.GROUP_SEQ = 1
+    </insert>
 
+    <select id="selectFile"  resultType="fileVO">
+        select * from filetable where group_seq = #{groupSeq}
+    </select>
+
+    <select id="getFileByUUID" resultType="fileVO" parameterType="String">
+        select * from filetable where uuid = #{uuid}
+    </select>
 </mapper>

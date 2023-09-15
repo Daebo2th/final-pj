@@ -112,8 +112,12 @@
                             <hr>
                             <a href="/student/SMain"> 학생 LayoutForm</a>
                             <a href="teacher/TMain"> 교직원 LayoutForm</a>
+
                             <a href="/index2.jsp">UI 예시</a>
                             <a href="/chat/main">채팅</a>
+
+                            <a href="/teacher/dataSharingRoom">자료공유실</a>
+
 
                         </div>
                     </div>
