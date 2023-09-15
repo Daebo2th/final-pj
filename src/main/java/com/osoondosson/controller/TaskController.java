@@ -126,6 +126,13 @@ public class TaskController {
         return "/teacher/daily-task-detail-check";
     }
 
+    @PostMapping("/teacher/updateTaskStatus")
+    @ResponseBody
+    public String updateTaskStatus(@RequestBody TaskVO vo){
+        taskService.updateStatus(vo);
+        return "/teacher/updateTaskStatus";
+    }
+
 
 }
 

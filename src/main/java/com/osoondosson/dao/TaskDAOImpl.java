@@ -57,5 +57,10 @@ public class TaskDAOImpl implements TaskDAO {
         return mybatis.selectList("getTaskGroupSeq", groupSeq);
     }
 
+    @Override
+    public void updateStatus(TaskVO vo) {
+        mybatis.update("updateStatus",vo);
+    }
+
 
 }
