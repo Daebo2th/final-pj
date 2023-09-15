@@ -12,11 +12,13 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css"
+          rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css" rel="stylesheet">
@@ -32,6 +34,7 @@
             flex-direction: column;
             align-items: center;
         }
+
         .col-xl-12 {
             margin-left: auto; /* 컨텐츠 영역을 오른쪽으로 밀어내기 */
             transition: margin-left 0.3s; /* 부드러운 이동 효과를 위한 트랜지션 설정 */
@@ -39,15 +42,15 @@
     </style>
 </head>
 <body>
-<%@include file="include/header.jsp"%>
-<%@include file="include/aside.jsp"%>
+<%@include file="include/header.jsp" %>
+<%@include file="include/aside.jsp" %>
 <c:if test="${user[0] != null}">
     <c:choose>
         <c:when test="${user[0] == 'ROLE_ADMIN'}">
-<%--            <c:redirect url="/teacher" />--%>
+            <%--            <c:redirect url="/teacher" />--%>
         </c:when>
         <c:when test="${user[0] == 'ROLE_USER'}">
-<%--            <c:redirect url="/student" />--%>
+            <%--            <c:redirect url="/student" />--%>
         </c:when>
         <c:when test="${user[0] == 'ROLE_GUEST'}">
 
@@ -61,7 +64,7 @@
         <h1>Main</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">Main</li>
             </ol>
         </nav>
@@ -101,18 +104,16 @@
 
                             <hr>
 
-                            <a href ="/schedule/main">일정관리 페이지</a>
-                            <a href ="/admin/student-record">학생기록부 페이지</a>
-                            <a href ="/admin/student-detail">학생 상세 정보</a>
-
+                            <a href="/schedule/main">일정관리 페이지</a>
+                            <a href="/admin/student-record">학생기록부 페이지</a>
+                            <a href="/admin/student-detail">학생 상세 정보</a>
                             <a href="/student/todolist">칸반보드</a>
-
-
-                            <a href ="/student/daily-task">학생 일일과제 작성 페이지</a>
+                            <a href="/student/daily-task">학생 일일과제 작성 페이지</a>
                             <hr>
                             <a href="/student/SMain"> 학생 LayoutForm</a>
                             <a href="teacher/TMain"> 교직원 LayoutForm</a>
-                            <a href ="/index2.jsp">UI 예시</a>
+                            <a href="/index2.jsp">UI 예시</a>
+                            <a href="/chat/main">채팅</a>
 
                         </div>
                     </div>
@@ -124,8 +125,7 @@
 </main>
 
 
-
-<%@include file="include/footer.jsp"%>
+<%@include file="include/footer.jsp" %>
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>

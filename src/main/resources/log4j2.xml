@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="DEBUG">
+	<Properties>
+		<Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} [%highlight{%-5p}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan}] [%c] - %m%n</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console_Appender" target="SYSTEM_OUT">
+			<PatternLayout disableAnsi="false" pattern="${LOG_PATTERN}"/>
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<Root level="INFO" additivity="false">
+			<AppenderRef ref="Console_Appender"/>
+		</Root>
+
+		<Logger name="org.springframework" level="ERROR" additivity="false">
+			<AppenderRef ref="Console_Appender" />
+		</Logger>
+
+		<Logger name="com.filmsus.myapp" level="INFO" additivity="false">
+			<AppenderRef ref="Console_Appender" />
+		</Logger>
+
+		<logger name="log4jdbc.log4j2" level="ERROR" additivity="false">
+			<MarkerFilter marker="LOG4JDBC_OTHER" onMatch="DENY" onMismatch="NEUTRAL"/>
+			<appender-ref ref="Console_Appender"/>
+		</logger>
+	</Loggers>
+
+</Configuration>
