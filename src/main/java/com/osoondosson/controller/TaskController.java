@@ -1,6 +1,7 @@
 package com.osoondosson.controller;
 
 import com.osoondosson.service.TaskService;
+import com.osoondosson.service.UserService;
 import com.osoondosson.vo.TaskVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -21,6 +23,10 @@ import java.util.Map;
 public class TaskController {
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserService userService;
+
     /*학생*/
     /*학생 Layout Page로 이동 */
     @GetMapping("/student/SMain")
@@ -95,21 +101,31 @@ public class TaskController {
     }
 
 
-    /*교직원*/
-    /*교직원 Layout Page로 이동 */
-    @GetMapping("/teacher/TMain")
-    public String TeacherMain(Model model, Principal principal) {
-        model.addAttribute("userId", principal.getName());
-        return "teacher/TMain";
-    }
+    /***************************************교직원********************************************************/
+    /*교직원 일일과제 현황 페이지로 이동 */
 
     /*일일과제확인 페이지로 이동(전체목록출력) */
-    @GetMapping("/student/daily-task-check")
-    public String DailyTaskCheck(Model model) {
-        Map<String, String> map = new HashMap<>();
-        List<TaskVO> taskList = taskService.getTaskList((HashMap) map);
-        model.addAttribute("taskList", taskService.getTaskList((HashMap) map));
+    @GetMapping("/teacher/daily-task-check")
+    public String DailyTaskCheckPage(Model model, Principal principal) {
+        /*userId 에서 groupSeq 가져오기 */
+        String userId = principal.getName();
+        String groupSeq = userService.getGroupSeqByUserId(userId);
+
+        /*목록 출력*/
+        List<TaskVO> groupTasks = taskService.getTaskGroupSeq(groupSeq);
+        model.addAttribute("groupTasks", groupTasks);
         return "teacher/daily-task-check";
+
     }
+
+    @GetMapping("/teacher/daily-task-detail")
+    public String DetailCheckDailyTask(Model model, TaskVO vo) {
+        System.out.println("VO:-----------------------"+vo);
+        TaskVO task = taskService.getDetailTask(vo);
+        model.addAttribute("taskVO", task);
+        return "/teacher/daily-task-detail-check";
+    }
+
+
 }
 

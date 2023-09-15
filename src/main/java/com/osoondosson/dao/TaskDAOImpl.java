@@ -50,4 +50,12 @@ public class TaskDAOImpl implements TaskDAO {
         System.out.println("==> mybatis DeleteTask() 호출 ");
         mybatis.delete("deleteTask", taskSeq);
     }
+
+    /*교직원*/
+    @Override
+    public List<TaskVO> getTaskGroupSeq(String groupSeq) {
+        return mybatis.selectList("getTaskGroupSeq", groupSeq);
+    }
+
+
 }

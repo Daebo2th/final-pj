@@ -3,5 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.osoondosson.dao.ReplyDAO">
+    <insert id="insertReply">
+        INSERT INTO Reply (REPLY_SEQ, PARENT_REPLY, TASK_SEQ, REPLY_CONTENT,CREATE_DATE,REPLYER)
+        VALUES (reply_seq.nextval, 0, #{taskSeq}, #{replyContent}, current_timestamp, #{replyer})
+    </insert>
 
+    <select id="getReplyList" resultType="replyVO">
+        select * from Reply where task_seq=#{taskSeq}
+    </select>
 </mapper>
