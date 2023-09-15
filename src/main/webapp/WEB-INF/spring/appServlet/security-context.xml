@@ -31,7 +31,7 @@
         <security:session-management>
             <security:concurrency-control
                     max-sessions="1" expired-url="/auth/login"
-                    error-if-maximum-exceeded="true"
+                    error-if-maximum-exceeded="false"
             />
         </security:session-management>
 
@@ -47,8 +47,8 @@
 
 
         <!-- 자동 로그인 관련 쿠키 저장, 세션이 종료된 후에도 자동 로그인 할 수 있는 기능 -->
-        <!--        <security:remember-me key="userKey"-->
-        <!--                              token-validity-seconds="3600"/>-->
+        <security:remember-me key="remember-me"
+                              token-validity-seconds="3600"/>
 
     </security:http>
 <!--    <bean id="userDAOImpl" class="com.osoondosson.dao.user.UserDAOImpl" />-->

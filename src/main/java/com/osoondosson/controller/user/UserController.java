@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.net.URLDecoder;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +37,8 @@ public class UserController {
     // http://localhost:8080/auth/login
     //GET 요청
     @GetMapping("/auth/login")
-    public String loginForm(Model model) {
-        model.addAttribute("test", userService.getUser());
+    public String loginForm(Model model, Principal principal) {
+        model.addAttribute("user",principal.getName());
         return "auth/login";
     }
 

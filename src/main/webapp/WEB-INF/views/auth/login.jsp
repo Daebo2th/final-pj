@@ -279,9 +279,22 @@
         .w-5 {
             width: 50%;
         }
+        .remember{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        #remember-me{
+            width: auto;
+        }
     </style>
 </head>
 <body>
+${uset}
+<c:if test="${user!=null}">
+    <c:redirect url="/"/>
+</c:if>
 
 <c:if test="${param.fail == true}">
     <div>
@@ -354,6 +367,10 @@
             <span>or use your account</span>
             <input type="text" placeholder="Email" name="id"/>
             <input type="password" placeholder="Password" name="pwd"/>
+            <div class="remember">
+                <label for="remember-me" style>로그인 유지</label>
+                <input type="checkbox" id="remember-me" name="remember-me" />
+            </div>
             <a href="#">비밀번호를 잊어버리셧나요?</a>
             <button type="submit">로그인</button>
         </form>
