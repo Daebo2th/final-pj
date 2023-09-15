@@ -11,4 +11,8 @@
     <select id="getReplyList" resultType="replyVO">
         select * from Reply where task_seq=#{taskSeq}
     </select>
+
+    <delete id="deleteReply">
+        Delete from Reply where reply_seq=#{replySeq}
+    </delete>
 </mapper>

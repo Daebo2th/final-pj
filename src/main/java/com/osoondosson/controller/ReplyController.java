@@ -61,9 +61,21 @@ public class ReplyController {
         model.addAttribute("userId", principal.getName());
         System.out.println("taskSeq:"+ taskSeq);
         List<TaskVO> replyList = replyService.getReplyList(taskSeq);
-        System.out.println("replyList:"+replyList);
         return replyList;
     }
 
-
+    @GetMapping("/student/delete-reply")
+    @ResponseBody
+    public String deleteReply(@RequestParam("replySeq") int replySeq){
+        System.out.println("replySeq:--------------"+replySeq);
+        replyService.deleteReply(replySeq);
+        return null;
+    }
+    @GetMapping("/teacher/delete-reply")
+    @ResponseBody
+    public String deleteTeacherReply(@RequestParam("replySeq") int replySeq){
+        System.out.println("replySeq:--------------"+replySeq);
+        replyService.deleteReply(replySeq);
+        return null;
+    }
 }
