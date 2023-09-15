@@ -33,7 +33,7 @@ public class HomeController {
     public String accessDeniend(Authentication auth, Model model) {
         log.info("access Denied: "+ auth);
 
-        model.addAttribute("msg", "접속 권한이 없습니다.");
+        model.addAttribute("msg", "죄송합니다. 요청하신 페이지에 대한 접근 권한이 없습니다.");
 
         return "error/accessError";
     }

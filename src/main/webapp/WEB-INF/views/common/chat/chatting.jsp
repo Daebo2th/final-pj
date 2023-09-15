@@ -561,7 +561,7 @@
 
             const chatHtml = `
                 <li>
-                    <div>asd</div>
+                    <div>\${message}</div>
                 </li>`;
 
             $(".chat ul.chat_list").append(chatHtml);

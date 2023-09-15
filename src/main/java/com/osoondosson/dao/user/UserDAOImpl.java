@@ -76,4 +76,16 @@ public class UserDAOImpl implements UserDAO{
         System.out.println("userDAOIMPL만 까지 옴 ~~~~~~~~~~~~~~~~~~~~~~~");
         return mybatis.selectOne("getGroupSeqByUserId",userId);
     }
+
+    @Override
+    public UserVO read(String id) {
+        UserVO user = new UserVO();
+        try {
+            UserDAO dao = mybatis.getMapper(UserDAO.class);
+            user = dao.read(id);
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+        return user;
+    }
 }
