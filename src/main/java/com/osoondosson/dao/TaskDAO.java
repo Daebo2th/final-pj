@@ -18,4 +18,8 @@ public interface TaskDAO {
     public void updateTask(TaskVO vo);
 
     void deleteTask(int taskSeq);
+
+    /*교직원*/
+    List<TaskVO> getTaskGroupSeq(String groupSeq);
+
 }

@@ -24,7 +24,7 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="#">
+                    <a href="/student/daily-task">
                         <i class="bi bi-circle"></i><span>일일과제 작성</span>
                     </a>
                 </li>
@@ -142,7 +142,7 @@
             </a>
             <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="#">
+                    <a href="/teacher/daily-task-check">
                         <i class="bi bi-circle"></i><span>일일과제 현황</span>
                     </a>
                 </li>

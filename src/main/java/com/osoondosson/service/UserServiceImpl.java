@@ -27,4 +27,10 @@ public class UserServiceImpl implements UserService {
     public UserVO findById(String id) {
         return userDAO.findById(id);
     }
+
+    @Override
+    public String getGroupSeqByUserId(String userId) {
+        System.out.println("userService 까지 옴 ~~~~~~~~~~~");
+        return userDAO.getGroupSeqByUserId(userId);
+    }
 }

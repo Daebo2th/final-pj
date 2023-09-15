@@ -8,8 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ page import="com.fasterxml.jackson.core.JsonGenerator" %>
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 
@@ -83,7 +83,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>일일과제 상세보기 페이지</h1>
+        <h1>${taskVO.userId}의 일일과제 상세보기 페이지</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -162,7 +162,7 @@
         <section class="reply-form">
             <form id ="replyData" action="return false;">
                 <div>
-                    작성자 : <input id="replyer" type="text" value="<sec:authentication property='principal.username'/>">
+                    작성자 : <input id="replyer" type="text" value="<sec:authentication property="principal.username"/>">
                 </div>
                 <div>
                     내용 : <input id="replyContent" type="text">
@@ -189,7 +189,7 @@
                 <c:forEach var="reply" items="${replyList}">
                     <tr >
                         <!-- 댓글 번호 -->
-                            <%-- <td>${reply.replySeq}</td>--%>
+                       <%-- <td>${reply.replySeq}</td>--%>
                         <!-- 작성자 -->
                         <td>${reply.replyer}</td>
                         <!-- 내용 -->
@@ -200,7 +200,6 @@
             </table>
         </section>
     </div>
-
     <%--댓글 입력후 댓글목록 불러오는 ajax 요청--%>
     <script type="text/javascript">
         /****************댓글 목록 불러오기 **********************/
@@ -209,7 +208,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '/student/reply-list?taskSeq='+taskSeq,  // 실제 댓글 목록 API URL로 변경 필요
+                url: '/teacher/reply-list?taskSeq='+taskSeq,  // 실제 댓글 목록 API URL로 변경 필요
                 success: function(data) {
                     var userId = data.userId;
                     var tbody = $('#replyList tbody');
@@ -217,7 +216,7 @@
 
                     data.forEach(function(reply) {  // 각 댓글에 대해
                         var row = $('<tr>');  // 새 행 생성
-                        /* $('<td>').text(reply.replySeq).appendTo(row);*/
+                       /* $('<td>').text(reply.replySeq).appendTo(row);*/
                         $('<td>').text(reply.replyer).appendTo(row);
                         $('<td>').text(reply.replyContent).appendTo(row);
 
@@ -248,7 +247,7 @@
                     type:'post',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
-                    url:'/student/daily-task-reply',
+                    url:'/teacher/daily-task-reply',
                     success:function(result){
                         alert(result);
                         //화면 초기화
