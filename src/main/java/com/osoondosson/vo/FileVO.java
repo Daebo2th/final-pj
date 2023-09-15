@@ -17,5 +17,6 @@ public class FileVO {
     private long fileSize; // 파일크기
     private String fileType; // 파일타입
     private Date uploadDate; // 업로드 일시
+    private int status;
     private int groupSeq;
 }

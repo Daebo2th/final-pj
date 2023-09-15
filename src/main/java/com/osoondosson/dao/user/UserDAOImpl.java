@@ -71,11 +71,13 @@ public class UserDAOImpl implements UserDAO{
         return result;
     }
 
+
     @Override
     public String getGroupSeqByUserId(String userId) {
         System.out.println("userDAOIMPL만 까지 옴 ~~~~~~~~~~~~~~~~~~~~~~~");
         return mybatis.selectOne("getGroupSeqByUserId",userId);
     }
+
 
     @Override
     public UserVO read(String id) {
@@ -88,4 +90,12 @@ public class UserDAOImpl implements UserDAO{
         }
         return user;
     }
+
+	@Override
+	public void updateProfile(UserVO vo) {
+		System.out.println("==> mybatis updateProfile() 호출 ");
+		mybatis.update("updateProfile", vo);
+	}
+
+
 }
