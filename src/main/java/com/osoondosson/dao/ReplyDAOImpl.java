@@ -23,4 +23,9 @@ public class ReplyDAOImpl implements ReplyDAO{
     public List<TaskVO> getReplyList(int taskSeq) {
         return sqlSession.selectList("getReplyList", taskSeq);
     }
+
+    @Override
+    public void deleteReply(int replySeq) {
+        sqlSession.delete("deleteReply", replySeq);
+    }
 }

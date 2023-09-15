@@ -57,4 +57,9 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskVO> getTaskGroupSeq(String groupSeq) {
         return taskDAO.getTaskGroupSeq(groupSeq);
     }
+
+    @Override
+    public void updateStatus(TaskVO vo) {
+        taskDAO.updateStatus(vo);
+    }
 }

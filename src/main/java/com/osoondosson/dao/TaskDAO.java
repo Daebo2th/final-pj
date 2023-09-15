@@ -22,4 +22,5 @@ public interface TaskDAO {
     /*교직원*/
     List<TaskVO> getTaskGroupSeq(String groupSeq);
 
+    public void updateStatus(TaskVO vo);
 }

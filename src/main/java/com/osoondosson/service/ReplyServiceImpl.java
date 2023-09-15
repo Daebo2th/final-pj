@@ -25,4 +25,9 @@ public class ReplyServiceImpl implements ReplyService{
     public List<TaskVO> getReplyList(int taskSeq) {
         return replyDAO.getReplyList(taskSeq);
     }
+
+    @Override
+    public void deleteReply(int replySeq) {
+        replyDAO.deleteReply(replySeq);
+    }
 }

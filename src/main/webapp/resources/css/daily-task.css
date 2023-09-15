@@ -16,6 +16,8 @@ section.notice {
     text-align: center;
 }
 
+
+
 #board-search .search-window {
     padding: 15px 0;
     background-color: #f9f7f9;
@@ -266,7 +268,7 @@ a:link {
 /* 커스텀 */
 /* 반응형 레이아웃 */
 .con {
-    max-width: 950px;
+    max-width: 1500px;
 }
 
 .con-min-width {
@@ -366,7 +368,7 @@ html, body {
 }
 
 .reply {
-    margin-top:20px;
+    margin-top:50px;
     border:2px solid lightgray;
     padding:15px;
     box-sizing:border-box;
@@ -419,4 +421,7 @@ html, body {
     content:" : ";
     font-weight:bold;
 }
+
+/******************************************************************/
+
 
