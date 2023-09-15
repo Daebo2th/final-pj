@@ -18,6 +18,7 @@
         <typeAlias alias="userRoleVO" type="com.osoondosson.vo.UserRoleVO"/>
         <typeAlias alias="scheduleVO" type="com.osoondosson.vo.ScheduleVO"/>
         <typeAlias alias="todolistVO" type="com.osoondosson.vo.ToDoListVO"/>
+        <typeAlias alias="fileVO" type="com.osoondosson.vo.FileVO"/>
         <typeAlias alias="memberWithClassVO" type="com.osoondosson.vo.MemberWithClassVO"/>
 
     </typeAliases>
