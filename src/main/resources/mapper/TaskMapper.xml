@@ -14,6 +14,12 @@
 
     <select id="selectUserTaskList" resultType="taskVO" parameterType="hashmap">
         select * from Task where user_id = #{userId}
+        <if test="searchCondition == 'title'.toString()">
+            and title like '%' || #{searchKeyword} || '%'
+        </if>
+        <if test="searchCondition == 'createDate'.toString()">
+           and  to_char(create_date,'yyyy-MM-dd') = #{searchKeyword}
+        </if>
     </select>
 
     <select id="detailTask" resultType="taskVO">
@@ -22,7 +28,7 @@
 
     <update id="updateTask">
         UPDATE Task
-        SET title = #{title}, content = #{content}
+        SET title = #{title}, update_Date =current_timestamp, content = #{content}
         WHERE task_seq = #{taskSeq}
     </update>
 

@@ -62,4 +62,9 @@ public class TaskServiceImpl implements TaskService {
     public void updateStatus(TaskVO vo) {
         taskDAO.updateStatus(vo);
     }
+
+    @Override
+    public List<TaskVO> searchTaskList(String searchCondition, String searchKeyword, String createDate) {
+        return taskDAO.searchTaskList(searchCondition,searchKeyword,createDate);
+    }
 }

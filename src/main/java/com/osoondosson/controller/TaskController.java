@@ -14,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,14 +54,28 @@ public class TaskController {
         return "/student/daily-task-list"; /*일일과제 확인 페이지로 이동하기 위한 response를 ajax로 전달  */
     }
     /*학생이 작성한 일일과제 목록 보기 페이지*/
+
     @GetMapping("/student/daily-task-list")
-    public String DailyTaskList(Model model, Principal principal){
+    public String DailyTaskList(Model model,
+                                Principal principal,
+                                @RequestParam(value = "searchCondition", required = false) String searchCondition,
+                                @RequestParam(value = "searchKeyword", required = false) String searchKeyword){
+
+        List<TaskVO> taskUserList;
+        System.out.println(searchCondition+"------controller SearchCon");
+        System.out.println(searchKeyword+"--------controller Keyworkd");
+
         Map<String, String> map = new HashMap<>();
         map.put("userId", principal.getName());
-        List<TaskVO> taskUserList = taskService.getTaskUserList((HashMap) map);
-        model.addAttribute("taskUserList", taskService.getTaskUserList((HashMap) map));
+        map.put("searchCondition", searchCondition);
+        map.put("searchKeyword",searchKeyword);
+
+        taskUserList = taskService.getTaskUserList((HashMap) map);
+        model.addAttribute("taskUserList", taskUserList);
+
         return "/student/daily-task-list";
     }
+
     /*일일과제 상세 보기 페이지 */
     @GetMapping("/student/daily-task-detail")
     public String DetailDailyTask(Model model, TaskVO vo) {

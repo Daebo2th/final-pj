@@ -23,4 +23,6 @@ public interface TaskDAO {
     List<TaskVO> getTaskGroupSeq(String groupSeq);
 
     public void updateStatus(TaskVO vo);
+
+    List<TaskVO> searchTaskList(String searchCondition, String searchKeyword, String createDate);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Repository("taskDAO")
@@ -60,6 +61,15 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public void updateStatus(TaskVO vo) {
         mybatis.update("updateStatus",vo);
+    }
+
+    @Override
+    public List<TaskVO> searchTaskList(String searchCondition, String searchKeyword, String createDate) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("searchCondition",searchCondition);
+        map.put("searchKeyword",searchKeyword);
+        map.put("create_Date",createDate);
+        return  mybatis.selectList("searchTaskList", map);
     }
 
 

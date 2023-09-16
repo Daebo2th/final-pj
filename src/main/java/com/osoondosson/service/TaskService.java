@@ -22,4 +22,6 @@ public interface TaskService {
      List<TaskVO> getTaskGroupSeq(String groupSeq);
 
      void updateStatus(TaskVO vo);
+
+     List<TaskVO> searchTaskList(String searchCondition, String searchKeyword, String createDate);
 }

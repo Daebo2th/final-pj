@@ -33,21 +33,44 @@
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <style>
         .breadcrumb { background-color: white;}
     </style>
 
     <title>Hello, world!</title>
+
     <!-- jquery CDN -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <!-- moment.js -->
     <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
-    <!-- fullcalendar CDN -->
+
+   <!-- fullcalendar CDN -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
     <!-- fullcalendar 언어 CDN -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-item').click(function(e) {
+                e.preventDefault();
+                var value = $(this).attr('data-value');  // 선택한 항목의 'data-value' 속성값 가져오기
+                $('#searchCondition').val(value);  // 숨겨진 입력 필드에 값 설정하기
+
+                var text = $(this).text();  // 선택한 항목의 텍스트 가져오기
+                $('#dropdownMenuButton').text(text);  // '검색조건' 버튼의 텍스트 변경하기
+              /*  $("#dateInput").remove();   // 만약 이미 존재하는 date input이 있다면 제거*/
+                if (value === 'createDate') {  // 만약 '작성일'이 선택되었다면...
+                    $('#searchKeyword').attr('type', 'date');  // 검색어 입력 필드의 타입을 'date'로 변경
+                } else {
+                    $('#searchKeyword').attr('type', 'search');  // 그 외 경우에는 검색어 입력 필드의 타입을 원래대로 ('search') 복원
+
+                }
+            });
+        });
+    </script>
     <style>
         /* body 스타일 */
         html, body {
@@ -105,16 +128,29 @@
             <div id="board-search">
                 <div class="container">
                     <div class="search-window">
-                        <form action="">
-                            <div class="search-wrap">
-                                <label for="search" class="blind">공지사항 내용 검색</label>
-                                <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
-                                <button type="submit" class="btn btn-dark">검색</button>
+                        <form action="/student/daily-task-list" method="get">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">
+                                 검색조건
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" data-value="title">제목</a>
+                                    <a class="dropdown-item" data-value="createDate">작성일</a>
+                                </div>
                             </div>
+                             <input type='hidden' name='searchCondition' id='searchCondition'>
+
+                            <div class="search-wrap">
+                                <label for="searchKeyword" class="blind">내용 검색</label>
+                                <input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요." value="">
+
+                            </div>
+                            <button type="submit" class="btn btn-dark">검색</button>
                         </form>
                     </div>
                 </div>
             </div>
+
 
             <!-- board list area -->
             <div id="board-list">
@@ -130,20 +166,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${taskUserList}" var="dailyTask">
-                            <tr>
+                            <c:forEach items="${taskUserList}" var="dailyTask">
+                                <tr>
                                 <td>${dailyTask.taskSeq}</td>
                                 <td><a href="/student/daily-task-detail?taskSeq=${dailyTask.taskSeq}">${dailyTask.title}</td>
-                                <td><fmt:formatDate value="${dailyTask.createDate}" pattern="yyyy-MM-dd"/></td>
-                                <td><fmt:formatDate value="${dailyTask.updateDate}" pattern="yyyy-MM-dd"/></td>
+                                <td><fmt:formatDate value="${dailyTask.createDate}" pattern="yyyy-MM-dd hh:mm"/></td>
+                                <td><fmt:formatDate value="${dailyTask.updateDate}" pattern="yyyy-MM-dd hh:mm"/></td>
                                 <td>
                                     <span class="${dailyTask.status == '1' ? 'confirmed' : ''}">
                                          ${dailyTask.status == '1' ? '확인' : '미확인'}
                                     </span>
                                 </td>
-
-                            </tr>
-                        </c:forEach>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                    <%-- <button id="checkStatus" type="button" class="btn btn-dark">제출 확인 완료</button>--%>
@@ -151,6 +186,7 @@
             </div>
         </div>
     </section>
+
     <div class="w3-center">
         <ul class="w3-pagination">
             <li><a href="#">&laquo;</a></li>
