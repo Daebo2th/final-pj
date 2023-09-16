@@ -1,61 +1,57 @@
 package com.osoondosson.controller;
 
+
+import com.osoondosson.dao.FileDAO;
 import com.osoondosson.service.FileServiceImpl;
-import com.osoondosson.service.ImageUploadService;
+import com.osoondosson.service.S3FileService;
 import com.osoondosson.vo.FileVO;
 import com.osoondosson.vo.UploadResponse;
-import com.sun.mail.imap.protocol.Item;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriUtils;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.Redirect;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
-@RestController
+@Slf4j
+@Controller
 public class DriveController {
 
     @Autowired
     private FileServiceImpl fileService;
 
     @Autowired
+    private FileDAO fileDAO;
+
+    @Autowired
     private S3Client s3Client;
 
     @Autowired
-    private ImageUploadService imageUploadService;
+    private S3FileService s3FileService;
 
     // 파일 업로드 처리
     @PostMapping("/teacher/dataSharingRoom/upload")
-    public ResponseEntity<UploadResponse> uploadFile(@RequestParam("file") MultipartFile file, Principal principal, String userId) {
+    public String uploadFile(@RequestParam("file") MultipartFile file, Principal principal, String userId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userId = authentication.getName();
         Object details = authentication.getDetails();
         Object detailss = authentication.getPrincipal();
-        System.out.println("유저아이디:" + userId);
-        System.out.println("유저디테일:" + details);
-        System.out.println("유저프린시플:" + detailss);
+
         long fileSize = file.getSize();
         ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         buffer.putLong(fileSize);
@@ -106,8 +102,9 @@ public class DriveController {
                 fileVO.setFileType(file.getContentType());
             }
             System.out.println("파일 크기:" + file.getSize());
-            String result = imageUploadService.uploadFile(file);
-            return ResponseEntity.ok(new UploadResponse("success", result));
+            String result = s3FileService.uploadFile(file);
+
+            return "redirect:/teacher/dataSharingRoom";
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while uploading file", e);
         }
@@ -136,37 +133,42 @@ public class DriveController {
         }
         model.addAttribute("getName", principal.getName());
         model.addAttribute("list", list);
-        model.addAttribute("contentType", fileExtensionList);
+        //model.addAttribute("contentType", fileExtensionList);
         return model;
     }
 
-    // 다운로드
-//    @GetMapping("teacher/dataSharingRoom/download/{uuid}")
-//    @ResponseBody
-//    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String uuid) throws UnsupportedEncodingException {
-//        // UUID에 해당하는 파일을 데이터베이스에서 가져옵니다. (fileService에 해당 기능을 구현해야 합니다)
-//        FileVO fileVO = fileService.getFileByUUID(uuid);
+    // 파일 삭제
+    @PostMapping("/teacher/dataSharingRoom/delete")
+    @ResponseBody
+    public ResponseEntity<UploadResponse> deleteFile(@org.springframework.web.bind.annotation.RequestBody Map<String, String> formData,Principal principal) {
+        log.error(formData.get("uuid"));
+        // 각 사용자의 ID에 해당하는 서브 디렉토리에 파일이 저장되도록 키 값을 설정합니다.
+        String objectKey = "dataSharing/" + principal.getName() + "/" + formData.get("uploadName"); // 나중에 userId가 아닌 groupName으로
+        String url = "https://osdsbucket.s3.amazonaws.com/" + objectKey;
+        FileVO vo = new FileVO();
+        vo.setUuid(formData.get("uuid"));
+        // obj userId
+        // UUID를 사용하여 S3에서 파일 삭제
+        if(s3FileService.deleteFile2(objectKey)){
+            fileDAO.deleteImage(vo);
+        }
+        return ResponseEntity.ok(new UploadResponse("success", "성공했어요!"));
+    }
+
+//    @PostMapping("/myPage/fileDelete")
+//    public ResponseEntity<UploadResponse> deleteFile(Principal principal) {
+//        try {
 //
-//        long fileSize = fileVO.getFileSize();
-//        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-//        buffer.putLong(fileSize);
-//        byte[] fileSizeBytes = buffer.array();
-//
-//        // 파일의 내용을 ByteArrayResource로 만듭니다.
-//        ByteArrayResource resource = new ByteArrayResource(fileSizeBytes);
-//
-//        // Content-Disposition 헤더 생성
-//        String encodedFileName = UriUtils.encode(fileVO.getUploadName(), StandardCharsets.UTF_8);
-//        // 파일 다운로드를 위한 HTTP 응답 헤더를 설정합니다.
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"");
-//        headers.setContentLength(fileVO.getFileSize());
-//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//
-//        return ResponseEntity.ok()
-//                .headers(headers)
-//                .contentLength(fileVO.getFileSize())
-//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-//                .body(resource);
+//            UserVO vo = userService.findById(principal.getName());
+//            imageUploadService.deleteFile(vo);
+//            return ResponseEntity.noContent().build();
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.badRequest().body(new UploadResponse("error","No file associated with this user"));
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new UploadResponse("error","Error occurred while deleting file"));
+//        }
 //    }
+
+
+
 }

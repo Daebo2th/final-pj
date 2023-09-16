@@ -10,7 +10,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="#">
+            <a class="nav-link " href="/">
                 <i class="bi bi-grid"></i>
                 <span>대시보드</span>
             </a>
@@ -147,7 +147,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/teacher/dataSharingRoom">
                         <i class="bi bi-circle"></i><span>자료 공유실</span>
                     </a>
                 </li>
@@ -160,7 +160,7 @@
             </a>
             <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="#">
+                    <a href="/teacher/dataSharingRoom">
                         <i class="bi bi-circle"></i><span>자료 공유실</span>
                     </a>
                 </li>

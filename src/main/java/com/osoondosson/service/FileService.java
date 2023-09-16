@@ -14,5 +14,4 @@ public interface FileService {
 
     FileVO getFileByUUID(String uuid);
 
-    //Resource loadFileAsResource(HashMap map);
 }
