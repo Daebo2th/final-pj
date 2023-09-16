@@ -10,5 +10,13 @@
 	<update id="updateMyPage" parameterType="userVO">
     	update member set phone = #{phone}, addr1 = #{addr1} where user_id = #{userId}
 	</update>
+	
+	<update id="updatePassWord">
+		update member set user_pwd = #{userPwd} where user_id = #{userId}
+	</update>
+	
+	<select id="selectPassWord" resultType="String">
+		select user_pwd from member where user_id = #{userId} 
+	</select>
 
 </mapper>
