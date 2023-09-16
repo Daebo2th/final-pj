@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: KOSA
@@ -78,7 +79,8 @@
             font-size: 32px;
             color: #98a6ad;
             position: absolute;
-            right: 10px
+            right: 10px;
+            bottom: 20px;
         }
 
         .file-man-box .file-download:hover {
@@ -194,31 +196,32 @@
                                     </h6>
                                 </div>
                             </div>
-                            <c:set var="contentTypeArray" value="${['jpg', 'pdf', 'png', 'txt']}"/>
+
+                            <c:set var="contentTypeArray" value="${['jpg', 'pdf', 'png', 'txt', 'gif', 'html', 'js', 'json', 'md']}"/>
                             <%-- 어딘가에서 contentTypes 배열을 설정하거나 가져오는 코드 --%>
-                            <c:set var="contentTypes" value="${['jpg', 'pdf', 'png', 'png', 'txt']}"/>
+                            <c:set var="contentTypes" value="${['jpg', 'pdf', 'png', 'txt']}"/>
                             <div class="row">
                                 <c:forEach var="list" items="${list}">
-                                    <%--<c:forEach items="${contentTypes}" var="contentType">--%>
-                                    <%--<c:if test="${contentTypeArray.contains(contentType)}">--%>
+
+<%--                                    <c:forEach items="${contentTypes}" var="contentType">--%>
+<%--                                    <c:if test="${contentTypeArray.contains(contentType)}">--%>
                                     <div class="col-lg-3 col-xl-2">
-                                        <div class="file-man-box"><a href class="file-close"><i
+                                        <div class="file-man-box"><a href class="file-close" data-uuid="${list.uuid}" data-uploadname="${list.uploadName}"><i
                                                 class="fa fa-times-circle"></i></a>
 
-                                            <div class="file-img-box"><img
-                                                    src="https://coderthemes.com/highdmin/layouts/assets/images/file_icons/txt.svg"
-                                                    alt="icon"></div>
-                                            <a href="<c:url value="https://osdsbucket.s3.ap-northeast-2.amazonaws.com/dataSharing/${getName}/${list.uploadName}"/>"
+                                            <div class="file-img-box">
+                                                <i style="font-size: 100px;" class="bx bxs-file-${contentTypeArray.contains(fn:split(list.uploadName,'.')[1])?fn:split(list.uploadName,'.')[1]:'blank'}"></i>
+                                                <a href="<c:url value="https://osdsbucket.s3.ap-northeast-2.amazonaws.com/dataSharing/${getName}/${list.uploadName}"/>"
                                                class="file-download"><i class="fa fa-download"></i></a>
-
+                                            </div>
                                             <div class="file-man-title">
                                                 <h5 class="mb-0 text-overflow">${list.originName}</h5>
                                                 <p class="mb-0"><small></small></p>
                                             </div>
                                         </div>
                                     </div>
-                                    <%--</c:if>--%>
-                                    <%--</c:forEach>--%>
+<%--                                    </c:if>--%>
+<%--                                    </c:forEach>--%>
                                 </c:forEach>
                             </div>
 
@@ -231,6 +234,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="folder">
+            <!-- 이곳에 .file-man-box를 이동할 것입니다. -->
+
         </div>
     </section>
 
@@ -254,6 +261,73 @@
     $("#file").on('change', function () {
         var fileName = $("#file").val();
         $(".upload-name").val(fileName);
+    });
+
+    $(document).ready(function () {
+        // .file-close를 클릭했을 때
+        $(".file-close").click(function (e) {
+            let $this = $(this)
+            e.preventDefault();
+            var formData = {};
+            formData.uuid = $(this).data("uuid"); // 데이터 속성에서 UUID 추출
+            formData.uploadName = $(this).data("uploadname");
+            // console.log(uploadName)
+            // 서버에 삭제 요청 보내기
+            $.ajax({
+                type: "POST", // 또는 다른 HTTP 메서드 (GET, DELETE 등)
+                url: "/teacher/dataSharingRoom/delete", // 삭제 요청을 처리하는 서버 엔드포인트 URL
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    // 성공적으로 삭제되었을 때 실행할 코드
+                    if(data.status){
+                        console.log( data.message)
+                    }
+                    alert("파일이 성공적으로 삭제되었습니다.");
+                    // 클라이언트에서 파일을 DOM에서 제거 (선택적)
+                    $($this).closest(".file-man-box").remove();
+                },
+                error: function (error) {
+                    // 삭제 중 오류가 발생했을 때 실행할 코드
+                    console.error("파일 삭제 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".file-close").click(function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var formData = {};
+            formData.uuid = $this.data("uuid"); // 데이터 속성에서 UUID 추출
+            formData.uploadName = $this.data("uploadname");
+
+            // 새로운 폴더 요소를 선택합니다.
+            var $folder = $(".folder");
+
+            // .file-man-box를 새로운 폴더로 이동시킵니다.
+            $folder.append($this.closest(".file-man-box"));
+
+            // 서버에 삭제 요청 보내기
+            $.ajax({
+                type: "POST",
+                url: "/teacher/dataSharingRoom/delete",
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    if (data.status) {
+                        console.log(data.message);
+                    }
+                    alert("파일이 성공적으로 삭제되었습니다.");
+                    // 클라이언트에서 파일을 DOM에서 제거 (선택적)
+                    $this.closest(".file-man-box").remove();
+                },
+                error: function (error) {
+                    console.error("파일 삭제 중 오류가 발생했습니다.");
+                }
+            });
+        });
     });
 </script>
 </body>
