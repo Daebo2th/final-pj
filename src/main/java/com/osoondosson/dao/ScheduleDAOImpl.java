@@ -17,8 +17,8 @@ public class ScheduleDAOImpl implements ScheduleDAO{
 
 
     @Override
-    public List<Object> calendarList() {
-        return sqlSession.selectList("calendarList");
+    public List<Object> calendarList(String userId) {
+        return sqlSession.selectList("calendarList", userId);
     }
 
     @Override

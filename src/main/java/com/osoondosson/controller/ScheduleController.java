@@ -1,13 +1,17 @@
 package com.osoondosson.controller;
 
+import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.ScheduleServiceImpl;
 import com.osoondosson.vo.ScheduleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -21,8 +25,14 @@ public class ScheduleController {
 
     // 일정 조회
     @GetMapping("/schedule/main")
-    public String data(Model model) {
-        model.addAttribute("list",scheduleService.calendarList());
+    public String data(Model model, HttpServletRequest request, Authentication auth) {
+        CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
+        System.out.println("디테일" + detail.getName());
+        System.out.println("디테일" + detail.getUsername());
+        HttpSession session = request.getSession(); //
+        System.out.println("세션 : " + session);// 현재 요청의 세션 객체 얻기
+        model.addAttribute("list",scheduleService.calendarList(detail.getUsername()));
+        model.addAttribute("userId", detail.getUsername());
         return "/admin/schedule-management";
     }
 
@@ -32,17 +42,17 @@ public class ScheduleController {
     @ResponseBody
     public HashMap createSchedule(
             @RequestBody
-            ScheduleVO scheduleVO
+            ScheduleVO scheduleVO,
+            Authentication auth
             ) throws Exception {
-
+        CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
         System.out.println("데이터: " + scheduleVO);
 
         scheduleService.insertSchedule(scheduleVO);
 
         HashMap map = new HashMap<>();
         map.put("status","success");
-        map.put("list",scheduleService.calendarList());
-        System.out.println("리스트:"+scheduleService.calendarList());
+        map.put("list",scheduleService.calendarList(detail.getUsername()));
         return map;
     }
 
@@ -51,17 +61,17 @@ public class ScheduleController {
     @ResponseBody
     public HashMap updateSchedule (
             @RequestBody
-            ScheduleVO scheduleVO
+            ScheduleVO scheduleVO,
+            Authentication auth
     ) throws Exception {
-
+        CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
         System.out.println("데이터: " + scheduleVO);
 
         scheduleService.updateSchedule(scheduleVO);
 
         HashMap map = new HashMap<>();
         map.put("status","success");
-        map.put("list",scheduleService.calendarList());
-        System.out.println("리스트:"+scheduleService.calendarList());
+        map.put("list",scheduleService.calendarList(detail.getUsername()));
         return map;
     }
 
