@@ -10,8 +10,11 @@ public interface FileDAO {
 
     List<FileVO> selectFile(int groupSeq);
 
+    List<FileVO> getPathBySeq(int groupSeq);
+
+    int isFolder(String fileType);
+
     FileVO getFileByUUID(String uuid);
-    
     public void insertImage(FileVO vo);
-	public void deleteImage(FileVO vo);
+    public void deleteImage(FileVO vo);
 }
