@@ -20,9 +20,8 @@ public interface TaskDAO {
     void deleteTask(int taskSeq);
 
     /*교직원*/
-    List<TaskVO> getTaskGroupSeq(String groupSeq);
+    List<TaskVO> getTaskGroupSeq(HashMap map);
 
     public void updateStatus(TaskVO vo);
 
-    List<TaskVO> searchTaskList(String searchCondition, String searchKeyword, String createDate);
 }

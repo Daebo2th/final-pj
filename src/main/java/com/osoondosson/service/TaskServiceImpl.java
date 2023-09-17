@@ -54,8 +54,9 @@ public class TaskServiceImpl implements TaskService {
 
     /*교직원*/
     @Override
-    public List<TaskVO> getTaskGroupSeq(String groupSeq) {
-        return taskDAO.getTaskGroupSeq(groupSeq);
+    public List<TaskVO> getTaskGroupSeq(HashMap map) {
+        
+        return taskDAO.getTaskGroupSeq(map);
     }
 
     @Override
@@ -63,8 +64,4 @@ public class TaskServiceImpl implements TaskService {
         taskDAO.updateStatus(vo);
     }
 
-    @Override
-    public List<TaskVO> searchTaskList(String searchCondition, String searchKeyword, String createDate) {
-        return taskDAO.searchTaskList(searchCondition,searchKeyword,createDate);
-    }
 }

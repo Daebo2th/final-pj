@@ -64,6 +64,8 @@
               /*  $("#dateInput").remove();   // 만약 이미 존재하는 date input이 있다면 제거*/
                 if (value === 'createDate') {  // 만약 '작성일'이 선택되었다면...
                     $('#searchKeyword').attr('type', 'date');  // 검색어 입력 필드의 타입을 'date'로 변경
+                }else if (value === 'updateDate') {  // 만약 '작성일'이 선택되었다면...
+                    $('#searchKeyword').attr('type', 'date');  // 검색어 입력 필드의 타입을 'date'로 변경
                 } else {
                     $('#searchKeyword').attr('type', 'search');  // 그 외 경우에는 검색어 입력 필드의 타입을 원래대로 ('search') 복원
 
@@ -90,9 +92,34 @@
         .unconfirmed {
             color: green;
         }
-        .w3-pagination {
-            display: flex;
-            justify-content: center;
+        .center {
+            text-align: center;
+            font-family: monospace;
+        }
+
+        .pagination {
+            display: inline-block;
+        }
+
+        .pagination a {
+            color: #000000;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .5s;
+            border: 1px solid #DDD;
+            margin: 0 4px;
+            font-size: 20px;
+        }
+
+        .pagination a.active {
+            background-color: #0096FF;
+            color: #FFFFFF;
+            border: 1px solid #0096FF;
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: #DDD;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
@@ -136,6 +163,7 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" data-value="title">제목</a>
                                     <a class="dropdown-item" data-value="createDate">작성일</a>
+                                    <a class="dropdown-item" data-value="updateDate">수정일</a>
                                 </div>
                             </div>
                              <input type='hidden' name='searchCondition' id='searchCondition'>
@@ -187,16 +215,17 @@
         </div>
     </section>
 
-    <div class="w3-center">
-        <ul class="w3-pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li><a class="w3-green" href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
-        </ul>
+    <div class="center">
+        <div class="pagination">
+            <a href="#">&laquo;</a>
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">&raquo;</a>
+        </div>
     </div>
 
 </main>

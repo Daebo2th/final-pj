@@ -49,6 +49,25 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
     <!-- fullcalendar 언어 CDN -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-item').click(function(e) {
+                e.preventDefault();
+                var value = $(this).attr('data-value');  // 선택한 항목의 'data-value' 속성값 가져오기
+                $('#searchCondition').val(value);  // 숨겨진 입력 필드에 값 설정하기
+
+                var text = $(this).text();  // 선택한 항목의 텍스트 가져오기
+                $('#dropdownMenuButton').text(text);  // '검색조건' 버튼의 텍스트 변경하기
+                /*  $("#dateInput").remove();   // 만약 이미 존재하는 date input이 있다면 제거*/
+                if (value === 'createDate') {  // 만약 '작성일'이 선택되었다면...
+                    $('#searchKeyword').attr('type', 'date');  // 검색어 입력 필드의 타입을 'date'로 변경
+                } else {
+                    $('#searchKeyword').attr('type', 'search');  // 그 외 경우에는 검색어 입력 필드의 타입을 원래대로 ('search') 복원
+
+                }
+            });
+        });
+    </script>
     <style>
         /* body 스타일 */
         html, body {
@@ -62,9 +81,34 @@
             padding-left: 1em;
             padding-right: 1em;
         }
-        .w3-pagination {
-            display: flex;
-            justify-content: center;
+        .center {
+            text-align: center;
+            font-family: monospace;
+        }
+
+        .pagination {
+            display: inline-block;
+        }
+
+        .pagination a {
+            color: #000000;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .5s;
+            border: 1px solid #DDD;
+            margin: 0 4px;
+            font-size: 20px;
+        }
+
+        .pagination a.active {
+            background-color: #0096FF;
+            color: #FFFFFF;
+            border: 1px solid #0096FF;
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: #DDD;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
@@ -91,20 +135,32 @@
         <div id="contents">
             <div class="page-title">
                 <div class="container">
-                    <h3>대보2기 일일과제 목록 </h3>
+                    <h3> [반이름] 일일과제 목록 </h3>
                 </div>
             </div>
 
-            <!-- board seach area -->
             <div id="board-search">
                 <div class="container">
                     <div class="search-window">
-                        <form action="">
-                            <div class="search-wrap">
-                                <label for="search" class="blind">공지사항 내용 검색</label>
-                                <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
-                                <button type="submit" class="btn btn-dark">검색</button>
+                        <form action="/teacher/daily-task-check" method="get">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">
+                                    검색조건
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" data-value="title">제목</a>
+                                    <a class="dropdown-item" data-value="author">작성자</a>
+                                    <a class="dropdown-item" data-value="createDate">작성일</a>
+                                </div>
                             </div>
+                            <input type='hidden' name='searchCondition' id='searchCondition'>
+
+                            <div class="search-wrap">
+                                <label for="searchKeyword" class="blind">내용 검색</label>
+                                <input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요." value="">
+
+                            </div>
+                            <button type="submit" class="btn btn-dark">검색</button>
                         </form>
                     </div>
                 </div>
@@ -125,7 +181,7 @@
                         <tbody>
                             <c:forEach items="${groupTasks}" var="groupTasks">
                                 <tr>
-                                    <td>${groupTasks.userId}</td>
+                                    <td>${groupTasks.author}</td>
                                     <td><a href="/teacher/daily-task-detail?taskSeq=${groupTasks.taskSeq}">${groupTasks.title}</td>
                                     <td><fmt:formatDate value="${groupTasks.updateDate}" pattern="yyyy-MM-dd"/></td>
                                     <input type="hidden" name="taskSeq" value="${groupTasks.taskSeq}" />
@@ -141,16 +197,17 @@
             </div>
         </div>
     </section>
-    <div class="w3-center">
-        <ul class="w3-pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li><a class="w3-green" href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
-        </ul>
+    <div class="center">
+        <div class="pagination">
+            <a href="#">&laquo;</a>
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">&raquo;</a>
+        </div>
     </div>
 
 </main>

@@ -38,6 +38,7 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public List<TaskVO> getTaskList(HashMap map) {
+
         return mybatis.selectList("selectAllTask",map);
     }
 
@@ -54,8 +55,9 @@ public class TaskDAOImpl implements TaskDAO {
 
     /*교직원*/
     @Override
-    public List<TaskVO> getTaskGroupSeq(String groupSeq) {
-        return mybatis.selectList("getTaskGroupSeq", groupSeq);
+    public List<TaskVO> getTaskGroupSeq(HashMap map) {
+
+        return mybatis.selectList("getTaskGroupSeq", map);
     }
 
     @Override
@@ -63,14 +65,6 @@ public class TaskDAOImpl implements TaskDAO {
         mybatis.update("updateStatus",vo);
     }
 
-    @Override
-    public List<TaskVO> searchTaskList(String searchCondition, String searchKeyword, String createDate) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("searchCondition",searchCondition);
-        map.put("searchKeyword",searchKeyword);
-        map.put("create_Date",createDate);
-        return  mybatis.selectList("searchTaskList", map);
-    }
 
 
 }
