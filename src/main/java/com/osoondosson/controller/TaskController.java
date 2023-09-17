@@ -3,6 +3,7 @@ package com.osoondosson.controller;
 import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.TaskService;
 import com.osoondosson.service.UserService;
+import com.osoondosson.vo.ClassVO;
 import com.osoondosson.vo.TaskVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,10 +142,13 @@ public class TaskController {
 
         /*목록 출력*/
         List<TaskVO> groupTasks = taskService.getTaskGroupSeq((HashMap) map);
+
+
+
         System.out.println("groupTasks:------------------------------------"+groupTasks);
         model.addAttribute("groupTasks", groupTasks);
+        model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(groupSeq));
         return "/teacher/daily-task-check";
-
     }
 
     @GetMapping("/teacher/daily-task-detail")

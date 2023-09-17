@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupVO {
+public class ClassVO {
     private int groupSeq;
     private String groupName;
 }

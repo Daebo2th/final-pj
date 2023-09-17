@@ -1,6 +1,8 @@
 package com.osoondosson.service;
 
+import com.osoondosson.dao.TaskDAO;
 import com.osoondosson.dao.TaskDAOImpl;
+import com.osoondosson.vo.ClassVO;
 import com.osoondosson.vo.TaskVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import java.util.List;
 @Service("taskService")
 public class TaskServiceImpl implements TaskService {
     @Autowired
-    private TaskDAOImpl taskDAO;
+    private TaskDAO taskDAO;
     /*학생*/
     @Override
     public void insertTask(TaskVO vo) {
@@ -55,13 +57,18 @@ public class TaskServiceImpl implements TaskService {
     /*교직원*/
     @Override
     public List<TaskVO> getTaskGroupSeq(HashMap map) {
-        
+
         return taskDAO.getTaskGroupSeq(map);
     }
 
     @Override
     public void updateStatus(TaskVO vo) {
         taskDAO.updateStatus(vo);
+    }
+
+    @Override
+    public ClassVO getGroupInfoBygroupSeq(int groupSeq) {
+      return taskDAO.getGroupInfoBygroupSeq(groupSeq);
     }
 
 }

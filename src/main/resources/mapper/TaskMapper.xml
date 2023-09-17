@@ -62,4 +62,8 @@
         SET status = #{status}
         WHERE task_seq = #{taskSeq}
     </update>
+
+    <select id="getGroupInfoBygroupSeq" resultType="classVO">
+        select * from class where group_seq=#{group_seq}
+    </select>
 </mapper>

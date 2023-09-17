@@ -15,6 +15,7 @@
         <typeAlias alias="taskVO" type="com.osoondosson.vo.TaskVO"/>
         <typeAlias alias="replyVO" type="com.osoondosson.vo.ReplyVO"/>
         <typeAlias alias="userVO" type="com.osoondosson.vo.UserVO"/>
+        <typeAlias alias="classVO" type="com.osoondosson.vo.ClassVO"/>
         <typeAlias alias="userRoleVO" type="com.osoondosson.vo.UserRoleVO"/>
         <typeAlias alias="scheduleVO" type="com.osoondosson.vo.ScheduleVO"/>
         <typeAlias alias="todolistVO" type="com.osoondosson.vo.ToDoListVO"/>

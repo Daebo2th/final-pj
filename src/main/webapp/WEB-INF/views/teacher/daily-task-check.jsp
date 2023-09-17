@@ -135,7 +135,7 @@
         <div id="contents">
             <div class="page-title">
                 <div class="container">
-                    <h3> [반이름] 일일과제 목록 </h3>
+                    <h3> ${groupInfo.groupName} 일일과제 목록 </h3>
                 </div>
             </div>
 

@@ -1,5 +1,6 @@
 package com.osoondosson.dao;
 
+import com.osoondosson.vo.ClassVO;
 import com.osoondosson.vo.TaskVO;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -65,6 +66,10 @@ public class TaskDAOImpl implements TaskDAO {
         mybatis.update("updateStatus",vo);
     }
 
+    @Override
+    public ClassVO getGroupInfoBygroupSeq(int groupSeq) {
+        return mybatis.selectOne("getGroupInfoBygroupSeq", groupSeq);
+    }
 
 
 }

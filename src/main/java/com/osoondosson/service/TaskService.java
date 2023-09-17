@@ -1,5 +1,6 @@
 package com.osoondosson.service;
 
+import com.osoondosson.vo.ClassVO;
 import com.osoondosson.vo.TaskVO;
 
 import java.util.HashMap;
@@ -24,4 +25,5 @@ public interface TaskService {
 
      void updateStatus(TaskVO vo);
 
+     ClassVO getGroupInfoBygroupSeq(int groupSeq);
 }
