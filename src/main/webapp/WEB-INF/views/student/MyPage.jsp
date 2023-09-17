@@ -114,11 +114,6 @@
 
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab"
-										data-bs-target="#profile-settings">Settings</button>
-								</li>
-
-								<li class="nav-item">
-									<button class="nav-link" data-bs-toggle="tab"
 										data-bs-target="#profile-change-password">Change
 										Password</button>
 								</li>
@@ -263,59 +258,15 @@
 
 								</div>
 
-								<div class="tab-pane fade pt-3" id="profile-settings">
-
-									<!-- Settings Form -->
-									<form>
-
-										<div class="row mb-3">
-											<label for="fullName"
-												class="col-md-4 col-lg-3 col-form-label">Email
-												Notifications</label>
-											<div class="col-md-8 col-lg-9">
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox"
-														id="changesMade" checked> <label
-														class="form-check-label" for="changesMade">
-														Changes made to your account </label>
-												</div>
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox"
-														id="newProducts" checked> <label
-														class="form-check-label" for="newProducts">
-														Information on new products and services </label>
-												</div>
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox"
-														id="proOffers"> <label class="form-check-label"
-														for="proOffers"> Marketing and promo offers </label>
-												</div>
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox"
-														id="securityNotify" checked disabled> <label
-														class="form-check-label" for="securityNotify">
-														Security alerts </label>
-												</div>
-											</div>
-										</div>
-
-										<div class="text-center">
-											<button type="submit" class="btn btn-primary">Save
-												Changes</button>
-										</div>
-									</form>
-									<!-- End settings Form -->
-
-								</div>
-
 								<div class="tab-pane fade pt-3" id="profile-change-password">
 									<!-- Change Password Form -->
-									<form>
+									<form action="/changePw" method="POST" name="myPage-form"
+										onsubmit="return validateForm()">
 
 										<div class="row mb-3">
 											<label for="currentPassword"
 												class="col-md-4 col-lg-3 col-form-label">Current
-												Password</label>
+												Password </label>
 											<div class="col-md-8 col-lg-9">
 												<input name="password" type="password" class="form-control"
 													id="currentPassword">
@@ -389,100 +340,118 @@
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-</body>
+	<script>
+		let msg = '${message}';
+		if (msg != '') {
+			alert(msg)
+		}
+		function validateForm() {
+			var newPassword = document.getElementById("newPassword").value;
+			var renewPassword = document.getElementById("renewPassword").value;
 
-<script>
-	function updateMyPage() {
-		var phone = document.getElementById("Phone").value;
-		var addr1 = document.getElementById("Address").value;
-
-		$.ajax({
-			url : '/updateMyPage',
-			type : 'POST',
-			contentType : 'application/json',
-			data : JSON.stringify({
-				"phone" : phone,
-				"addr1" : addr1
-			}),
-			success : function(response) {
-				alert('수정완료')
-				console.log('Data sent successfully!');
-				location.href = "/student/MyPage"
-			},
-			error : function(xhr, status, error) {
-				alert('수정실패')
-				console.error('Error occurred while sending data:', error);
+			if (newPassword !== renewPassword) {
+				alert("새로운 비밀번호가 일치하지 않습니다.");
+				return false; // 폼 제출 중단
 			}
-		});
-	};
 
-	function uploadImage() {
-		var input = document.getElementById('fileData');
-		if (input.files.length == 0) {
-			input.click();
-			return;
+			return true; // 폼 제출 계속 진행
+		}
+		
+		function updateMyPage() {
+			var phone = document.getElementById("Phone").value;
+			var addr1 = document.getElementById("Address").value;
+
+			$.ajax({
+				url : '/updateMyPage',
+				type : 'POST',
+				contentType : 'application/json',
+				data : JSON.stringify({
+					"phone" : phone,
+					"addr1" : addr1
+				}),
+				success : function(response) {
+					alert('수정완료')
+					console.log('Data sent successfully!');
+					location.href = "/student/MyPage"
+				},
+				error : function(xhr, status, error) {
+					alert('수정실패')
+					console.error('Error occurred while sending data:', error);
+				}
+			});
+		};
+
+		function uploadImage() {
+			var input = document.getElementById('fileData');
+			if (input.files.length == 0) {
+				input.click();
+				return;
+			}
+
+			var file = input.files[0];
+			var formData = new FormData();
+			formData.append("fileData", file);
+
+			$
+					.ajax({
+						url : '/myPage/fileUpload',
+						type : 'POST',
+						data : formData,
+						processData : false,
+						contentType : false,
+						success : function(data) {
+							// If the server returns a string (URL), log it directly.
+							if (data) {
+								console.log("File uploaded successfully. URL: "
+										+ data);
+							} else {
+								console
+										.error("Error occurred while uploading file");
+							}
+
+							// Clear the selected file
+							input.value = '';
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							console.error('Error:', textStatus);
+
+							// Clear the selected file
+							input.value = '';
+						}
+					});
 		}
 
-		var file = input.files[0];
-		var formData = new FormData();
-		formData.append("fileData", file);
+		function deleteImage() {
 
-		$.ajax({
-			url : '/myPage/fileUpload',
-			type : 'POST',
-			data : formData,
-			processData : false,
-			contentType : false,
-			success : function(data) {
-				// If the server returns a string (URL), log it directly.
-				if (data) {
-					console.log("File uploaded successfully. URL: " + data);
-				} else {
-					console.error("Error occurred while uploading file");
+			$.ajax({
+				url : '/myPage/fileDelete',
+				type : 'POST',
+				success : function(response) {
+					var profileImg = document.getElementById("profileImage");
+					profileImg.src = "/resources/img/profile-img.jpg";
+				},
+				error : function(xhr, status, error) {
+					var errorMessage = xhr.status + ': ' + xhr.statusText;
+					alert('Error - ' + errorMessage);
+					// 필요하다면 여기에서 에러가 발생했을 때의 동작을 추가하세요.
 				}
-
-				// Clear the selected file
-				input.value = '';
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				console.error('Error:', textStatus);
-
-				// Clear the selected file
-				input.value = '';
-			}
-		});
-	}
-
-	function deleteImage() {
-
-		$.ajax({
-			url : '/myPage/fileDelete',
-			type : 'POST',
-			success : function(response) {
-				var profileImg = document.getElementById("profileImage");
-				profileImg.src = "/resources/img/profile-img.jpg";
-			},
-			error : function(xhr, status, error) {
-				var errorMessage = xhr.status + ': ' + xhr.statusText;
-				alert('Error - ' + errorMessage);
-				// 필요하다면 여기에서 에러가 발생했을 때의 동작을 추가하세요.
-			}
-		});
-	};
-
-	document.getElementById('fileData').addEventListener(
-			'change',
-			function(event) {
-				var file = event.target.files[0];
-				var reader = new FileReader();
-
-				reader.onload = function(e) {
-					var profileImageElement = document
-							.getElementById('profileImage');
-					profileImageElement.src = e.target.result;
-				};
-
-				reader.readAsDataURL(file);
 			});
-</script>
+		};
+
+		document.getElementById('fileData').addEventListener(
+				'change',
+				function(event) {
+					var file = event.target.files[0];
+					var reader = new FileReader();
+
+					reader.onload = function(e) {
+						var profileImageElement = document
+								.getElementById('profileImage');
+						profileImageElement.src = e.target.result;
+					};
+
+					reader.readAsDataURL(file);
+				});
+	</script>
+</body>
 </html>
