@@ -9,10 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import com.osoondosson.vo.FileVO;
 
 @Repository
 public class FileDAOImpl implements FileDAO{
@@ -34,6 +30,11 @@ public class FileDAOImpl implements FileDAO{
     }
 
     @Override
+    public int isFolder(String fileType) {
+        return sqlSession.selectOne("isFolder", fileType);
+    }
+
+    @Override
     public FileVO getFileByUUID(String uuid) {
         return sqlSession.selectOne("getFileByUUID",uuid);
     }
@@ -49,5 +50,11 @@ public class FileDAOImpl implements FileDAO{
 		System.out.println("==> mybatis deleteImage() 호출 ");
 		mybatis.delete("deleteImage", vo);
 	}
+
+    @Override
+    public List<FileVO> getPathBySeq(int groupSeq) {
+        return sqlSession.selectList("getPathBySeq", groupSeq);
+    }
+
 
 }

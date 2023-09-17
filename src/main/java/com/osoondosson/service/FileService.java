@@ -12,6 +12,9 @@ public interface FileService {
 
     List<FileVO> selectFile(int groupSeq);
 
+
     FileVO getFileByUUID(String uuid);
+
+    int isFolder(String fileType);
 
 }
