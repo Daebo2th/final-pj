@@ -15,12 +15,11 @@
 
         <security:csrf disabled="true"/>
         <!-- 인터셉터 설정 -->
-        <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <security:intercept-url pattern="/teacher/**" access="hasRole('ROLE_ADMIN')"/>
-        <security:intercept-url pattern="/auth/**" access="permitAll"/>
-        <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <security:intercept-url pattern="/student/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
-        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_GUEST','ROLE_USER','ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/auth/*" access="permitAll"/>
+        <security:intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/teacher/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/student/*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/*" access="hasAnyRole('ROLE_GUEST','ROLE_USER','ROLE_ADMIN')"/>
 
         <!-- 로그인폼 -->
         <security:form-login login-page="/auth/login"

@@ -117,6 +117,7 @@
 													<h6>Filter</h6>
 												</li>
 
+<<<<<<< HEAD
 												<li><a class="dropdown-item" href="#">Today</a></li>
 												<li><a class="dropdown-item" href="#">This Month</a></li>
 												<li><a class="dropdown-item" href="#">This Year</a></li>
@@ -350,10 +351,6 @@
 												<hr>
 											</div>
 											<!-- End activity item-->
-
-
-											<!-- End activity item-->
-
 										</div>
 									</c:forEach>
 								</div>

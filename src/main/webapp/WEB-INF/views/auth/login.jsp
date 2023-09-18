@@ -179,7 +179,7 @@
         }
 
         .overlay {
-            background: #005B23;
+            background: #3CB371;
             /*background: -webkit-linear-gradient(to right, #005B23, #003050);*/
             /*background: linear-gradient(to right, #005B23, #003050);*/
             background-repeat: no-repeat;

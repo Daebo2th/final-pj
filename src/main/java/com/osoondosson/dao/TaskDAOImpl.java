@@ -1,5 +1,7 @@
 package com.osoondosson.dao;
 
+import com.osoondosson.vo.ClassVO;
+import com.osoondosson.vo.PagingVO;
 import com.osoondosson.vo.TaskVO;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Repository("taskDAO")
@@ -37,6 +40,7 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public List<TaskVO> getTaskList(HashMap map) {
+
         return mybatis.selectList("selectAllTask",map);
     }
 
@@ -53,13 +57,29 @@ public class TaskDAOImpl implements TaskDAO {
 
     /*교직원*/
     @Override
-    public List<TaskVO> getTaskGroupSeq(String groupSeq) {
-        return mybatis.selectList("getTaskGroupSeq", groupSeq);
+    public List<TaskVO> getTaskGroupSeq(HashMap map) {
+
+        return mybatis.selectList("getTaskGroupSeq", map);
     }
 
     @Override
     public void updateStatus(TaskVO vo) {
         mybatis.update("updateStatus",vo);
+    }
+
+    @Override
+    public ClassVO getGroupInfoBygroupSeq(int groupSeq) {
+        return mybatis.selectOne("getGroupInfoBygroupSeq", groupSeq);
+    }
+
+    @Override
+    public int countTasks(Map map) {
+        return mybatis.selectOne("countStuTask", map);
+    }
+
+    @Override
+    public int countGroupSeqTasks(Map map) {
+        return mybatis.selectOne("countGroupSeqTasks", map);
     }
 
 

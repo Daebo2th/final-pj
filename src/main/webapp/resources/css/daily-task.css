@@ -17,21 +17,23 @@ section.notice {
 }
 
 
-
 #board-search .search-window {
+    display: flex !important;
+    justify-content: flex-start;
     padding: 15px 0;
     background-color: #f9f7f9;
 }
 #board-search .search-window .search-wrap {
     position: relative;
     /*   padding-right: 124px; */
+    display:flex;
     margin: 0 auto;
     width: 80%;
     max-width: 564px;
 }
 #board-search .search-window .search-wrap input {
     height: 40px;
-    width: 100%;
+    width: 2000px;
     font-size: 14px;
     padding: 7px 14px;
     border: 1px solid #ccc;
@@ -170,7 +172,7 @@ section.notice {
     margin: 0 auto;
 }
 .blind {
-    position: absolute;
+  /*  position: absolute;*/
     overflow: hidden;
     clip: rect(0 0 0 0);
     margin: -1px;

@@ -1,9 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
@@ -17,6 +12,38 @@
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
 </footer><!-- End Footer -->
+<!-- sock js -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+<!-- STOMP -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="/resources/js/moment.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/chatting.js"></script>
+<script>
+    const info = (function () {
+        let nickname = "${principal.name}";
+        let roomNumber = "";
 
-</body>
-</html>
+        const getNickname = function () {
+            return nickname;
+        }
+
+        // const setNickname = function (set) {
+        //   nickname = set;
+        // }
+
+        const getRoomNumber = function () {
+            return roomNumber;
+        }
+
+        const setRoomNumber = function (set) {
+            roomNumber = set;
+        }
+        return {
+            getNickname: getNickname, // setNickname: setNickname,
+            getRoomNumber: getRoomNumber, setRoomNumber: setRoomNumber,
+        }
+    })();
+</script>
+

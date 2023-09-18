@@ -9,6 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskVO {
+    private int rownum;
     private int taskSeq;
     private String userId; // 로그인한 userId 값
     private String author;

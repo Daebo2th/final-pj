@@ -197,7 +197,7 @@
           </div>
           <div class="form-group">
             <label for="author">Author</label>
-            <input id="author" type="text" class="form-control" value="테스터1" readonly="false">
+            <input id="author" type="text" class="form-control" value="${userName}" readonly="false">
           </div>
           <div class="form-group">
             <label for="userid">UserId</label>
