@@ -1,6 +1,7 @@
 package com.osoondosson.dao;
 
 import com.osoondosson.vo.ClassVO;
+import com.osoondosson.vo.PagingVO;
 import com.osoondosson.vo.TaskVO;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -69,6 +70,16 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public ClassVO getGroupInfoBygroupSeq(int groupSeq) {
         return mybatis.selectOne("getGroupInfoBygroupSeq", groupSeq);
+    }
+
+    @Override
+    public int countTasks(Map map) {
+        return mybatis.selectOne("countStuTask", map);
+    }
+
+    @Override
+    public int countGroupSeqTasks(Map map) {
+        return mybatis.selectOne("countGroupSeqTasks", map);
     }
 
 
