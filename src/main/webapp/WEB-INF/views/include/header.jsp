@@ -1,7 +1,11 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authentication property="principal" var="principal" />
+
 <html>
 <head>
-    <title>Title</title>
+    <title>dd</title>
   <style>
     .card-bordered {
       border: 1px solid #ebebeb;
@@ -313,7 +317,6 @@
 <body>
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
-
   <div class="d-flex align-items-center justify-content-between">
     <a href="/" class="logo d-flex align-items-center">
       <img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
@@ -539,8 +542,8 @@
       <li class="nav-item dropdown pe-3">
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="${mypage.profile == null ? '/resources/img/profile-img.jpg':('https://osdsbucket.s3.amazonaws.com/osds/'+=mypage.userId += '/' += mypage.profile) }" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2">${mypage.name }</span>
+          <img src="${principal.profile == null ? '/resources/img/profile-img.jpg':('https://osdsbucket.s3.amazonaws.com/osds/'+= principal.username+= '/'+=principal.profile) }" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2">${principal.name}</span>
         </a><!-- End Profile Iamge Icon -->
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -563,7 +566,7 @@
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
+            <a class="dropdown-item d-flex align-items-center" href="/auth/logout">
               <i class="bi bi-box-arrow-right"></i>
               <span>Sign Out</span>
             </a>
