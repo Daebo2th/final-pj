@@ -1,145 +1,403 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+<title>JSP - Hello World</title>
 
-    <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
-    <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
+<!-- Favicons -->
+<link
+	href="${pageContext.request.contextPath}/resources/img/favicon.png"
+	rel="icon">
+<link
+	href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png"
+	rel="apple-touch-icon">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
 
-    <!-- Vendor CSS Files -->
-    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css"
-          rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/simple-datatables/style.css" rel="stylesheet">
+<!-- Vendor CSS Files -->
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/simple-datatables/style.css"
+	rel="stylesheet">
 
-    <!-- Template Main CSS File -->
-    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+<!-- Template Main CSS File -->
+<link href="${pageContext.request.contextPath}/resources/css/style.css"
+	rel="stylesheet">
 
-    <style>
-        #container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- moment.js -->
+<script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
 
-        .col-xl-12 {
-            margin-left: auto; /* 컨텐츠 영역을 오른쪽으로 밀어내기 */
-            transition: margin-left 0.3s; /* 부드러운 이동 효과를 위한 트랜지션 설정 */
-        }
-    </style>
+<style>
+#container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.col-xl-12 {
+	margin-left: auto; /* 컨텐츠 영역을 오른쪽으로 밀어내기 */
+	transition: margin-left 0.3s; /* 부드러운 이동 효과를 위한 트랜지션 설정 */
+}
+</style>
 </head>
 <body>
-<%@include file="include/header.jsp" %>
-<%@include file="include/aside.jsp" %>
-<c:if test="${user[0] != null}">
-    <c:choose>
-        <c:when test="${user[0] == 'ROLE_ADMIN'}">
-            <%--            <c:redirect url="/teacher" />--%>
-        </c:when>
-        <c:when test="${user[0] == 'ROLE_USER'}">
-            <%--            <c:redirect url="/student" />--%>
-        </c:when>
-        <c:when test="${user[0] == 'ROLE_GUEST'}">
+	<%@include file="include/header.jsp"%>
+	<%@include file="include/aside.jsp"%>
+	<%-- <c:if test="${user[0] != null}">
+		<c:choose>
+			<c:when test="${user[0] == 'ROLE_ADMIN'}">
+				           <c:redirect url="/teacher" />
+			</c:when>
+			<c:when test="${user[0] == 'ROLE_USER'}">
+				           <c:redirect url="/student" />
+			</c:when>
+			<c:when test="${user[0] == 'ROLE_GUEST'}">
 
-        </c:when>
-    </c:choose>
-</c:if>
+			</c:when>
+		</c:choose>
+	</c:if> --%>
 
-<main id="main" class="main">
+	<main id="main" class="main">
 
-    <div class="pagetitle">
-        <h1>Main</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active">Main</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+		<div class="pagetitle">
+			<h1>Main</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/">Home</a></li>
+					<li class="breadcrumb-item active">Main</li>
+				</ol>
+			</nav>
+		</div>
+		<!-- End Page Title -->
 
-    <section class="section">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body pt-3">
-                        <div id="container">
-                            <h1><%= "Hello World!" %>
-                            </h1>
-                            <br/>
+		<section class="section">
+			<div class="row">
+				<section class="section dashboard">
+					<div class="row">
 
-                            <a href="hello-servlet">Hello Servlet</a>
+						<!-- Left side columns -->
+						<div class="col-lg-8">
+							<div class="row">
 
-                            <table border="1" align="center" style="width: 30%;">
-                                <thead>
-                                <tr>
-                                    <th>아이디</th>
-                                    <th>비번</th>
-                                    <th>가입일</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="list" items="${test}">
-                                    <tr>
-                                        <td>${list.userId}</td>
-                                        <td>${list.userPwd}</td>
-                                        <td>${list.regDate}</td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                            <a href="/auth/logout">로그아웃</a>
+								<!-- Sales Card -->
+								<div class="col-xxl-4 col-md-6">
+									<div class="card info-card sales-card">
 
-                            <hr>
+										<div class="filter">
+											<a class="icon" href="#" data-bs-toggle="dropdown"><i
+												class="bi bi-three-dots"></i></a>
+											<ul
+												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+												<li class="dropdown-header text-start">
+													<h6>Filter</h6>
+												</li>
 
-                            <a href="/schedule/main">일정관리 페이지</a>
-                            <a href="/admin/student-record">학생기록부 페이지</a>
-                            <a href="/admin/student-detail">학생 상세 정보</a>
-                            <a href="/student/todolist">칸반보드</a>
-                            <a href="/student/daily-task">학생 일일과제 작성 페이지</a>
-                            <hr>
-                            <a href="/student/SMain"> 학생 LayoutForm</a>
-                            <a href="teacher/TMain"> 교직원 LayoutForm</a>
-                            <a href="/index2.jsp">UI 예시</a>
-                            <a href="/chat/main">채팅</a>
-                            <a href="/teacher/dataSharingRoom">자료공유실</a>
-                            <a href="/student/MyPage">마이페이지</a>
+<<<<<<< HEAD
+												<li><a class="dropdown-item" href="#">Today</a></li>
+												<li><a class="dropdown-item" href="#">This Month</a></li>
+												<li><a class="dropdown-item" href="#">This Year</a></li>
+											</ul>
+										</div>
+
+										<div class="card-body">
+											<h5 class="card-title">
+												Sales <span>| Today</span>
+											</h5>
+
+											<div class="d-flex align-items-center">
+												<div
+													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+													<i class="bi bi-cart"></i>
+												</div>
+												<div class="ps-3">
+													<h6>145</h6>
+													<span class="text-success small pt-1 fw-bold">12%</span> <span
+														class="text-muted small pt-2 ps-1">increase</span>
+
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<!-- End Sales Card -->
+
+								<!-- Revenue Card -->
+								<div class="col-xxl-4 col-md-6">
+									<div class="card info-card revenue-card">
+
+										<div class="filter">
+											<a class="icon" href="#" data-bs-toggle="dropdown"><i
+												class="bi bi-three-dots"></i></a>
+											<ul
+												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+												<li class="dropdown-header text-start">
+													<h6>Filter</h6>
+												</li>
+
+												<li><a class="dropdown-item" href="#">Today</a></li>
+												<li><a class="dropdown-item" href="#">This Month</a></li>
+												<li><a class="dropdown-item" href="#">This Year</a></li>
+											</ul>
+										</div>
+
+										<div class="card-body">
+											<h5 class="card-title">
+												Revenue <span>| This Month</span>
+											</h5>
+
+											<div class="d-flex align-items-center">
+												<div
+													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+													<i class="bi bi-currency-dollar"></i>
+												</div>
+												<div class="ps-3">
+													<h6>$3,264</h6>
+													<span class="text-success small pt-1 fw-bold">8%</span> <span
+														class="text-muted small pt-2 ps-1">increase</span>
+
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<!-- End Revenue Card -->
+
+								<!-- Customers Card -->
+								<div class="col-xxl-4 col-xl-12">
+
+									<div class="card info-card customers-card">
+
+										<div class="filter">
+											<a class="icon" href="#" data-bs-toggle="dropdown"><i
+												class="bi bi-three-dots"></i></a>
+											<ul
+												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+												<li class="dropdown-header text-start">
+													<h6>Filter</h6>
+												</li>
+
+												<li><a class="dropdown-item" href="#">Today</a></li>
+												<li><a class="dropdown-item" href="#">This Month</a></li>
+												<li><a class="dropdown-item" href="#">This Year</a></li>
+											</ul>
+										</div>
+
+										<div class="card-body">
+											<h5 class="card-title">
+												학생수 <span>| This Year</span>
+											</h5>
+
+											<div class="d-flex align-items-center">
+												<div
+													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+													<i class="bi bi-people"></i>
+												</div>
+												<div class="ps-3">
+													<h6 id="userCount">${user }명</h6>
+													<span class="text-danger small pt-1 fw-bold">12%</span> <span
+														class="text-muted small pt-2 ps-1">decrease</span>
+
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+								<!-- End Customers Card -->
+
+								<!-- Reports -->
+								<div class="col-12">
+									<div class="card">
+
+										<div class="filter">
+											<a class="icon" href="#" data-bs-toggle="dropdown"><i
+												class="bi bi-three-dots"></i></a>
+											<ul
+												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+												<li class="dropdown-header text-start">
+													<h6>Filter</h6>
+												</li>
+
+												<li><a class="dropdown-item" href="#">Today</a></li>
+												<li><a class="dropdown-item" href="#">This Month</a></li>
+												<li><a class="dropdown-item" href="#">This Year</a></li>
+											</ul>
+										</div>
+
+										<div class="card-body">
+											<h5 class="card-title">
+												과제 제출 현황 <span>/Today</span>
+											</h5>
+
+											<!-- Line Chart -->
+											<div id="reportsChart"></div>
+
+											<script>
+											document.addEventListener("DOMContentLoaded", () => {
+											    var options = {
+											        series: [{
+											            name: '과제제출수',
+											            data: [
+											                <c:forEach var="count" items="${count}" varStatus="status">
+											                    ${count.COUNT}<c:if test="${!status.last}">,</c:if>
+											                </c:forEach>
+											            ],
+											        }],
+											        chart:{
+											            height:350,
+											            type:'bar',
+											            toolbar:{ show:true },
+											        },
+											        colors:['#008ffb','#00e396','#feb019','#ff4560','#775dd0','#546e7a','#26a69a','#d10ce8'],
+											        plotOptions:{
+											          bar:{
+											              columnWidth:'45%',
+											              distributed:true,
+											          }
+											      },
+											      dataLabels:{ enabled:false },
+											      legend:{ show:false },
+											      xaxis:{
+											           categories:[
+											               <c:forEach var="count" items="${count}" varStatus="status">
+											                   "${count.NAME}"<c:if test="${!status.last}">,</c:if>
+											               </c:forEach>
+											           ],
+											           labels:{
+											               style:{
+											                   colors:['#008ffb', '#00e396', '#feb019', '#ff4560', '#775dd0', '#546e7a', '#26a69a', '#d10ce8'],
+											                   fontSize:'12px'
+											               }
+											           }
+											       }
+											    };
+
+											    var chart = new ApexCharts(document.querySelector("#reportsChart"), options);
+											    chart.render();
+											});
+
+                  </script>
+											<!-- End Line Chart -->
+
+										</div>
+
+									</div>
+								</div>
+								<!-- End Reports -->
+
+							</div>
+						</div>
+						<div class="col-lg-4">
+
+							<!-- Recent Activity -->
+							<div class="card">
+								<div class="filter">
+									<a class="icon" href="#" data-bs-toggle="dropdown"><i
+										class="bi bi-three-dots"></i></a>
+									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+										<li class="dropdown-header text-start">
+											<h6>Filter</h6>
+										</li>
+
+										<li><a class="dropdown-item" href="#">Today</a></li>
+										<li><a class="dropdown-item" href="#">This Month</a></li>
+										<li><a class="dropdown-item" href="#">This Year</a></li>
+									</ul>
+								</div>
+
+								<div class="card-body">
+									<h5 class="card-title">
+										미확인 과제 <span>| Today</span>
+									</h5>
+									<c:forEach items="${noCount }" var="noCount">
+										<div class="activity">
+
+											<div class="activity-item d-flex">
+												<div class="activite-label">${noCount.CREATE_DATE }</div>
+												<i
+													class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+												<div class="activity-content">
+													<a href="/teacher/daily-task-check" class="fw-bold text-dark">${noCount.NAME }</a>
+													${noCount.TITLE }
+												</div>
+												<hr>
+											</div>
+											<!-- End activity item-->
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+							<!-- End Recent Activity -->
+						</div>
+					</div>
+
+				</section>
+			</div>
+
+		</section>
+
+	</main>
 
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+	<%@include file="include/footer.jsp"%>
 
-</main>
+	<!-- Vendor JS Files -->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/chart.js/chart.umd.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/echarts/echarts.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
 
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function(){
+        moment.locale('ko');  // 한국어로 설정
 
-<%@include file="include/footer.jsp" %>
+        $(".activite-label").each(function(i,obj) {
+            var dateText = $(obj).text().trim();
+            var date = moment(dateText, "YYYYMMDDHHmmss").fromNow();
+            $(obj).text(date);
+        });
+    }); 
+</script>
 
-<!-- Vendor JS Files -->
-<script src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/chart.umd.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/echarts/echarts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
-
-<!-- Template Main JS File -->
-<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 </html>

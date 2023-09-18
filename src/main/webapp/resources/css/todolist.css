@@ -5,7 +5,6 @@ html {
 }
 
 body {
-	background-color: aliceblue;
 	color: #FFF;
 }
 
@@ -18,13 +17,13 @@ body {
 .board {
 	background: #fff;
 	margin: 0 16px;
-	border: 3px solid #015F23;
+	border: 3px solid #012970;
 	border-radius: 4px;
 }
 
 .board h3 {
 	padding: 5%;
-	color: seagreen;
+	color: #012970;
 	float: left;
 	font-weight: 900;
 }
@@ -37,11 +36,10 @@ body {
 
 .card {
 	padding: 5%;
-	box-shadow: 0 3px 3px -1px #015F23;
+	box-shadow: 0 3px 3px -1px #012970;
 	width: 100%;
 	margin-top: 10%;
-	border-radius: 5px;
-	background: darkseagreen;
+	background: aliceblue;
 	font-weight: 600;
 	font-size: 20px;
 }
@@ -98,4 +96,13 @@ body {
 .btn-outline-success {
 	float: right;
 	transform: translate(-30%, 35%);
+	color: #012970;
+    background-color: transparent;
+    background-image: none;
+    border-color: #012970;
+}
+
+.btn-outline-success:hover {
+    background-color: #012970;
+    border-color: #012970;
 }
