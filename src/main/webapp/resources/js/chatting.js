@@ -8,7 +8,7 @@ $(document).ready(function () {
         let listHtml = "";
         $.each(roomList, function (index, obj) {
             listHtml += `
-				<li data-room_number=\${obj.roomNumber}>
+				<li data-room_number=${obj.roomNumber}>
                     <span class="chat_title">${obj.roomName }</span>
                     <span class="chat_count">${obj.users.length}명</span>
 	            </li>`;
@@ -75,30 +75,7 @@ $(document).ready(function () {
     });
 // ----------------- 채팅방 ---------------------------
 
-    const info = (function () {
-        let nickname = "${principal.name}";
-        let roomNumber = "";
 
-        const getNickname = function () {
-            return nickname;
-        }
-
-        // const setNickname = function (set) {
-        //   nickname = set;
-        // }
-
-        const getRoomNumber = function () {
-            return roomNumber;
-        }
-
-        const setRoomNumber = function (set) {
-            roomNumber = set;
-        }
-        return {
-            getNickname: getNickname, // setNickname: setNickname,
-            getRoomNumber: getRoomNumber, setRoomNumber: setRoomNumber,
-        }
-    })();
 
     const errorMSG = function (result) {
         if (result.status == 404) {
@@ -132,11 +109,7 @@ $(document).ready(function () {
         message = message.replaceAll("\n", "<br>").replaceAll(" ", "&nbsp");
 
         const date = messageInfo.date;
-        const d = new Date(date);
-
-        const time = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
-
-        console.log(d)
+        const d = moment(new Date(date),"YYYYMMDD h:mm:ss a").format('LT');
 
         let chatHtml;
         if (info.getNickname() == nickname) {
@@ -273,9 +246,12 @@ $(document).ready(function () {
             }
 
             $.ajax({
-                url: "/chatingRoom-enter", type: "GET", data: data,
+                url: "/chatingRoom-enter",
+                type: "GET",
+                data: data,
             })
                 .then(function (room) {
+                    console.log(room)
                     initRoom(room);
 
                     // 채팅방 참가 메세지

@@ -159,7 +159,7 @@ h4.card-title {
 
 .media-chat .media-body p.meta {
     background-color: transparent !important;
-
+    width: 220px;
     padding: 0;
     opacity: .8;
 }
@@ -230,6 +230,7 @@ h4.card-title {
 }
 
 .media-chat.media-chat-reverse .media-body p.meta {
+    text-align: right;
     color: #9b9b9b;
 }
 

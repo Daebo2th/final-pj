@@ -134,12 +134,5 @@
   </nav><!-- End Icons Navigation -->
 
 </header>
-<!-- sock js -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
-<!-- STOMP -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/chatting.js"></script>
 </body>
 </html>
