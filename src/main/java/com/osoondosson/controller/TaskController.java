@@ -4,6 +4,7 @@ import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.TaskService;
 import com.osoondosson.service.UserService;
 import com.osoondosson.vo.ClassVO;
+import com.osoondosson.vo.PagingVO;
 import com.osoondosson.vo.TaskVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -64,23 +66,36 @@ public class TaskController {
         return "/student/daily-task-list"; /*일일과제 확인 페이지로 이동하기 위한 response를 ajax로 전달  */
     }
     /*학생이 작성한 일일과제 목록 보기 페이지*/
-
     @GetMapping("/student/daily-task-list")
     public String DailyTaskList(Model model,
                                 Authentication authentication,
                                 @RequestParam(value = "searchCondition", required = false) String searchCondition,
-                                @RequestParam(value = "searchKeyword", required = false) String searchKeyword){
+                                @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                                @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
+                                @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage){
 
-        List<TaskVO> taskUserList;
-
+        /*조회 조건*/
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
-        Map<String, String> map = new HashMap<>();
-        map.put("userId",detail.getUsername());
+        Map<String, Object> map = new HashMap<>();
+        String userId= detail.getUsername();
+        map.put("userId",userId);
+
         map.put("searchCondition", searchCondition);
         map.put("searchKeyword",searchKeyword);
 
+        int total = taskService.countTasks(map);
+        PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
+        map.put("start", pagingVO.getStart());
+        map.put("end", pagingVO.getEnd());
+
+        System.out.println("paginVO:------------------------"+pagingVO);
+
+
+        List<TaskVO> taskUserList;
         taskUserList = taskService.getTaskUserList((HashMap) map);
-        System.out.println(taskUserList);
+       /* System.out.println(taskUserList);*/
+
+        model.addAttribute("pagingVO", pagingVO); //페이징 정보도 모델에 담아서 보내줍니다.
         model.addAttribute("taskUserList", taskUserList);
 
         return "/student/daily-task-list";
@@ -133,22 +148,32 @@ public class TaskController {
     @GetMapping("/teacher/daily-task-check")
     public String DailyTaskCheckPage(Model model, Authentication authentication,
                                      @RequestParam(value = "searchCondition", required = false) String searchCondition,
-                                     @RequestParam(value = "searchKeyword", required = false) String searchKeyword) {
+                                     @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                                     @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
+                                     @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage,
+                                     HttpSession session) {
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
         int groupSeq = detail.getGroupSeq();
 
-        Map<String, String> map =new HashMap<>();
+        Map<String, Object> map =new HashMap<>();
         map.put("groupSeq", String.valueOf(groupSeq));
+        // 처음으로 검색을 실행하는 경우
+
         map.put("searchCondition", searchCondition);
         map.put("searchKeyword",searchKeyword);
         System.out.println(map);
 
+        int total = taskService.countGroupSeqTasks(map);
+        PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
+        map.put("start", pagingVO.getStart());
+        map.put("end", pagingVO.getEnd());
+
+        System.out.println(pagingVO+"-------------------------------");
+
         /*목록 출력*/
         List<TaskVO> groupTasks = taskService.getTaskGroupSeq((HashMap) map);
-
-
-
         System.out.println("groupTasks:------------------------------------"+groupTasks);
+        model.addAttribute("pagingVO", pagingVO); //페이징 정보도 모델에 담아서 보내줍니
         model.addAttribute("groupTasks", groupTasks);
         model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(groupSeq));
         return "/teacher/daily-task-check";

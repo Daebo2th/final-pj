@@ -5,6 +5,7 @@ import com.osoondosson.vo.TaskVO;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface TaskService {
      /*학생 */
@@ -25,5 +26,15 @@ public interface TaskService {
 
      void updateStatus(TaskVO vo);
 
+     /*그룹 정보 가져오기*/
      ClassVO getGroupInfoBygroupSeq(int groupSeq);
+
+     int countTasks(Map map);
+
+     int countGroupSeqTasks(Map map);
+
+     /*페이지처리*/
+
+
+
 }
