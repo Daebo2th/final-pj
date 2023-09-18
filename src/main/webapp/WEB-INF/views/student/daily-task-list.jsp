@@ -96,31 +96,6 @@
             text-align: center;
             font-family: monospace;
         }
-
-        .pagination {
-            display: inline-block;
-        }
-
-        .pagination a {
-            color: #000000;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            transition: background-color .5s;
-            border: 1px solid #DDD;
-            margin: 0 4px;
-            font-size: 20px;
-        }
-
-        .pagination a.active {
-            background-color: #0096FF;
-            color: #FFFFFF;
-            border: 1px solid #0096FF;
-        }
-
-        .pagination a:hover:not(.active) {
-            background-color: #DDD;
-        }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
 
@@ -196,7 +171,8 @@
                         <tbody>
                             <c:forEach items="${taskUserList}" var="dailyTask">
                                 <tr>
-                                <td>${dailyTask.taskSeq}</td>
+                                <td>${dailyTask.rownum}</td>
+                                    <input type='hidden' name='taskSeq' id='taskSeq' value="${taskSeq}">
                                 <td><a href="/student/daily-task-detail?taskSeq=${dailyTask.taskSeq}">${dailyTask.title}</td>
                                 <td><fmt:formatDate value="${dailyTask.createDate}" pattern="yyyy-MM-dd hh:mm"/></td>
                                 <td><fmt:formatDate value="${dailyTask.updateDate}" pattern="yyyy-MM-dd hh:mm"/></td>
@@ -213,19 +189,27 @@
                 </div>
             </div>
         </div>
+
     </section>
 
-    <div class="center">
-        <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#">1</a>
-            <a href="#" class="active">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">&raquo;</a>
-        </div>
+    <div id="pageNation" style="display: flex;justify-content: space-evenly;">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav><!-- End Pagination with icons -->
     </div>
 
 </main>

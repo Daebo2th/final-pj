@@ -49,7 +49,9 @@ public class TaskController {
     public String StudentTemplate(Model model, Authentication authentication) {
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
         String userId= detail.getUsername();
+        String userName=detail.getName();
         model.addAttribute("userId", userId);
+        model.addAttribute("userName", userName);
         return "student/daily-task-write";
     }
 
@@ -78,6 +80,7 @@ public class TaskController {
         map.put("searchKeyword",searchKeyword);
 
         taskUserList = taskService.getTaskUserList((HashMap) map);
+        System.out.println(taskUserList);
         model.addAttribute("taskUserList", taskUserList);
 
         return "/student/daily-task-list";

@@ -307,7 +307,7 @@
                         //에디터 인스턴스를 생성하고 초기화 한다
                         var editor = new toastui.Editor({
                             el:document.querySelector('#editor'),
-                            initialEditType: 'markdown',
+                            initialEditType: 'wysiwyg',
                             previewStyle: 'vertical',
                             height: '600px',
                             initialValue: task.content,
@@ -463,7 +463,7 @@
                     data: JSON.stringify(formData),
                     url:'/student/daily-task-reply',
                     success:function(result){
-                        alert(result);
+                        alert("댓글 등록이 안료되었습니다.");
                         //화면 초기화
                         $('#replyContent').val('');
                         replyList();
