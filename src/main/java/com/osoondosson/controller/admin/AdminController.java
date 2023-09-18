@@ -47,7 +47,7 @@ public class AdminController {
     	model.addAttribute("user", boardService.selectCountUser());
     	model.addAttribute("count", count);
     	model.addAttribute("noCount", noCount);
-    	return "index";
+    	return "teacher/main";
     }
 
 
