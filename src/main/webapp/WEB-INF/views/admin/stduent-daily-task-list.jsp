@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<!DOCTYPE html>
 <html>
 <head>
   <title>일일과제현황</title>
@@ -173,22 +173,39 @@
       </div>
     </div>
   </section>
+
   <div id="pageNation" style="display: flex;justify-content: space-evenly;">
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
+        <c:if test="${pagingVO.nowPage > 1}">
+          <li class="page-item">
+            <a class="page-link" href="?nowPage=${pagingVO.nowPage - 1}&studentUserId=${userId}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        </c:if>
+
+        <!-- 시작페이지부터 끝페이지까지 반복 -->
+        <c:forEach varStatus='status' begin='${pagingVO.startPage}' end='${pagingVO.endPage}'>
+          <!-- 현재 페이지일 경우 'active' 클래스 적용 -->
+          <c:choose>
+            <c:when test="${status.index == pagingVO.nowPage}">
+              <li class='page-item active'><a class='page-link'>${status.index}</a></li>
+            </c:when>
+            <c:otherwise><li class='page-item'><a class='page-link' href="?nowPage=${status.index}&studentUserId=${userId}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}">${status.index}</a></li></c:otherwise>
+          </c:choose>
+        </c:forEach>
+
+        <!-- 다음 버튼 -->
+        <!-- 마지막 페이지가 아닌 경우만 '다음' 버튼을 보여줍니다. -->
+        <c:if test="${pagingVO.nowPage != pagingVO.lastPage}">
+          <li class="page-item">
+            <a class="page-link" href="?nowPage=${pagingVO.nowPage + 1}&studentUserId=${userId}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}" aria-label="Next">
+              &raquo;
+            </a>
+          </li>
+        </c:if>
+
       </ul>
     </nav><!-- End Pagination with icons -->
   </div>

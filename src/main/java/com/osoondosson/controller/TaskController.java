@@ -72,8 +72,7 @@ public class TaskController {
                                 @RequestParam(value = "searchCondition", required = false) String searchCondition,
                                 @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
                                 @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
-                                @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage,
-                                HttpSession session){
+                                @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage){
 
         /*조회 조건*/
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
