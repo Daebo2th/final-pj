@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -65,24 +66,25 @@ public class TaskController {
         return "/student/daily-task-list"; /*일일과제 확인 페이지로 이동하기 위한 response를 ajax로 전달  */
     }
     /*학생이 작성한 일일과제 목록 보기 페이지*/
-
     @GetMapping("/student/daily-task-list")
     public String DailyTaskList(Model model,
                                 Authentication authentication,
                                 @RequestParam(value = "searchCondition", required = false) String searchCondition,
                                 @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
                                 @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
-                                @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage){
+                                @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage,
+                                HttpSession session){
 
         /*조회 조건*/
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
         Map<String, Object> map = new HashMap<>();
         String userId= detail.getUsername();
         map.put("userId",userId);
+
         map.put("searchCondition", searchCondition);
         map.put("searchKeyword",searchKeyword);
 
-        int total = taskService.countTasks(userId);
+        int total = taskService.countTasks(map);
         PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
         map.put("start", pagingVO.getStart());
         map.put("end", pagingVO.getEnd());
@@ -149,17 +151,20 @@ public class TaskController {
                                      @RequestParam(value = "searchCondition", required = false) String searchCondition,
                                      @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
                                      @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
-                                     @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage) {
+                                     @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage,
+                                     HttpSession session) {
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
         int groupSeq = detail.getGroupSeq();
 
         Map<String, Object> map =new HashMap<>();
         map.put("groupSeq", String.valueOf(groupSeq));
+        // 처음으로 검색을 실행하는 경우
+
         map.put("searchCondition", searchCondition);
         map.put("searchKeyword",searchKeyword);
         System.out.println(map);
 
-        int total = taskService.countGroupSeqTasks(groupSeq);
+        int total = taskService.countGroupSeqTasks(map);
         PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
         map.put("start", pagingVO.getStart());
         map.put("end", pagingVO.getEnd());

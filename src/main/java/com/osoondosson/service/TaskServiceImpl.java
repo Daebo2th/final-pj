@@ -89,14 +89,15 @@ public class TaskServiceImpl implements TaskService {
 
     /*교사*/
     @Override
-    public int countTasks(String userId) {
-        return taskDAO.countTasks(userId);
+    public int countTasks(Map map) {
+
+        return taskDAO.countTasks(map);
     }
 
     /*교직원*/
     @Override
-    public int countGroupSeqTasks(int groupSeq) {
-        return taskDAO.countGroupSeqTasks(groupSeq);
+    public int countGroupSeqTasks(Map map) {
+        return taskDAO.countGroupSeqTasks(map);
     }
 
 }

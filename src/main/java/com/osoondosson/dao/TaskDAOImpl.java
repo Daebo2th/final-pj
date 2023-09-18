@@ -73,13 +73,13 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public int countTasks(String userId) {
-        return mybatis.selectOne("countStuTask", userId);
+    public int countTasks(Map map) {
+        return mybatis.selectOne("countStuTask", map);
     }
 
     @Override
-    public int countGroupSeqTasks(int groupSeq) {
-        return mybatis.selectOne("countGroupSeqTasks", groupSeq);
+    public int countGroupSeqTasks(Map map) {
+        return mybatis.selectOne("countGroupSeqTasks", map);
     }
 
 

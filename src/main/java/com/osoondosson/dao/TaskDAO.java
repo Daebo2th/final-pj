@@ -28,7 +28,7 @@ public interface TaskDAO {
 
     ClassVO getGroupInfoBygroupSeq(int groupSeq);
 
-    int countTasks(String userId);
+    int countTasks(Map map);
 
-    int countGroupSeqTasks(int groupSeq);
+    int countGroupSeqTasks(Map map);
 }

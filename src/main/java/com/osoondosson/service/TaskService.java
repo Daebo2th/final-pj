@@ -29,9 +29,9 @@ public interface TaskService {
      /*그룹 정보 가져오기*/
      ClassVO getGroupInfoBygroupSeq(int groupSeq);
 
-     int countTasks(String userId);
+     int countTasks(Map map);
 
-     int countGroupSeqTasks(int groupSeq);
+     int countGroupSeqTasks(Map map);
 
      /*페이지처리*/
 
