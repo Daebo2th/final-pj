@@ -53,7 +53,15 @@
             border: 1px solid #e3eaef;
             border-radius: 5px;
             position: relative;
-            margin-bottom: 20px
+            margin-bottom: 20px;
+            /* 요소의 내용이 영역을 벗어날 경우 그 부분은 숨겨지게 처리 */
+            overflow: hidden;
+            /* 요소의 표시 방법을 -webkit-box로 표시 */
+            display: -webkit-box;
+            /* webkit-box로 표시된 자식 요소들의 배치 방법 결정 (여기서는 수직) */
+            -webkit-box-orient: vertical;
+            /* 요소 내 텍스트를 지정한 라인수까지만 표시 */
+            -webkit-line-clamp: 2;
         }
 
         .file-man-box .file-close {
@@ -63,7 +71,7 @@
             font-size: 24px;
             right: 10px;
             top: 10px;
-            visibility: hidden
+            visibility: hidden;
         }
 
         .file-man-box .file-img-box {
@@ -80,7 +88,7 @@
             color: #98a6ad;
             position: absolute;
             right: 10px;
-            bottom: 20px;
+            bottom: 0;
         }
 
         .file-man-box .file-download:hover {
@@ -153,6 +161,9 @@
             overflow: hidden;
             border: 0;
         }
+        #moreBtn {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -200,11 +211,9 @@
 
                             <c:set var="contentTypeArray" value="${['jpg', 'pdf', 'png', 'txt', 'gif', 'html', 'js', 'json', 'md']}"/>
                             <%-- 어딘가에서 contentTypes 배열을 설정하거나 가져오는 코드 --%>
-                            <div class="row location">
+                            <div class="row location pt-5">
                                 <c:forEach var="list" items="${list}">
-<%--                                    <c:forEach items="${contentTypes}" var="contentType">--%>
-<%--                                    <c:if test="${contentTypeArray.contains(contentType)}">--%>
-                                    <div class="col-lg-3 col-xl-2">
+                                    <div class="col-lg-3 col-xl-3 fileTable" style="display: none; padding-bottom: 14px;">
                                         <div class="file-man-box">
                                             <a href class="file-close" data-uuid="${list.uuid}" data-uploadname="${list.uploadName} data-filetype="${list.fileType}"><i class="fa fa-times-circle"></i></a>
 
@@ -227,8 +236,8 @@
                             </div>
 
                             <div class="text-center mt-3">
-                                <button type="button" class="btn btn-outline-danger w-md waves-effect waves-light"><i
-                                        class="mdi mdi-refresh"></i> Load More Files
+                                <button type="button" id="moreBtn" class="btn btn-outline-danger w-md waves-effect waves-light"><i
+                                        class="mdi mdi-refresh"></i>더보기
                                 </button>
                             </div>
                         </div>
@@ -255,6 +264,19 @@
 
 <!-- Template Main JS File -->
 <script>
+
+    /* 더보기 버튼 */
+    $(function(){
+        $(".fileTable").slice(0,8).show(); // 초기갯수
+        $("#moreBtn").click(function(e){ // 클릭시 more
+            e.preventDefault();
+            $(".fileTable:hidden").slice(0, 8).show(); // 클릭시 more 갯수 지정
+            if($(".fileTable:hidden").length === 0){ // 컨텐츠 남아있는지 확인
+                $("#moreBtn").hide();
+            }
+        });
+    });
+
     $(document).ready(function () {
         // 폴더 생성 버튼 클릭 시 모달 창 열기
         $("#createFolderButton").click(function () {
