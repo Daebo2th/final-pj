@@ -1,5 +1,6 @@
 package com.osoondosson.dao;
 
+import com.osoondosson.vo.ClassVO;
 import com.osoondosson.vo.TaskVO;
 
 import java.util.HashMap;
@@ -20,7 +21,9 @@ public interface TaskDAO {
     void deleteTask(int taskSeq);
 
     /*교직원*/
-    List<TaskVO> getTaskGroupSeq(String groupSeq);
+    List<TaskVO> getTaskGroupSeq(HashMap map);
 
     public void updateStatus(TaskVO vo);
+
+    ClassVO getGroupInfoBygroupSeq(int groupSeq);
 }

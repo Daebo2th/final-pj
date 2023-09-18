@@ -186,7 +186,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>${taskVO.userId}의 일일과제 상세보기 페이지</h1>
+        <h1>${taskVO.author}의 일일과제 상세보기 페이지</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -238,7 +238,7 @@
                         //에디터 인스턴스를 생성하고 초기화 한다
                         var editor = new toastui.Editor({
                             el:document.querySelector('#editor'),
-                            initialEditType: 'markdown',
+                            initialEditType: 'wysiwyg',
                             previewStyle: 'vertical',
                             height: '600px',
                             initialValue: task.content,
@@ -272,17 +272,6 @@
                         </div>
                     </div>
                 </div>
-                <%--                <div class="comment-post-reply">
-                                    <div class="comment-details">
-                                        <p><span class="comment-author">Amit Pradhan</span><span class="comment-time">10 minutes ago</span></p>
-                                        <p class="comment-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-                                        <div class="comment-like-unlike">
-                                            <span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                                            <span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></span>
-                                            <span><i class="fa fa-reply" aria-hidden="true"></i></span>
-                                        </div>
-                                    </div>
-                                </div>--%>
                 <div class="comment-add">
                     <div class="field-comment">
                         <textarea id="replyContent" rows="4" cols="50"></textarea>
@@ -376,7 +365,7 @@
                     data: JSON.stringify(formData),
                     url:'/teacher/daily-task-reply',
                     success:function(result){
-                        alert(result);
+                        alert("댓글 등록이 안료 되었습니다.");
                         //화면 초기화
                         $('#replyContent').val('');
                         replyList();
