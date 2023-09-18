@@ -79,9 +79,9 @@
                                             <tr>
                                                 <td>${student.rownum}</td>
                                                 <td>${student.name}</td>
-                                                <td><a href="<c:url value='/admin/stduent-detail/${student.userId}' />">${student.name}Information</a></td>
+                                                <td><a href="/admin/student-detail?studentUserId=${student.userId}">${student.name}Information</a></td>
                                                 <td>
-                                                    <a href="<c:url value='/admin/stduent-daily-task-list?studentUserId=${student.userId}' />">${student.name} 일일과제 리스트</a>
+                                                    <a href="/admin/student-daily-task-list?studentUserId=${student.userId}">${student.name} 일일과제 리스트</a>
                                                 </td>
                                                 <td>${student.gender}</td>
                                                 <td>${student.phone}</td>
