@@ -195,19 +195,31 @@
     <div id="pageNation" style="display: flex;justify-content: space-evenly;">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
+                <c:if test="${pagingVO.nowPage != 1}">
+                    <li class="page-item">
+                        <a class="page-link" href="?nowPage=${pagingVO.nowPage - 1}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                </c:if>
+
+                <c:forEach var="i" begin="${pagingVO.startPage}" end="${pagingVO.endPage}">
+                    <c:choose>
+                        <c:when test="${i == pagingVO.nowPage}">
+                            <li class='page-item active'><a class='page-link' href='#'>${i}</a></li>
+                        </c:when>
+                        <c:otherwise><li class='page-item'><a class='page-link' href='?nowPage=${i}'>${i}</a></li></c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <!-- 다음 버튼 -->
+                <c:if test="${pagingVO.nowPage != pagingVO.lastPage}">
+                    <li class="page-item">
+                        <a class="page-link" href="?nowPage=${pagingVO.nowPage + 1}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </c:if>
             </ul>
         </nav><!-- End Pagination with icons -->
     </div>

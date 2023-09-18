@@ -12,19 +12,44 @@
         select * from Task order by task_seq desc
     </select>
 
+    <!--학생 게시물 총 게시글 갯수 출력-->
+    <select id="countStuTask" resultType="int">
+        select count(*) from task where user_id = #{userId}
+    </select>
+
+    <!--교직원 해당반 학생들의 총 게시글 갯수 출력 -->
+    <select id="countGroupSeqTasks" resultType="int">
+        SELECT COUNT(*)
+        FROM task t
+                 JOIN member m ON t.user_id = m.user_id
+                 JOIN class c ON m.group_seq = c.group_seq
+        WHERE m.group_seq = #{groupSeq}
+    </select>
+
     <select id="selectUserTaskList" resultType="taskVO" parameterType="hashmap">
-        select rownum, t.* from Task t where user_id = #{userId}
-        <if test="searchCondition == 'title'.toString()">
-            and title like '%' || #{searchKeyword} || '%'
+        SELECT *
+        FROM (
+        SELECT ROWNUM RN, A.*
+        FROM (
+        SELECT t.*, ROWNUM AS row_num -- row_num 칼럼 추가
+        FROM Task t
+        WHERE user_id = #{userId}
+        <if test='searchCondition == "title"'>
+            AND title LIKE CONCAT('%', #{searchKeyword}, '%')
         </if>
-        <if test="searchCondition == 'createDate'.toString()">
-           and  to_char(create_date,'yyyy-MM-dd') = #{searchKeyword}
+        <if test='searchCondition == "createDate"'>
+            AND TO_CHAR(create_date, 'yyyy-MM-dd') = #{searchKeyword}
         </if>
-        <if test="searchCondition == 'updateDate'.toString()">
-            and  to_char(update_date,'yyyy-MM-dd') = #{searchKeyword}
+        <if test='searchCondition == "updateDate"'>
+            AND TO_CHAR(update_date, 'yyyy-MM-dd') = #{searchKeyword}
         </if>
         ORDER BY task_seq DESC
+        ) A
+        )
+        WHERE RN BETWEEN #{start} AND #{end}
     </select>
+
+
 
     <select id="detailTask" resultType="taskVO">
         select * from Task where task_seq=#{taskSeq}
@@ -42,7 +67,8 @@
 
     <!--교직원-->
     <select id="getTaskGroupSeq" resultType="taskVO" parameterType="hashMap">
-        SELECT t.*, c.group_Name
+        SELECT * FROM (
+        SELECT rownum rn, t.*, c.group_Name
         FROM task t
         JOIN member m ON t.user_id = m.user_id
         JOIN class c ON m.group_seq = c.group_seq
@@ -56,6 +82,7 @@
         <if test="searchCondition == 'createDate'.toString()">
             and  to_char(create_date,'yyyy-MM-dd') = #{searchKeyword}
         </if>
+        ) WHERE rn BETWEEN #{start} AND #{end}
     </select>
 
     <update id="updateStatus">

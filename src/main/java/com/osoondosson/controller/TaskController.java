@@ -4,6 +4,7 @@ import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.TaskService;
 import com.osoondosson.service.UserService;
 import com.osoondosson.vo.ClassVO;
+import com.osoondosson.vo.PagingVO;
 import com.osoondosson.vo.TaskVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,31 @@ public class TaskController {
     public String DailyTaskList(Model model,
                                 Authentication authentication,
                                 @RequestParam(value = "searchCondition", required = false) String searchCondition,
-                                @RequestParam(value = "searchKeyword", required = false) String searchKeyword){
+                                @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                                @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
+                                @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage){
 
-        List<TaskVO> taskUserList;
-
+        /*조회 조건*/
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
-        Map<String, String> map = new HashMap<>();
-        map.put("userId",detail.getUsername());
+        Map<String, Object> map = new HashMap<>();
+        String userId= detail.getUsername();
+        map.put("userId",userId);
         map.put("searchCondition", searchCondition);
         map.put("searchKeyword",searchKeyword);
 
+        int total = taskService.countTasks(userId);
+        PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
+        map.put("start", pagingVO.getStart());
+        map.put("end", pagingVO.getEnd());
+
+        System.out.println("paginVO:------------------------"+pagingVO);
+
+
+        List<TaskVO> taskUserList;
         taskUserList = taskService.getTaskUserList((HashMap) map);
-        System.out.println(taskUserList);
+       /* System.out.println(taskUserList);*/
+
+        model.addAttribute("pagingVO", pagingVO); //페이징 정보도 모델에 담아서 보내줍니다.
         model.addAttribute("taskUserList", taskUserList);
 
         return "/student/daily-task-list";
@@ -133,22 +147,29 @@ public class TaskController {
     @GetMapping("/teacher/daily-task-check")
     public String DailyTaskCheckPage(Model model, Authentication authentication,
                                      @RequestParam(value = "searchCondition", required = false) String searchCondition,
-                                     @RequestParam(value = "searchKeyword", required = false) String searchKeyword) {
+                                     @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                                     @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
+                                     @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage) {
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
         int groupSeq = detail.getGroupSeq();
 
-        Map<String, String> map =new HashMap<>();
+        Map<String, Object> map =new HashMap<>();
         map.put("groupSeq", String.valueOf(groupSeq));
         map.put("searchCondition", searchCondition);
         map.put("searchKeyword",searchKeyword);
         System.out.println(map);
 
+        int total = taskService.countGroupSeqTasks(groupSeq);
+        PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
+        map.put("start", pagingVO.getStart());
+        map.put("end", pagingVO.getEnd());
+
+        System.out.println(pagingVO+"-------------------------------");
+
         /*목록 출력*/
         List<TaskVO> groupTasks = taskService.getTaskGroupSeq((HashMap) map);
-
-
-
         System.out.println("groupTasks:------------------------------------"+groupTasks);
+        model.addAttribute("pagingVO", pagingVO); //페이징 정보도 모델에 담아서 보내줍니
         model.addAttribute("groupTasks", groupTasks);
         model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(groupSeq));
         return "/teacher/daily-task-check";
