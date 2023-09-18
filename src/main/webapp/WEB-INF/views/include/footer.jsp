@@ -1,9 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
@@ -51,5 +46,4 @@
         }
     })();
 </script>
-</body>
-</html>
+
