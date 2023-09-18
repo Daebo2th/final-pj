@@ -2,10 +2,13 @@ package com.osoondosson.controller.admin;
 
 import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.AdminServiceImpl;
+import com.osoondosson.service.MyPageService;
 import com.osoondosson.service.TaskService;
+import com.osoondosson.vo.MemberInfoVO;
 import com.osoondosson.vo.MemberWithClassVO;
 import com.osoondosson.vo.PagingVO;
 import com.osoondosson.vo.TaskVO;
+import com.osoondosson.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,7 +29,8 @@ public class AdminController {
     private AdminServiceImpl adminService;
     @Autowired
     private TaskService taskService;
-
+    @Autowired
+    private MyPageService myPageService;
     @GetMapping("/admin/student-record")
     public String stuRecord(Model model,Authentication authentication,
                             @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
@@ -44,13 +48,18 @@ public class AdminController {
     }
 
     @GetMapping("/admin/student-detail")
-    public String stuDetail(Model model) {
+    public String stuDetail(Model model,
+                            @RequestParam(value = "studentUserId", required = false) String userId) {
         List<MemberWithClassVO> list = adminService.selectByGroup(1);
         System.out.println("리스트: " + list);
-        model.addAttribute("list", list);
+        System.out.println("유저아이디:" + userId);
+        UserVO studentList = myPageService.selectMyPage(userId);
+        model.addAttribute("mypage", studentList);
+        System.out.println("리스트2 : " + studentList);
+        //model.addAttribute("list", list);
         return "admin/student-detail";
     }
-    @GetMapping("/admin/stduent-daily-task-list")
+    @GetMapping("/admin/student-daily-task-list")
     public String stuDailyTaskList(Model model,
                                    @RequestParam(value="studentUserId",required = false) String userId,
                                    @RequestParam(value = "searchCondition", required = false) String searchCondition,
@@ -79,6 +88,6 @@ public class AdminController {
         model.addAttribute("pagingVO", pagingVO); //페이징 정보도 모델에 담아서 보내줍니다.
         model.addAttribute("taskUserList", taskUserList);
 
-        return "/admin/stduent-daily-task-list";
+        return "/admin/student-daily-task-list";
     }
 }
