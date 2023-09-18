@@ -5,6 +5,7 @@ import com.osoondosson.dao.FileDAO;
 import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.FileServiceImpl;
 import com.osoondosson.service.S3FileService;
+import com.osoondosson.service.UserService;
 import com.osoondosson.vo.FileVO;
 import com.osoondosson.vo.UploadResponse;
 import lombok.extern.slf4j.Slf4j;

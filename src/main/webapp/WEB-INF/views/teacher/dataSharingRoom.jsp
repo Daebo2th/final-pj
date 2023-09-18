@@ -171,44 +171,14 @@
             </ol>
         </nav>
     </div><!-- End Page Title -->
-    <!-- 폴더 생성 모달 -->
-    <div class="modal fade" id="createFolderModal" tabindex="-1" role="dialog" aria-labelledby="createFolderModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createFolderModalLabel">폴더 생성</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="folderForm">
-                        <div class="form-group">
-                            <label for="folderName">폴더 이름:</label>
-                            <input type="text" class="form-control" id="folderName" placeholder="폴더 이름을 입력하세요">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-primary" id="createFolderConfirm">폴더 생성</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <section class="section">
         <div class="content">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <!-- 폴더를 표시할 부분 -->
-                            <div class="col-lg-6 col-xl-6">
-                                <!-- 폴더 생성 버튼 추가 -->
-                                <h6 class="header-title m-b-30">
-                                    <button id="createFolderButton" class="btn btn-primary">폴더 생성</button>
-                                </h6>
-                            </div>
+
                             <div class="row">
                                 <div class="col-lg-6 col-xl-6">
                                     <%--<h4 class="header-title m-b-30">자료 공유실</h4>--%>
@@ -241,7 +211,7 @@
                                             <div class="file-img-box">
                                                 <i style="font-size: 100px;" class="bx ${list.fileType == 'folder'?'bxs-folder': contentTypeArray.contains(fn:split(list.uploadName,'.')[1])?'bxs-file-'+=fn:split(list.uploadName,'.')[1]:'bxs-file-blank'}"></i>
                                                 <c:if test="${list.fileType != 'folder'}">
-                                                    <a href="<c:url value="https://osdsbucket.s3.ap-northeast-2.amazonaws.com/dataSharing/${getName}/${list.uploadName}"/>"
+                                                    <a href="<c:url value="https://osdsbucket.s3.ap-northeast-2.amazonaws.com/dataSharing/${list.groupSeq}/${list.uploadName}"/>"
                                                class="file-download"><i class="fa fa-download"></i></a>
                                                 </c:if>
                                             </div>
@@ -422,189 +392,6 @@
             });
         });
     });
-
-</script>
-
-<script>
-let fileNames;
-let tree = {};
-
-function getDriveInfo() {
-  $.ajax({
-    type: "POST",
-    url: "/teacher/dataSharingRoom",
-    dataType: 'json',
-    success: function (data) {
-      fileNames = data.list.map(data => data.uploadPath);
-        let htmlContent = `<div class="file-man-box">
-    <a href="#" class="file-close" data-uuid="\${node[key].uuid}" data-uploadname="\${node[key].uploadName}" data-filetype="\${node[key].fileType}">
-        <i class="fa fa-times-circle"></i>
-    </a>
-    <div class="file-img-box">
-        <i style="font-size: 100px;" class="bx bxs-file-blank"></i>
-        <c:if test="\${node[key].fileType != 'folder'}">
-            <a href="<c:url value='https://osdsbucket.s3.ap-northeast-2.amazonaws.com/\${path}\${node[key].uploadName}'/>" class="file-download"><i class="fa fa-download"></i></a>
-        </c:if>
-    </div>
-    <div class="file-man-title">
-        <h5 class="mb-0 text-overflow">\${filename}</h5>
-        <p class="mb-0"><small></small></p>
-    </div>
-</div>`;
-      for (let path of fileNames) {
-        console.log(path)
-        let parts = path.split('/');
-        console.log(parts)
-        let currentLevel = tree;
-        for (let part of parts) {
-          if (part === "dataSharing") continue;
-          if (part === "2") continue;
-          if (!currentLevel[part]) {
-            currentLevel[part] = {};
-          }
-          currentLevel = currentLevel[part];
-        }
-      }
-
-      render();
-    },
-    error: function (error) {
-      console.error("자료공유실 정보 받아오는중 문제가 생김");
-    }
-  });
-}
-
-getDriveInfo();
-
-console.log(fileNames);
-console.log(tree);
-
-function renderTree(node, path) {
-    let ulElement = document.createElement('ul');
-
-    for (let key in node) {
-        // 슬래시로 인한 빈 키를 건너뜁니다.
-        if (key === "") continue;
-
-        let liElement = document.createElement('li');
-
-        // 경로에서 파일 이름을 추출합니다.
-        let filename = key.split('/').pop();
-
-        // li 요소에 필요한 속성을 추가합니다.
-        liElement.setAttribute("data-opened", "false");
-        liElement.setAttribute("data-path", path + key + "/");
-
-        // 확장/축소를 위한 클릭 핸들러를 추가합니다.
-        liElement.onclick = function (e) {
-            e.stopPropagation();
-
-            const isOpened = liElement.getAttribute("data-opened");
-
-            if (isOpened === "true") {
-                liElement.setAttribute("data-opened", "false");
-
-                // 축소를 위해 자식 UL 요소를 제거합니다.
-                while (liElement.lastChild.tagName === "UL") {
-                    liElement.removeChild(liElement.lastChild);
-                }
-            } else {
-                liElement.setAttribute("data-opened", "true");
-
-                // 하위 노드가 있는 경우 렌더링합니다.
-                const childUl = renderTree(node[key], path + key + "/");
-                if (childUl.children.length > 0) {
-                    liElement.appendChild(childUl);
-                }
-            }
-        };
-
-        // 파일 관리자 상자의 각 항목에 대한 내부 HTML 콘텐츠를 생성합니다.
-        let htmlContent = `
-            <div class="file-man-box">
-                <a href="#" class="file-close" data-uuid="${node[key].uuid}" data-uploadname="${node[key].uploadName}" data-filetype="${node[key].fileType}">
-                    <i class="fa fa-times-circle"></i>
-                </a>
-                <div class="file-img-box">
-                    <i style="font-size: 100px;" class="bx bxs-file-blank"></i>
-                </div>
-                <div class="file-man-title">
-                    <h5 class="mb-0 text-overflow">${filename}</h5>
-                    <p class="mb-0"><small></small></p>
-                </div>
-            </div>
-        `;
-
-        // li 요소에 생성한 HTML 문자열을 설정합니다.
-        liElement.innerHTML = htmlContent;
-
-        ulElement.appendChild(liElement);
-    }
-
-    return ulElement;
-}
-
-
-/*function renderTree(node, path) {
-
-    let ulElement = document.createElement('ul');
-
-    for (let key in node) {
-    // Skip empty keys caused by trailing slashes
-        if (key === "") continue;
-        let liElement = document.createElement('li');
-
-        // Extract the filename from the path
-        let filename = key.split('/').pop();
-
-        // Add necessary attributes to li element
-        liElement.setAttribute("data-opened", "false");
-        liElement.setAttribute("data-path", path + key + "/");
-
-        // Add click handler to expand/collapse
-        liElement.onclick = function(e){
-        e.stopPropagation();
-
-
-        const isOpened=liElement.getAttribute("data-opened");
-
-        if(isOpened==="true"){
-            liElement.setAttribute("data-opened","false");
-
-            while(liElement.lastChild.tagName==="UL"){
-                liElement.removeChild(liElement.lastChild);
-            }
-
-        }else{
-            liElement.setAttribute("data-opened","true");
-
-            const childUl=renderTree(node[key], path + key + "/");
-
-            if(childUl.children.length>0){
-            // Only append the children UL if it has children.
-            liElement.appendChild(childUl);
-            }
-        }
-};
-    console.log(node[key].originName)
-     // Create the inner HTML content for each item in the file manager box
-
-    
-    // Set the inner HTML content to the created HTML string
-    liElement.innerHTML= htmlContent;
-
-     ulElement.appendChild(liElement);
-   }
-
-   return ulElement;
- }*/
-
-const treeElement = renderTree(tree, "");
-document.getElementById("tree-container").appendChild(treeElement);
-
- function render(){
-   $(".col-lg-3").html(renderTree(tree, ""));
- }
 
 </script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
