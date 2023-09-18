@@ -99,7 +99,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <input type="hidden" name="actType" value="C" /> <!-- C:등록 U:수정 D:삭제 -->
-                                    <input type="hidden" name="userId" value="qwe" />
+                                    <input type="hidden" name="userId" value="${userId}" />
                                     <input type="hidden" name="scheduleSeq" id="schedule_seq"  />
 
                                     <%--@declare id="taskid"--%>
@@ -137,6 +137,16 @@
 
 
     <script>
+        $(document).keydown(function(event) {
+            if ( event.keyCode == 27 || event.which == 27 ) {
+                cancelBtn();
+            }
+        });
+
+        $(".close").on("click", function () {
+            cancelBtn();
+        });
+
         function cancelBtn() {
             // 입력 필드들의 값을 초기화
             $("#calendar_content").val("");
@@ -145,7 +155,8 @@
             $("#schedule_seq").val("");
             $("#calendar_start_date").val("");
             $("#calendar_end_date").val("");
-
+            $("#addCalendar").text("추가");
+            $("#delCalendar").hide();
             // 모달 창 닫기
             $('#calendarModal').modal('hide');
         }
@@ -173,7 +184,7 @@
 
         function updateBtn() {
             var formData = {};
-            formData.user_id = $(".form-group input[name='userId']").val();
+            formData.userId = $(".form-group input[name='userId']").val();
             formData.scheduleSeq= $(".form-group input[name='scheduleSeq']").val();
             formData.actType = $(".form-group input[name='actType']").val();
             formData.title = $(".form-group input[name='title']").val();
@@ -181,7 +192,7 @@
             formData.endDate = $(".form-group input[name='endDate']").val();
             formData.xcontent = $(".form-group textarea[name='xcontent']").val();
             formData.importance = $(".form-group select[name='importance']").val();
-
+            console.log(formData.userId)
             $.ajax({
                 url: "/schedule/update", // 요청을 보낼 URL
                 type: "POST", // HTTP 메서드 (GET, POST, PUT, DELETE 등)
@@ -207,7 +218,7 @@
         function addBtn(){
             // 폼 데이터 객체 생성
             var formData = {};
-            formData.user_id = $(".form-group input[name='userId']").val();
+            formData.userId = $(".form-group input[name='userId']").val();
             formData.scheduleSeq= $(".form-group input[name='scheduleSeq']").val();
             formData.actType = $(".form-group input[name='actType']").val();
             formData.title = $(".form-group input[name='title']").val();

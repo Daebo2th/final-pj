@@ -16,8 +16,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     private ScheduleDAO scheduleDAO;
 
     @Override
-    public List<Object> calendarList() {
-        return scheduleDAO.calendarList();
+    public List<Object> calendarList(String userId) {
+        return scheduleDAO.calendarList(userId);
     }
 
     @Override

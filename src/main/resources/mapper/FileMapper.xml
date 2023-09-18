@@ -6,7 +6,7 @@
 
     <insert id="uploadDrive" parameterType="fileVO">
         INSERT INTO filetable (UUID, ORIGIN_NAME, UPLOAD_NAME, UPLOAD_PATH, FILE_SIZE, FILE_TYPE, UPLOAD_DATE, STATUS, GROUP_SEQ)
-        SELECT
+        values(
             #{uuid},
             #{originName},
             #{uploadName},
@@ -15,9 +15,8 @@
             #{fileType},
             CURRENT_TIMESTAMP,
             1,
-            c.GROUP_SEQ
-        FROM class c
-        WHERE c.GROUP_SEQ = 1
+            #{groupSeq}
+            )
     </insert>
 
     <select id="selectFile"  resultType="fileVO">
@@ -27,7 +26,15 @@
     <select id="getFileByUUID" resultType="fileVO" parameterType="String">
         select * from filetable where uuid = #{uuid}
     </select>
-    
+
+    <select id="isFolder" parameterType="String" resultType="Integer">
+        select count(*) from filetable where upload_path = #{fileType}
+    </select>
+
+    <select id="getPathBySeq" parameterType="Integer" resultType="fileVO">
+        select origin_name, upload_path, file_type from filetable where group_seq = #{groupSeq}
+    </select>
+
     <insert id="insertImage" parameterType="fileVO">
 		insert into FILETABLE VALUES(#{uuid}, #{originName}, #{uploadName}, #{uploadPath}, #{fileType}, CURRENT_TIMESTAMP, 1, GROUP_SEQ.nextval, #{fileSize})
 	</insert>
