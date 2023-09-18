@@ -323,12 +323,19 @@
                                     type: 'GET',
                                     url: '/teacher/delete-reply?replySeq=' + reply.replySeq,  // 실제 댓글 삭제 API URL로 변경 필요
                                     success: function(result) {
-                                        alert('댓글 삭제가 완료되었습니다.');
-                                        replyList();  // 댓글 목록 새로고침
+                                        swal({
+                                            text: "댓글 삭제가 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                                        }).then(function (){
+                                            replyList();  // 댓글 목록 새로고침
+                                        })
+
                                     },
                                     error: function(error) {
-                                        alert('댓글을 삭제하는 중에 오류가 발생했습니다.');
-                                        console.log(error);
+                                        swal({
+                                            text: "댓글을 삭제하는 중에 오류가 발생했습니다.", buttons: "확인", closeOnClickOutside: false
+                                        }).then(function (){
+                                            console.log(error);
+                                        })
                                     }
                                 });
                             });
@@ -339,8 +346,12 @@
                     });
                 },
                 error: function(error) {
-                    alert('Failed to load replies');
-                    console.log(error);
+                    swal({
+                        text: "Failed to load replies", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        console.log(error);
+                    })
+
                 }
             });
         }
@@ -365,14 +376,21 @@
                     data: JSON.stringify(formData),
                     url:'/teacher/daily-task-reply',
                     success:function(result){
-                        alert("댓글 등록이 안료 되었습니다.");
-                        //화면 초기화
-                        $('#replyContent').val('');
-                        replyList();
+                        swal({
+                            text: "댓글 등록이 안료 되었습니다.", buttons: "확인", closeOnClickOutside: false
+                        }).then(function (){
+                            //화면 초기화
+
+                            $('#replyContent').val('');
+                            replyList();
+                        })
                     },
                     error: function(error){
-                        alert('error');
-                        console.log(error);
+                        swal({
+                            text: "error", buttons: "확인", closeOnClickOutside: false
+                        }).then(function (){
+                            console.log(error);
+                        })
                     }
                 });
             });
