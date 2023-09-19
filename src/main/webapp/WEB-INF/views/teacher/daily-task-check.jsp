@@ -63,10 +63,15 @@
                     $('#searchKeyword').attr('type', 'date');  // 검색어 입력 필드의 타입을 'date'로 변경
                 } else {
                     $('#searchKeyword').attr('type', 'search');  // 그 외 경우에는 검색어 입력 필드의 타입을 원래대로 ('search') 복원
-
                 }
             });
         });
+
+        // 상태 변경 시 검색어 값 업데이트
+        $("input[name=status]").change(function() {
+            $("#searchKeyword").val($("input[name=status]:checked").val());
+        });
+
     </script>
     <style>
         /* body 스타일 */
@@ -122,10 +127,6 @@
             <div class="page-title">
                 <div class="container">
                     <h3> ${groupInfo.groupName} 일일과제 목록 </h3>
-                    <ul class="nav nav-tabs">
-                        <li><a class="nav-link active" href="#" id="unconfirmed">미확인</a></li>
-                        <li><a class="nav-link" href="#" id="confirmed">확인</a></li>
-                    </ul>
                 </div>
             </div>
 
@@ -142,13 +143,16 @@
                                         <a class="dropdown-item" data-value="title">제목</a>
                                         <a class="dropdown-item" data-value="author">작성자</a>
                                         <a class="dropdown-item" data-value="createDate">작성일</a>
+                                        <a class="dropdown-item" data-value="status">상태(확인/미확인)</a>
                                     </div>
+
+
                                 </div>
                                 <input type='hidden' name='searchCondition' id='searchCondition'>
 
                                 <label for="searchKeyword" class="blind">내용 검색</label>
                                 <input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요." value="">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <!-- 상태 선택 시 표시될 두 번째 드롭다운 -->
                                 <button type="submit" class="btn btn-dark">검색</button>
 
                             </div>

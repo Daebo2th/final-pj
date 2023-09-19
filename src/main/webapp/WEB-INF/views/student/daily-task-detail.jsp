@@ -237,7 +237,12 @@
             /*border: 2px solid gainsboro;*/ /* 1픽셀 두께의 검은색 테두리 적용 */
             padding: 60px;
         }
-
+        .comment-author {
+            color: #0f5132 !important; /* 원하는 색상으로 변경 */
+        }
+        .current-user {
+            color: #ff0000 !important; /* 원하는 색상으로 변경 */
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
 
@@ -421,17 +426,22 @@
                         var commentPost = $('<div>').addClass('comment-post');
                         var commentDetails = $('<div>').addClass('comment-details').appendTo(commentPost);
 
-                        $('<p>').append($('<span>').addClass('comment-author').text(reply.replyer)).appendTo(commentDetails);
+                        var commentAuthor = $('<span>').addClass('comment-author').text(reply.replyer);
+                        // 현재 로그인한 사용자와 댓글 작성자가 일치하면 클래스 추가
+                        if (userId === reply.replyer) {
+                            console.log(userId);
+                            console.log(reply.replyer);
+                            commentAuthor.addClass('current-user');
+                        }
+
+                        $('<p>').append(commentAuthor).appendTo(commentDetails);
+
+
+                    /*    $('<p>').append($('<span>').addClass('comment-author').text(reply.replyer)).appendTo(commentDetails);*/
                         $('<p>').addClass('comment-content').text(reply.replyContent).appendTo(commentDetails);
 
                         /*만약 현재 로그인한 사용자가 댓글 작성자와 동일하다면 수정 및 삭제 버튼 추가*/
                         if (userId === reply.replyer) {
-/*                            var editButton = $('<button>Edit</button>');  // 수정 버튼 생성
-                            editButton.click(function() {
-                                // 여기에 댓글 수정 로직 구현
-                            });
-                            commentDetails.append(editButton);  // 수정 버튼 추가*/
-
                             var deleteButton = $('<button type="button" id="deleteButton" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>');  // 삭제 버튼 생성  // 삭제 버튼 생성
                             deleteButton.click(function() {
                                 // 여기에 댓글 삭제 로직 구현

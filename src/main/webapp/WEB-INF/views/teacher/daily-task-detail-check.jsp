@@ -62,7 +62,7 @@
             font-weight: 600;
             font-size: 17px;
             letter-spacing: 0.5px;
-            color:#3CB371 !important;
+            color:#e03e2d;
         }
 
         .comments-section .comment-time {
@@ -175,6 +175,13 @@
         }
         #contents {
             padding: 60px;
+        }
+
+        .comment-author {
+            color: #0f5132 !important; /* 원하는 색상으로 변경 */
+        }
+        .current-user {
+            color: #ff0000 !important; /* 원하는 색상으로 변경 */
         }
 
     </style>
@@ -314,16 +321,20 @@
                         var commentPost = $('<div>').addClass('comment-post');
                         var commentDetails = $('<div>').addClass('comment-details').appendTo(commentPost);
 
-                        $('<p>').append($('<span>').addClass('comment-author').text(reply.replyer)).appendTo(commentDetails);
+                        var commentAuthor = $('<span>').addClass('comment-author').text(reply.replyer);
+                        // 현재 로그인한 사용자와 댓글 작성자가 일치하면 클래스 추가
+                        if (userId === reply.replyer) {
+                            console.log(userId);
+                            console.log(reply.replyer);
+                            commentAuthor.addClass('current-user');
+                        }
+
+                        $('<p>').append(commentAuthor).appendTo(commentDetails);
+                       /* $('<p>').append($('<span>').addClass('comment-author').text(reply.replyer)).appendTo(commentDetails);*/
                         $('<p>').addClass('comment-content').text(reply.replyContent).appendTo(commentDetails);
 
                         /*만약 현재 로그인한 사용자가 댓글 작성자와 동일하다면 수정 및 삭제 버튼 추가*/
                         if (userId === reply.replyer) {
-                           /* var editButton = $('<button>Edit</button>');  // 수정 버튼 생성
-                            editButton.click(function() {
-                                // 여기에 댓글 수정 로직 구현
-                            });
-                            commentDetails.append(editButton);  // 수정 버튼 추가*/
 
                             var deleteButton = $('<button type="button" id="deleteButton" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>');  // 삭제 버튼 생성  // 삭제 버튼 생성
                             deleteButton.click(function() {

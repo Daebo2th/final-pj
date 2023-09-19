@@ -35,7 +35,7 @@ section.notice {
     height: 40px;
     width: 2000px;
     font-size: 14px;
-    padding: 7px 100px;
+    padding: 7px 130px;
     border: 1px solid #ccc;
 }
 #board-search .search-window .search-wrap input:focus {
