@@ -10,6 +10,7 @@
         <result property="userPwd" column="USER_PWD"/>
         <result property="name" column="NAME"/>
         <result property="profile" column="PROFILE"/>
+        <result property="groupName" column="GROUP_NAME"/>
         <collection property="authList" resultMap="authMap"/>
     </resultMap>
     <resultMap id="authMap" type="userRoleVO">
@@ -17,9 +18,10 @@
         <result property="roleType" column="ROLE_TYPE"/>
     </resultMap>
 
+
     <select id="read" parameterType="String"  resultMap="userMap">
-        SELECT M.USER_ID,GROUP_SEQ,USER_PWD,NAME,PROFILE,ROLE_TYPE
-        FROM MEMBER M LEFT OUTER JOIN ROLE R ON M.USER_ID = R.U_ID WHERE M.USER_ID = #{id}
+        SELECT M.USER_ID,M.GROUP_SEQ,C.GROUP_NAME,M.USER_PWD,M.NAME,M.PROFILE,R.ROLE_TYPE
+        FROM MEMBER M LEFT OUTER JOIN ROLE R ON M.USER_ID = R.U_ID LEFT OUTER JOIN CLASS C ON C.GROUP_SEQ = M.GROUP_SEQ WHERE M.USER_ID = #{id}
     </select>
 
     <select id="findById" parameterType="String" resultType="userVO">

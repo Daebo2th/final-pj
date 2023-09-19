@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -60,7 +61,9 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Turret+Road:wght@300;400;500;700;800&display=swap"
 	rel="stylesheet">
-
+	<style>
+		.breadcrumb { background-color: white;}
+	</style>
 <!-- 폰트 -->
 </head>
 <body>
@@ -75,10 +78,21 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<main id="main" class="main">
+
+		<div class="pagetitle">
+			<h1>To Do List</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/">Home</a></li>
+					<li class="breadcrumb-item active">ToDoList</li>
+				</ol>
+			</nav>
+		</div><!-- End Page Title -->
+
 		<div class="boards">
 			<!-- ToDo List 존 -->
 			<div class="board">
-				<h3>To Do List</h3>
+				<h3>ToDoList</h3>
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-outline-success"
 					data-toggle="modal" data-target="#insertModal" data-zone="1">추가
@@ -89,7 +103,10 @@
 
 							<div class="card" draggable="true">
 								<div class="status green"></div>
-								<div class="content">${list.cardName }</div>
+								<div class="content">
+										${list.cardName}&nbsp;&nbsp;&nbsp;
+										<fmt:formatDate value="${list.cardDate}" pattern="MM/dd"/>
+								</div>
 								<input type="hidden" value="${list.cardNum} ">
 								<!-- Button 수정 modal -->
 								<button type="button" class="btn btn-primary update-btn"

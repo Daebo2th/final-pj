@@ -146,11 +146,6 @@
                         <i class="bi bi-circle"></i><span>일일과제 현황</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/teacher/dataSharingRoom">
-                        <i class="bi bi-circle"></i><span>자료 공유실</span>
-                    </a>
-                </li>
             </ul>
         </li><!-- End Icons Nav -->
 
@@ -165,58 +160,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/common/survey">
                         <i class="bi bi-circle"></i><span>만족도 조사</span>
                     </a>
                 </li>
             </ul>
-        </li><!-- End Charts Nav -->
-
-        <!-- <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
-          </a>
-          <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="charts-chartjs.html">
-                <i class="bi bi-circle"></i><span>Chart.js</span>
-              </a>
-            </li>
-            <li>
-              <a href="charts-apexcharts.html">
-                <i class="bi bi-circle"></i><span>ApexCharts</span>
-              </a>
-            </li>
-            <li>
-              <a href="charts-echarts.html">
-                <i class="bi bi-circle"></i><span>ECharts</span>
-              </a>
-            </li>
-          </ul>
-        </li>End Charts Nav -->
-
-        <!-- <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
-          </a>
-          <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="icons-bootstrap.html">
-                <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
-              </a>
-            </li>
-            <li>
-              <a href="icons-remix.html">
-                <i class="bi bi-circle"></i><span>Remix Icons</span>
-              </a>
-            </li>
-            <li>
-              <a href="icons-boxicons.html">
-                <i class="bi bi-circle"></i><span>Boxicons</span>
-              </a>
-            </li>
-          </ul>
-        </li>End Icons Nav -->
+        </li>
 
         <li class="nav-heading">Pages</li>
 
@@ -228,46 +177,11 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-question-circle"></i>
-                <span>F.A.Q</span>
-            </a>
-        </li><!-- End F.A.Q Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-envelope"></i>
-                <span>Contact</span>
-            </a>
-        </li><!-- End Contact Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-card-list"></i>
-                <span>Register</span>
-            </a>
-        </li><!-- End Register Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link collapsed" href="/auth/logout">
                 <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login</span>
+                <span>Logout</span>
             </a>
-        </li><!-- End Login Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-dash-circle"></i>
-                <span>Error 404</span>
-            </a>
-        </li><!-- End Error 404 Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-file-earmark"></i>
-                <span>Blank</span>
-            </a>
-        </li><!-- End Blank Page Nav -->
+        </li><!-- End Login Page Nav --><!-- End Blank Page Nav -->
 
     </ul>
 
