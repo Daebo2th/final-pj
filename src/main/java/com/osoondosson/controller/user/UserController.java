@@ -1,11 +1,14 @@
 package com.osoondosson.controller.user;
 
+import com.osoondosson.service.MyPageService;
 import com.osoondosson.service.UserServiceImpl;
 import com.osoondosson.utill.EmailAuthService;
 import com.osoondosson.utill.TempKey;
+import com.osoondosson.vo.UploadResponse;
 import com.osoondosson.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,13 +34,21 @@ public class UserController {
     @Autowired
     private EmailAuthService emailAuthService;
 
+    @Autowired
+    private MyPageService myPageService;
+
     // http://localhost:8080/auth/login
     //GET 요청
     @GetMapping("/auth/login")
     public String loginForm(Model model, Principal principal) {
         if(principal!=null)
-            model.addAttribute("user",principal.getName());
+            model.addAttribute("isLogin",true);
         return "auth/login";
+    }
+
+    @GetMapping("/auth/forgot")
+    public String forgotInfo(Model model) {
+        return "auth/forgotInfo";
     }
 
     // http://localhost:8080/auth/sign-up
@@ -59,21 +70,49 @@ public class UserController {
 
     @PostMapping("/auth/mail-check")
     @ResponseBody
-    public Map<String, String> mail(@RequestBody String to, HttpSession session) {
+    public Map<String, String> mail(@RequestBody UserVO vo, HttpSession session) {
         Map<String, String> status = new HashMap<>();
 
-        if(userService.findById(to) != null){
-            status.put("status", "duplication");
-            return status;
-        }
+        if (vo.getName()!=null){
+            if(!userService.getUserCountByIdAndName(vo)){
+                status.put("status", "duplication");
+                return status;
+            }
 
-        if (emailAuthService.sendEmail(to, session)) {
-            status.put("status", "SUCCESS");
-        } else {
-            status.put("status", "FAIL");
+            if (emailAuthService.sendEmail(vo.getUserId(), session)) {
+                status.put("status", "SUCCESS");
+            } else {
+                status.put("status", "FAIL");
+            }
+
+        } else if(vo.getName()==null){
+            if(userService.getUserCountByIdAndName(vo)){
+                status.put("status", "duplication");
+                return status;
+            }
+
+            if (emailAuthService.sendEmail(vo.getUserId(), session)) {
+                status.put("status", "SUCCESS");
+            } else {
+                status.put("status", "FAIL");
+            }
         }
 
         log.info(status.get("status"));
+        return status;
+    }
+
+    @PostMapping("/auth/person-find-id")
+    @ResponseBody
+    public Map<String, String> findEmail(@RequestBody UserVO vo, HttpSession session) {
+        Map<String, String> status = new HashMap<>();
+
+        if(!userService.getUserCountByIdAndName(vo)){
+            status.put("status", "notDuplication");
+            return status;
+        }
+
+        status.put("status", "SUCCESS");
         return status;
     }
 
@@ -88,11 +127,28 @@ public class UserController {
             status.put("status", "SUCCESS");
             session.removeAttribute(to);
             session.removeAttribute("validTime");
+            status.put("msg",userService.findById(to).getUserId());
         } else {
             status.put("status", "FAIL");
         }
 
         return status;
+    }
+
+    @PostMapping("/auth/reset-pwd")
+    @ResponseBody
+    public Map<String, String> resetPwd(@RequestBody String key, Map<String, Object> map,Principal principal){
+        Map<String,String> responseMap = new HashMap<>();
+
+        map.put("userId", principal.getName());
+        map.put("userPwd", key);
+
+        responseMap.put("status", "FAIL");
+        if(myPageService.updatePassWord(map)> 0){
+            responseMap.put("status", "SUCCESS");
+        }
+
+        return responseMap;
     }
 
 }

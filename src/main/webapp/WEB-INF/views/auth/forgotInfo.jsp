@@ -1,4 +1,4 @@
-<%@ page import="java.security.Principal" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: KOSA
   Date: 2023-08-11
@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>회원 찾기</title>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
@@ -310,94 +310,45 @@
         </c:if>
     </div>
 </c:if>
-
-<%--<form action="/auth/login_check" method="post">--%>
-<%--    <table border="1" align="center">--%>
-<%--        <tbody>--%>
-<%--        <tr>--%>
-<%--            <th>아이디:</th>--%>
-<%--            <td><input type="text" name="id"></td>--%>
-<%--        </tr>--%>
-<%--        <tr>--%>
-<%--            <th>비밀번호:</th>--%>
-<%--            <td><input type="password" name="pwd"></td>--%>
-<%--        </tr>--%>
-<%--        <tr>--%>
-<%--            <td colspan="2" align="center">--%>
-<%--                <input type="submit" value="로그인">--%>
-<%--                <input type="button" onclick="location.href='/auth/sign-up'" value="회원가입">--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--        </tbody>--%>
-<%--    </table>--%>
-<%--</form>--%>
-
-
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="/auth/sign-up">
+        <form>
+            <h1>비밀번호 재설정</h1>
+            <input type="text" placeholder="이름" name="findPwdName"/>
             <div class="box">
-                <input class="w-5" type="email" name="email" placeholder="이메일을 입력해주세요">
+                <input class="w-5" type="text" placeholder="이메일" name="findPwdEmail"/>
                 <button type="button" class="btn_custom w-5" onclick="sendEmail()">이메일 전송</button>
-                <input class="w-5" type="text" name="authCode" placeholder="인증번호" maxlength="6">
-                <button type="button" class="btn_custom w-5" onclick="chkCertNum()">인증 확인</button>
             </div>
-
-            <input type="password" name="pwd" placeholder="비밀번호">
-            <input type="password" id="chkPwdVal" placeholder="비밀번호 확인">
-            <input type="text" name="name" placeholder="이름">
-            <input type="date" name="birthday">
-            <!-- 성별 선택 버튼 추가 -->
-            <div class="box">
-                <button type="button" class="btn_custom gender-button w-5" data-value="M">남자</button>
-                <button type="button" class="btn_custom gender-button w-5" data-value="W">여자</button>
-            </div>
-            <input type="hidden" name="gender" id="selected-gender" value="M">
-            <input type="text" name="phone" placeholder="000-0000-0000">
-            <div class="box">
-                <input style="width: 50%" type="text" id="postcode" name="postcode" placeholder="우편번호">
-                <button style="width: 50%" type="button" class="btn_custom" onclick="DaumPostcode()">우편번호 찾기</button>
-                <br>
-                <input type="text" id="roadAddress" name="addr1" placeholder="도로명주소">
-                <input type="text" id="detailAddress" name="addr2" placeholder="상세주소">
-            </div>
-            <button type="button" onclick="signUp()">Sign Up</button>
+            <input type="password" placeholder="인증번호" name="findPwdAuthCode"/>
+            <button type="button" onclick="chkCertNumPwd()">인증</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="/auth/login_check" method="post">
-            <h1>Sign in</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+        <form>
+            <h1>아이디 찾기</h1>
+            <input type="text" placeholder="이름" name="findIdName"/>
+            <div class="box">
+                <input class="w-5" type="email" placeholder="이메일" name="findIdEmail"/>
+                <button type="button" class="btn_custom w-5" onclick="findEmail()">이메일 확인</button>
             </div>
-            <span>or use your account</span>
-            <input type="text" placeholder="Email" name="id"/>
-            <input type="password" placeholder="Password" name="pwd"/>
-            <div class="remember">
-                <label for="remember-me" style>로그인 유지</label>
-                <input type="checkbox" id="remember-me" name="remember-me" />
-            </div>
-            <a href="#">비밀번호를 잊어버리셧나요?</a>
-            <button type="submit">로그인</button>
         </form>
     </div>
     <div class="overlay-container">
         <div class="overlay">
             <div class="overlay-panel overlay-left">
-                <h1>이미 회원이신가요?</h1>
-                <p>아래 버튼을 눌러 로그인을 해주세요!</p>
-                <button class="ghost" id="signIn">로그인</button>
+                <h1>아이디를 모르시나요?</h1>
+                <p>아래 버튼을 눌러 아이디를 찾아주세요!</p>
+                <button class="ghost" id="findId">아이디 찾기</button>
             </div>
             <div class="overlay-panel overlay-right">
-                <h2>Daily Record에<br> 오신것을 환영합니다!</h2>
-                <p>회원가입을 원하신다면<br> 아래 버튼을 눌러주세요.</p>
-                <button class="ghost" id="signUp">회원 가입</button>
+                <h2>이미 아이디를 <br>알고 계신가요?</h2>
+                <p>비밀번호 찾기는<br> 아래 버튼을 눌러주세요.</p>
+                <button class="ghost" id="findPwd">비밀번호 찾기</button>
             </div>
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
@@ -424,67 +375,155 @@
         });
     });
 
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
+    const findPwdButton = document.getElementById('findPwd');
+    const findIdButton = document.getElementById('findId');
     const container = document.getElementById('container');
 
-    signUpButton.addEventListener('click', () => {
+    findPwdButton.addEventListener('click', () => {
         container.classList.add("right-panel-active");
     });
 
-    signInButton.addEventListener('click', () => {
+    findIdButton.addEventListener('click', () => {
         container.classList.remove("right-panel-active");
     });
 
-    function sendEmail() {
-        console.log("이메일 전송 이벤트 시작")
-        const to = $("input[name=email]");
-        $.ajax({
-            url: '/auth/mail-check',
-            type: 'POST',
-            contentType: 'plain/text',
-            data: to.val(),
-            success: function (response) {
-                console.log('Data sent successfully!' + response.status);
-                alert("이메일 전송!")
-                if (response.status == "duplication") {
-                    alert("중복된 이메일입니다.")
-                    to.val('');
-                    to.focus();
-                    return false;
+    /* 아이디 찾기 DB 조회*/
+    function findEmail(){
+        var name = $("input[name='findIdName").val()
+        var email = $("input[name='findIdEmail").val()
+        if (validateForm(name,email)) {
+            let formData = {};
+            formData.name = $("input[name=findIdName]").val();
+            formData.userId = $("input[name=findIdEmail]").val();
+
+            $.ajax({
+                url: '/auth/person-find-id',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                beforeSend: function (xhr) {
+                    swal(
+                        '잠시만 기다려주세요'
+                    )
+                },
+                success: function (response) {
+                    swal.close();
+                    if (response.status == "notDuplication") {
+                        swal({
+                            text: "입력하신 정보와 일치하는 회원이 없습니다.", Buttons: [], closeOnClickOutside: false
+                        })
+                        return false;
+                    }
+
+                    if (response.status == "SUCCESS") {
+                        swal({
+                            text: "회원입니다!", Buttons: [], closeOnClickOutside: false
+                        })
+                    }
+                    // window.location.href=response;
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred while sending data:', error);
                 }
-                // window.location.href=response;
-            },
-            error: function (xhr, status, error) {
-                console.error('Error occurred while sending data:', error);
-            }
-        });
+            });
+        }
     }
 
-    let emailVerified = false;
+    /* 비밀번호 찾기 인증번호 전송 */
+    function sendEmail() {
+        let name = $("input[name=findPwdName]").val();
+        let email = $("input[name=findPwdEmail]").val();
+        if(validateForm(name,email)){
+            let formData = {};
+            formData.name = $("input[name=findPwdName]").val();
+            formData.userId = $("input[name=findPwdEmail]").val();
 
-    function chkCertNum() {
+            $.ajax({
+                url: '/auth/mail-check',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                beforeSend: function( xhr ) {
+                    swal(
+                        '잠시만 기다려주세요'
+                    )
+                },
+                success: function (response) {
+                    swal.close();
+                    console.log(response.status)
+                    if (response.status == "duplication") {
+                        swal({
+                            text: "입력하신 정보와 일치하는 회원이 없어 인증번로를 발송할 수 없습니다.", Buttons:[], closeOnClickOutside: false
+                        })
+                        return false;
+                    }
 
-        let data = {};
-        data.authCode = $('input[name="authCode"]').val();
-        data.to = $('input[name="email"]').val()
+                    if(response.status == "SUCCESS"){
+                        swal({
+                            text: "이메일을 전송했습니다.", Buttons:[], closeOnClickOutside: false
+                        })
+                    }
 
-        console.log(data)
+                    if(response.status == "FAIL"){
+                        swal({
+                            text: "이메일 전송 실패...", Buttons:[], closeOnClickOutside: false
+                        })
+                    }
+                    // window.location.href=response;
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred while sending data:', error);
+                }
+            });
+        }
+
+    }
+
+
+    // 비밀번호 찾기 인증번호 검증
+    function chkCertNumPwd() {
+
+        // 이름과 이메일 입력란의 값을 가져옵니다.
+        let name = $("input[name='findPwdName']").val()
+        let email = $("input[name='findPwdEmail']").val()
+        if(validateForm(name,email)){
+            let data = {};
+            data.authCode = $("input[name='findPwdAuthCode']").val();
+            data.to = email;
+
+            console.log(data)
+            $.ajax({
+                url: '/auth/verify-authCode',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    if (response.status == 'SUCCESS') {
+                        $('input[name="authCode"]').attr("disabled", "disabled")
+                        swal("이메일 검증이 완료되었습니다. 이메일로 전달드린 인증번호로 로그인해주세요.")
+                        AjaxPWReset(data.authCode);
+
+
+                    } else if(response.status == 'FAIL'){
+                        alert("인증 실패");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred while sending data:', error);
+                }
+            });
+        }
+
+    }
+
+    function AjaxPWReset(key){
         $.ajax({
             url: '/auth/verify-authCode',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(data),
+            data: JSON.stringify({authCode:key}),
             success: function (response) {
-                console.log('이메일 검증' + response.status);
-                if (response.status == 'SUCCESS') {
-                    emailVerified = true;
-                    $('input[name="authCode"]').attr("disabled", "disabled")
-                    alert("인증 완료");
-                } else if(response.status == 'FAIL'){
-                    alert("인증 실패");
-                }
-                // window.location.href=response;
+               location.href="/";
             },
             error: function (xhr, status, error) {
                 console.error('Error occurred while sending data:', error);
@@ -492,112 +531,23 @@
         });
     }
 
-    function signUp() {
+    function validateForm(name,email) {
 
-        if (!emailVerified) {
-            alert("이메일 인증을 완료해주세요.");
-            return;
-        }
-        // 폼 내의 모든 필드 값 가져오기
-        let email = $('input[name="email"]').val();
-        let pwd = $('input[name="pwd"]').val();
-        let chkPwdVal = $('#chkPwdVal').val();
-        let name = $('input[name="name"]').val();
-        let birthday = $('input[name="birthday"]').val();
-        let gender = $('input[name="gender"]').val();
-        let phone = $('input[name="phone"]').val();
-        let postcode = $('#postcode').val();
-        let addr1 = $('#roadAddress').val();
-        let addr2 = $('#detailAddress').val();
-
-        // 비밀번호 확인
-        if (pwd !== chkPwdVal) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return;
+        // 이름과 이메일이 모두 입력되었는지 확인합니다.
+        if (name === "" || email === "") {
+            alert("이름과 이메일을 모두 입력하세요.");
+            return false;
         }
 
-        // 필수항목 체크
-        if (!email || !pwd || !name || !birthday || !gender || !phone || !postcode || !addr1) {
-            alert("모든 필드를 채워주세요.");
-            return;
+        // 이메일 형식을 정규표현식을 사용하여 확인합니다.
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+            alert("올바른 이메일 주소를 입력하세요.");
+            return false;
         }
 
-        // 회원 가입 데이터 객체 생성
-        var registerData = {
-            userId: email,
-            userPwd: pwd,
-            name: name,
-            birthday: birthday,
-            gender: gender,
-            phone: phone,
-            postcode: postcode,
-            addr1: addr1,
-            addr2: addr2
-        };
-
-        $.ajax({
-            url: "/auth/sign-up",
-            type: "POST",
-            data: JSON.stringify(registerData),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (response) {
-                if (response.status == "sucess") {
-                    alert("회원가입에 성공하셧습니다.")
-                    location.href = "/";
-                } else {
-                    alert(response.status)
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
-
-    function DaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function (data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
-
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if (data.buildingName !== '' && data.apartment === 'Y') {
-                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postcode').value = data.zonecode;
-                document.getElementById("roadAddress").value = roadAddr;
-
-                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-
-                var guideTextBox = document.getElementById("guide");
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if (data.autoRoadAddress) {
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                    guideTextBox.style.display = 'block';
-
-                } else if (data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                    guideTextBox.style.display = 'block';
-                } else {
-                    guideTextBox.innerHTML = '';
-                    guideTextBox.style.display = 'none';
-                }
-            }
-        }).open();
+        // 모든 유효성 검증을 통과하면 true를 반환합니다.
+        return true;
     }
 </script>
 </body>

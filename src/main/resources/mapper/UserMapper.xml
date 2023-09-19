@@ -26,6 +26,10 @@
         select * from member where user_id = #{id}
     </select>
 
+    <select id="getUserByIdAndName" parameterType="userVO" resultType="Integer">
+        select count(*) from member where user_id = #{userId} and name = #{name}
+    </select>
+
     <select id="findRoleById" parameterType="String" resultType="userRoleVO">
         select * from role where u_id=#{id};
     </select>
