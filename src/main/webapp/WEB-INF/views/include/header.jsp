@@ -103,8 +103,8 @@
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
-            <h6>이름</h6>
-            <span>학생 또는 교직원(유저타입)</span>
+            <h6>${principal.name}</h6>
+            <span>소속 : ${principal.groupName}</span>
           </li>
           <li>
             <hr class="dropdown-divider">

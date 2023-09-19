@@ -43,7 +43,6 @@
         .breadcrumb { background-color: white;}
     </style>
 
-    <title>Hello, world!</title>
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Editor's Style -->
@@ -52,11 +51,7 @@
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <!-- moment.js -->
     <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
-<%--    <!-- fullcalendar CDN -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-    <!-- fullcalendar 언어 CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>--%>
+
     <style>
         /* body 스타일 */
         html, body {
@@ -247,7 +242,7 @@
         <h1>일일과제 상세보기 페이지</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">일일과제</li>
             </ol>
         </nav>

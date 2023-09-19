@@ -19,6 +19,7 @@ public class CustomUserDetail extends User {
     private String name;
     private Date regDate;
     private String profile;
+    private String groupName;
 
     public CustomUserDetail() {
         super("", "", new ArrayList<>());
@@ -35,5 +36,6 @@ public class CustomUserDetail extends User {
         this.name = vo.getName();
         this.regDate = vo.getRegDate();
         this.profile = vo.getProfile();
+        this.groupName = vo.getGroupName();
     }
 }
