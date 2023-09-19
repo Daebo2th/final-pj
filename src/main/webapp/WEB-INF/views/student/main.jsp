@@ -105,132 +105,41 @@
 							<div class="row">
 
 								<!-- Sales Card -->
-								<div class="col-xxl-4 col-md-6">
-									<div class="card info-card sales-card">
+								<div class="col-xxl-4 col-md-6"></div>
 
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
+								<!-- Reports -->
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">나의 과제 현황</h5>
 
-										<div class="card-body">
-											<h5 class="card-title">
-												Sales <span>| Today</span>
-											</h5>
-
-											<div class="d-flex align-items-center">
-												<div
-													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-													<i class="bi bi-cart"></i>
-												</div>
-												<div class="ps-3">
-													<h6>145</h6>
-													<span class="text-success small pt-1 fw-bold">12%</span> <span
-														class="text-muted small pt-2 ps-1">increase</span>
-
-												</div>
-											</div>
-										</div>
-
+										<!-- Default Table -->
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">No</th>
+													<th scope="col">Name</th>
+													<th scope="col">ID</th>
+													<th scope="col">Title</th>
+													<th scope="col">Create Date</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach items="${task }" var="task">
+													<c:set var="i" value="${i + 1 }" />
+													<tr>
+														<th scope="row">${i }</th>
+														<td>${task.NAME }</td>
+														<td>${task.USER_ID}</td>
+														<td>${task.TITLE }</td>
+														<td>${task.CREATE_DATE }</td>
+													</tr>
+											</tbody>
+											</c:forEach>
+										</table>
+										<!-- End Default Table Example -->
 									</div>
 								</div>
-								<!-- End Sales Card -->
-
-								<!-- Revenue Card -->
-								<div class="col-xxl-4 col-md-6">
-									<div class="card info-card revenue-card">
-
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
-
-										<div class="card-body">
-											<h5 class="card-title">
-												Revenue <span>| This Month</span>
-											</h5>
-
-											<div class="d-flex align-items-center">
-												<div
-													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-													<i class="bi bi-currency-dollar"></i>
-												</div>
-												<div class="ps-3">
-													<h6>$3,264</h6>
-													<span class="text-success small pt-1 fw-bold">8%</span> <span
-														class="text-muted small pt-2 ps-1">increase</span>
-
-												</div>
-											</div>
-										</div>
-
-									</div>
-								</div>
-								<!-- End Revenue Card -->
-
-								<!-- Customers Card -->
-								<div class="col-xxl-4 col-xl-12">
-
-									<div class="card info-card customers-card">
-
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
-
-										<div class="card-body">
-											<h5 class="card-title">
-												학생수 <span>| This Year</span>
-											</h5>
-
-											<div class="d-flex align-items-center">
-												<div
-													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-													<i class="bi bi-people"></i>
-												</div>
-												<div class="ps-3">
-													<h6 id="userCount">${user }명</h6>
-													<span class="text-danger small pt-1 fw-bold">12%</span> <span
-														class="text-muted small pt-2 ps-1">decrease</span>
-
-												</div>
-											</div>
-
-										</div>
-									</div>
-
-								</div>
-								<!-- End Customers Card -->
-
+								<!-- End Reports -->
 								<!-- Reports -->
 								<div class="col-12">
 									<div class="card">
@@ -302,15 +211,13 @@
 											    chart.render();
 											});
 
-                  </script>
+                 						 </script>
 											<!-- End Line Chart -->
 
 										</div>
 
 									</div>
 								</div>
-								<!-- End Reports -->
-
 							</div>
 						</div>
 						<div class="col-lg-4">
@@ -335,16 +242,17 @@
 									<h5 class="card-title">
 										미확인 과제 <span>| Today</span>
 									</h5>
-									<c:forEach items="${noCount }" var="noCount">
+									<c:forEach items="${taskStatus }" var="taskStatus">
 										<div class="activity">
 
 											<div class="activity-item d-flex">
-												<div class="activite-label">${noCount.CREATE_DATE }</div>
+												<div class="activite-label">${taskStatus.CREATE_DATE }</div>
 												<i
 													class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 												<div class="activity-content">
-													<a href="/teacher/daily-task-check" class="fw-bold text-dark">${noCount.NAME }</a>
-													${noCount.TITLE }
+													<a href="/teacher/daily-task-check"
+														class="fw-bold text-dark">${taskStatus.NAME }</a>
+													${taskStatus.TITLE }
 												</div>
 												<hr>
 											</div>
@@ -354,6 +262,59 @@
 								</div>
 							</div>
 							<!-- End Recent Activity -->
+							<div class="card">
+								<div class="card-body pb-0">
+									<h5 class="card-title">
+										도움말
+									</h5>
+
+									<div class="news">
+										<div class="post-item clearfix">
+											<img src="/resources/img/과제.png" alt="">
+											<h4>
+												<a href="#">일일과제 작성</a>
+											</h4>
+											<p>일일과제 메뉴에 일일과제 작성 기능을 활용하여 쉽고 간편하게 일일과제를 작성하고 수정 할 수 있습니다.</p>
+										</div>
+
+										<div class="post-item clearfix">
+											<img src="/resources/img/캘린더.png" alt="">
+											<h4>
+												<a href="#">캘린더</a>
+											</h4>
+											<p>일정관리 메뉴에 캘린더 기능을 활용하여 일정을 관리하고 확인 할 수 있습니다.</p>
+										</div>
+
+										<div class="post-item clearfix">
+											<img src="resources/img/투두리스트.png" alt="">
+											<h4>
+												<a href="#">투두리스트</a>
+											</h4>
+											<p>일정관리 메뉴에 투두리스트 기능을 활용하여 해야 할 일을 정리하고 확인 할 수 있습니다.</p>
+										</div>
+
+										<div class="post-item clearfix">
+											<img src="resources/img/자료공유실.png" alt="">
+											<h4>
+												<a href="#">자료공유실</a>
+											</h4>
+											<p>수업관리 메뉴에 자료공유실 기능을 활용하여 교육시 참고할만한 자료들과 정보 들을 공유 할 수 있습니다.</p>
+										</div>
+
+										<div class="post-item clearfix">
+											<img src="resources/img/만족도조사.png" alt="">
+											<h4>
+												<a href="#">만족도 조사</a>
+											</h4>
+											<p>만족도 조사 기능을 활용하여 교육에 대한 만족도 조사와 교사 평가서를 교육생이 작성하여 제출한다.</p>
+										</div>
+
+									</div>
+									<!-- End sidebar recent posts-->
+
+								</div>
+							</div>
+							<!-- End News & Updates -->
 						</div>
 					</div>
 
@@ -386,16 +347,16 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
 	<script type="text/javascript">
-    $(document).ready(function(){
-        moment.locale('ko');  // 한국어로 설정
+		$(document).ready(function() {
+			moment.locale('ko'); // 한국어로 설정
 
-        $(".activite-label").each(function(i,obj) {
-            var dateText = $(obj).text().trim();
-            var date = moment(dateText, "YYYYMMDDHHmmss").fromNow();
-            $(obj).text(date);
-        });
-    }); 
-</script>
+			$(".activite-label").each(function(i, obj) {
+				var dateText = $(obj).text().trim();
+				var date = moment(dateText, "YYYYMMDDHHmmss").fromNow();
+				$(obj).text(date);
+			});
+		});
+	</script>
 
 </body>
 </html>
