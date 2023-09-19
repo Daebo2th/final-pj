@@ -140,8 +140,6 @@
             float: inherit;
         }
     </style>
-
-    <title>Hello, world!</title>
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Editor's Style -->
@@ -189,7 +187,7 @@
         <h1>${taskVO.author}의 일일과제 상세보기 페이지</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">일일과제</li>
             </ol>
         </nav>

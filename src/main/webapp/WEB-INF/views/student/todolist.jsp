@@ -61,7 +61,9 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Turret+Road:wght@300;400;500;700;800&display=swap"
 	rel="stylesheet">
-
+	<style>
+		.breadcrumb { background-color: white;}
+	</style>
 <!-- 폰트 -->
 </head>
 <body>
@@ -76,10 +78,21 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<main id="main" class="main">
+
+		<div class="pagetitle">
+			<h1>To Do List</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/">Home</a></li>
+					<li class="breadcrumb-item active">ToDoList</li>
+				</ol>
+			</nav>
+		</div><!-- End Page Title -->
+
 		<div class="boards">
 			<!-- ToDo List 존 -->
 			<div class="board">
-				<h3>To Do List</h3>
+				<h3>ToDoList</h3>
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-outline-success"
 					data-toggle="modal" data-target="#insertModal" data-zone="1">추가
