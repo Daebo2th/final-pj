@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean insertUser(UserVO user) {
-        return userDAO.insertUser(user) > 0?true:false;
+        return userDAO.insertUser(user) > 0 ? true : false;
     }
 
     @Override
@@ -32,5 +33,10 @@ public class UserServiceImpl implements UserService {
     public String getGroupSeqByUserId(String userId) {
         System.out.println("userService 까지 옴 ~~~~~~~~~~~");
         return userDAO.getGroupSeqByUserId(userId);
+    }
+
+    @Override
+    public boolean getUserCountByIdAndName(UserVO vo) {
+        return userDAO.getUserCountByIdAndName(vo) > 0 ? true : false;
     }
 }
