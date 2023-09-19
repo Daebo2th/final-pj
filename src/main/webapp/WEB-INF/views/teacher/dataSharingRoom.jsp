@@ -250,7 +250,6 @@
 
 </main>
 
-<%@include file="../include/footer.jsp" %>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Vendor JS Files -->
@@ -277,71 +276,6 @@
         });
     });
 
-    $(document).ready(function () {
-        // 폴더 생성 버튼 클릭 시 모달 창 열기
-        $("#createFolderButton").click(function () {
-            $("#folderName").val(""); // 모달 창이 열릴 때 입력 필드 초기화
-            $("#createFolderModal").modal("show");
-        });
-
-        // 폴더 생성 버튼 클릭 시 폴더 생성 요청 처리
-        $("#createFolderConfirm").click(function () {
-            var folderName = $("#folderName").val();
-            if (folderName.trim() !== "") {
-                // 폴더 이름이 비어있지 않은 경우 서버로 요청을 보내 폴더를 생성합니다.
-                createFolder(folderName);
-            }
-        });
-        // 서버로 폴더 생성 요청을 보내는 함수
-        function createFolder(folderName) {
-
-            $.ajax({
-                type: "POST",
-                url: "/teacher/dataSharingRoom/createFolder", // 폴더 생성 요청을 처리하는 서버 엔드포인트 URL
-                contentType: "text/plain",
-                data: folderName,
-                success: function (data) {
-                    console.log(data.message)
-                    if (data.status === 'success') {
-                        alert("폴더가 생성되었습니다.");
-                        $("#createFolderModal").modal("hide"); // 모달 창 닫기
-
-                        var html = `<div class="col-lg-3 col-xl-2">
-                                    <div class="file-man-box"><a href class="file-close"><i
-                                            class="fa fa-times-circle"></i></a>
-
-                                        <a href="#" class="folder-open">
-                                            <div class="file-img-box">
-                                                <i style="font-size: 100px;" class="bx bxs-folder"></i>
-                                            </div>
-                                        </a>
-                                        <div class="file-man-title">
-                                            <h5 class="mb-0 text-overflow">\${folderName}</h5>
-                                            <p class="mb-0"><small></small></p>
-                                        </div>
-                                    </div>
-                                    </div>`
-                        $(".location").append(html);
-                        //새로운 폴더를 화면에 추가하거나 리로드하는 등의 작업 수행
-                    } else {
-                        alert("폴더 생성 중 오류가 발생했습니다.");
-                    }
-                },
-                error: function (error,n , m) {
-                    console.log(error)
-                    console.log(n)
-                    console.log(m)
-                    console.error("폴더 생성 중 오류가 발생했습니다.");
-                }
-            });
-        }
-    });
-    // 폴더 들어가는 기능
-    function enterFolder() {
-        // 호출 방법
-        renderTree(data.fileNames);
-    }
-
     $("#file").on('change', function () {
         var fileName = $("#file").val();
         $(".upload-name").val(fileName);
@@ -364,12 +298,11 @@
                 data: JSON.stringify(formData),
                 success: function (data) {
                     // 성공적으로 삭제되었을 때 실행할 코드
-                    if(data.status){
-                        console.log( data.message)
-                    }
-                    alert("파일이 성공적으로 삭제되었습니다.");
-                    // 클라이언트에서 파일을 DOM에서 제거 (선택적)
-                    $($this).closest(".file-man-box").remove();
+                    swal({
+                        text: "파일이 삭제되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        $($this).closest(".file-man-box").remove();
+                    })
                 },
                 error: function (error) {
                     // 삭제 중 오류가 발생했을 때 실행할 코드
@@ -417,5 +350,6 @@
 
 </script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>
