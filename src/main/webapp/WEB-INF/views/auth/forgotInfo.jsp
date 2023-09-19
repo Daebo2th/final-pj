@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.security.Principal" %><%--
   Created by IntelliJ IDEA.
   User: KOSA
   Date: 2023-08-11
@@ -298,7 +298,7 @@
     </style>
 </head>
 <body>
-<c:if test="${isLogin}">
+<c:if test="${user!=null}">
     <c:redirect url="/"/>
 </c:if>
 
@@ -379,7 +379,7 @@
                 <label for="remember-me" style>로그인 유지</label>
                 <input type="checkbox" id="remember-me" name="remember-me" />
             </div>
-            <a href="/auth/forgot">비밀번호를 잊어버리셧나요?</a>
+            <a href="#">비밀번호를 잊어버리셧나요?</a>
             <button type="submit">로그인</button>
         </form>
     </div>
@@ -437,6 +437,7 @@
     });
 
     function sendEmail() {
+        console.log("이메일 전송 이벤트 시작")
         const to = $("input[name=email]");
         $.ajax({
             url: '/auth/mail-check',
