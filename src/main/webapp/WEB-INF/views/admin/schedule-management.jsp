@@ -39,7 +39,6 @@
         .breadcrumb { background-color: white;}
     </style>
 
-    <title>Hello, world!</title>
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- moment.js -->
@@ -219,9 +218,12 @@
                     // 요청이 성공했을 때의 처리 로직
                     console.log(response); // 응답 데이터 출력
                     // 추가적인 로직 구현 가능
-                    alert("등록이 완료되었습니다.");
-                    $("#calendarModal").modal("hide");
-                    location.href="/schedule/main";
+                    swal({
+                        text: "수정되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        $("#calendarModal").modal("hide");
+                        location.href="/schedule/main";
+                    })
                 },
                 error: function(xhr, status, error) {
                     // 요청이 실패했을 때의 처리 로직
@@ -254,9 +256,12 @@
                     // 요청이 성공했을 때의 처리 로직
                     console.log(response); // 응답 데이터 출력
                     // 추가적인 로직 구현 가능
-                    alert("등록이 완료되었습니다.");
-                    $("#calendarModal").modal("hide");
-                    location.href="/schedule/main";
+                    swal({
+                        text: "등록이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        $("#calendarModal").modal("hide");
+                        location.href="/schedule/main";
+                    })
                 },
                 error: function(xhr, status, error) {
                     // 요청이 실패했을 때의 처리 로직
@@ -293,12 +298,12 @@
                     nowIndicator: true, // 현재 시간 마크
                     dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
                     locale: 'ko', // 한국어 설정
+                    allDay: true,
                     eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
                         console.log(obj);
                     },
                     eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
                         console.log(obj);
-                        alert(obj);
                     },
                     eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
                         console.log(obj);
@@ -362,12 +367,21 @@
                     eventDrop:function(info) {
                         // 이벤트가 드래그 앤 드롭하여 변경될 때 호출되는 콜백 함수
                         var event = info.event;
-                        console.log(event)
                         var formData = {};
-                        formData.scheduleSeq = event._def.extendedProps.extendsProps.scheduleSeq;
+                        if(event._def.extendedProps.extendsProps === undefined){
+                            formData.scheduleSeq = '';
+                        } else {
+                            formData.scheduleSeq = event._def.extendedProps.extendsProps.scheduleSeq;
+                        }
                         formData.startDate = event.start.toISOString()
-                        formData.endDate = event.end.toISOString()
-                        console.log(formData)
+                        formData.endDate = event.end == null? event.start.toISOString() : event.end.toISOString();
+                        // formData.endDate = event.end.toISOString()
+                        console.log(formData.scheduleSeq)
+
+                        if(formData.scheduleSeq === '') {
+                            info.revert();
+                            return false;
+                        }
 
                         $.ajax({
                             url: "/schedule/updateByDrop",
@@ -376,7 +390,11 @@
                             contentType: "application/json",
                             dataType: "json",
                             success: function (response) {
-                                alert("수정되었습니다");
+                                swal({
+                                    text: "수정되었습니다.", buttons: "확인", closeOnClickOutside: false
+                                }).then(function (){
+
+                                })
                                 //location.href="/schedule/main";
                             },
                             error: function(xhr, status, error) {
@@ -385,6 +403,7 @@
                                 // 추가적인 로직 구현 가능
                             }
                         })
+
                     },
 
                     events: [
@@ -403,6 +422,16 @@
                             }
                         },
 
+                        </c:forEach>
+                        <c:forEach var="todolist" items="${todoList}">
+                        {
+                            color:'#2980B9',
+                            textColor:'5D082D',
+                            title: '${todolist.cardName}',
+                            start: '<fmt:formatDate value="${todolist.cardDate}" pattern="yyyy-MM-dd HH:mm" />',
+                            end: '<fmt:formatDate value="${todolist.cardDate}" pattern="yyyy-MM-dd HH:mm" />'
+
+                        },
                         </c:forEach>
                     ]
                 });

@@ -1,7 +1,9 @@
 package com.osoondosson.controller;
 
 import com.osoondosson.security.config.CustomUserDetail;
+import com.osoondosson.service.ScheduleService;
 import com.osoondosson.service.ScheduleServiceImpl;
+import com.osoondosson.service.ToDoListService;
 import com.osoondosson.vo.ScheduleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,10 @@ import java.util.HashMap;
 public class ScheduleController {
 
     @Autowired
-    private ScheduleServiceImpl scheduleService;
+    private ScheduleService scheduleService;
+
+    @Autowired
+    private ToDoListService toDoListService;
 
     // 일정 조회
     @GetMapping("/schedule/main")
@@ -33,6 +38,8 @@ public class ScheduleController {
         System.out.println("세션 : " + session);// 현재 요청의 세션 객체 얻기
         model.addAttribute("list",scheduleService.calendarList(detail.getUsername()));
         model.addAttribute("userId", detail.getUsername());
+        model.addAttribute("todoList",toDoListService.selectToDoList());
+        /* To do List 가져오기 */
         return "/admin/schedule-management";
     }
 
@@ -49,7 +56,7 @@ public class ScheduleController {
         System.out.println("데이터: " + scheduleVO);
 
         scheduleService.insertSchedule(scheduleVO);
-
+        //log.error(scheduleService.insertSchedule(scheduleVO));
         HashMap map = new HashMap<>();
         map.put("status","success");
         map.put("list",scheduleService.calendarList(detail.getUsername()));
@@ -99,4 +106,5 @@ public class ScheduleController {
         map.put("status","success");
         return map;
     }
+
 }
