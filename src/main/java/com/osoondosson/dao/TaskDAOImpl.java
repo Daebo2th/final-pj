@@ -1,0 +1,86 @@
+package com.osoondosson.dao;
+
+import com.osoondosson.vo.ClassVO;
+import com.osoondosson.vo.PagingVO;
+import com.osoondosson.vo.TaskVO;
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+@Repository("taskDAO")
+public class TaskDAOImpl implements TaskDAO {
+
+    @Autowired
+    private SqlSessionTemplate mybatis;
+
+    @Override
+    public void insertTask(TaskVO vo ) {
+        System.out.println("==> mybatis insertTask() 호출 ");
+        mybatis.insert("insertTask", vo);
+    }
+
+    @Override
+    public List<TaskVO> getTaskUserList(HashMap map) {
+        System.out.println("===> Mybatis  getTaskUserList() 호출");
+        return mybatis.selectList("selectUserTaskList", map);
+    }
+
+    @Override
+    public TaskVO getDetailTask(TaskVO vo) {
+        System.out.println(vo);
+        System.out.println("===> Mybatis 상세 보기 호출");
+        return mybatis.selectOne("detailTask", vo);
+    }
+
+    @Override
+    public List<TaskVO> getTaskList(HashMap map) {
+
+        return mybatis.selectList("selectAllTask",map);
+    }
+
+    public void updateTask(TaskVO vo) {
+        System.out.println("==> mybatis UpdateTask() 호출 ");
+        mybatis.update("updateTask", vo);
+    }
+
+    @Override
+    public void deleteTask(int taskSeq) {
+        System.out.println("==> mybatis DeleteTask() 호출 ");
+        mybatis.delete("deleteTask", taskSeq);
+    }
+
+    /*교직원*/
+    @Override
+    public List<TaskVO> getTaskGroupSeq(HashMap map) {
+
+        return mybatis.selectList("getTaskGroupSeq", map);
+    }
+
+    @Override
+    public void updateStatus(TaskVO vo) {
+        mybatis.update("updateStatus",vo);
+    }
+
+    @Override
+    public ClassVO getGroupInfoBygroupSeq(int groupSeq) {
+        return mybatis.selectOne("getGroupInfoBygroupSeq", groupSeq);
+    }
+
+    @Override
+    public int countTasks(Map map) {
+        return mybatis.selectOne("countStuTask", map);
+    }
+
+    @Override
+    public int countGroupSeqTasks(Map map) {
+        return mybatis.selectOne("countGroupSeqTasks", map);
+    }
+
+
+}

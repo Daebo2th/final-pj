@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <security:http pattern="/include/**" security="none"/>
+    <security:http pattern="/favicon.ico" security="none"/>
+    <security:http pattern="/resources/**" security="none"/>
+
+    <context:component-scan base-package="com.osoondosson.dao"/>
+    <security:http auto-config="true" use-expressions="true"
+                   create-session="never">
+
+        <security:csrf disabled="true"/>
+        <!-- 인터셉터 설정 -->
+        <security:intercept-url pattern="/auth/*" access="permitAll"/>
+        <security:intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/teacher/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/student/*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/*" access="hasAnyRole('ROLE_GUEST','ROLE_USER','ROLE_ADMIN')"/>
+
+        <!-- 로그인폼 -->
+        <security:form-login login-page="/auth/login"
+                             login-processing-url="/auth/login_check"
+                             default-target-url="/"
+                             authentication-failure-url="/auth/login?fail=true"
+                             username-parameter="id" password-parameter="pwd"/>
+
+        <security:session-management>
+            <security:concurrency-control
+                    max-sessions="1" expired-url="/auth/login"
+                    error-if-maximum-exceeded="false"
+            />
+        </security:session-management>
+
+        <!-- 로그아웃 관련 처리 -->
+        <security:logout
+                delete-cookies="JSESSIONID"
+                logout-url="/auth/logout"
+                invalidate-session="true"
+                logout-success-url="/"
+        />
+        <!-- 접근 권한이 없는 경우 -->
+        <security:access-denied-handler error-page="/error/accessError"/>
+
+
+        <!-- 자동 로그인 관련 쿠키 저장, 세션이 종료된 후에도 자동 로그인 할 수 있는 기능 -->
+        <security:remember-me key="remember-me"
+                              token-validity-seconds="3600"/>
+
+    </security:http>
+    <bean id="customUserDetailsService" class="com.osoondosson.security.config.CustomUserDetailsService" />
+
+    <!-- 사용자가 입력한 비밀번호를 암호화된 비밀번호와 체크하는 로직이 포함 --><!-- user-service-ref="userService"-->
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="customUserDetailsService">
+                     <security:password-encoder ref="passwordEncorder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+    <!-- 비밀번호 암호화 빈 -->
+    <bean id="passwordEncorder"
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </bean>
+</beans>

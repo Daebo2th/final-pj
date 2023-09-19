@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osoondosson.dao.user.UserDAO">
+    <resultMap id="userMap" type="userVO">
+        <id property="userId" column="user_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="groupSeq" column="GROUP_SEQ"/>
+        <result property="userPwd" column="USER_PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="profile" column="PROFILE"/>
+        <collection property="authList" resultMap="authMap"/>
+    </resultMap>
+    <resultMap id="authMap" type="userRoleVO">
+        <result property="uId" column="U_ID"/>
+        <result property="roleType" column="ROLE_TYPE"/>
+    </resultMap>
+
+    <select id="read" parameterType="String"  resultMap="userMap">
+        SELECT M.USER_ID,GROUP_SEQ,USER_PWD,NAME,PROFILE,ROLE_TYPE
+        FROM MEMBER M LEFT OUTER JOIN ROLE R ON M.USER_ID = R.U_ID WHERE M.USER_ID = #{id}
+    </select>
+
+    <select id="findById" parameterType="String" resultType="userVO">
+        select * from member where user_id = #{id}
+    </select>
+
+    <select id="findRoleById" parameterType="String" resultType="userRoleVO">
+        select * from role where u_id=#{id};
+    </select>
+
+    <insert id="insertUser" parameterType="UserVO">
+        insert into member(USER_ID, USER_PWD, NAME, BIRTHDAY, GENDER, PHONE, ADDR1, ADDR2)
+        VALUES ( #{userId}, #{userPwd}, #{name}, #{birthday}, #{gender}, #{phone}, #{addr1}, #{addr2} )
+    </insert>
+    
+    <update id="updateProfile" parameterType="UserVO">
+    	update member set profile = #{profile} where user_id = #{userId} 
+    </update>
+
+    <select id="getGroupSeqByUserId" resultType="string" parameterType="string">
+        select group_seq from member where user_id= #{userId}
+    </select>
+    
+    <select id="selectCountUser" resultType="int">
+    	select count(*) from member
+    </select>
+    
+    <select id="findStatusCount" resultType="HashMap" parameterType="int">
+    	SELECT m.user_id,name,count(*) as count
+		FROM member m
+		JOIN task t ON m.user_id = t.user_id
+		WHERE t.status = 1 and m.group_seq = #{groupSeq}
+		GROUP BY m.user_id, name
+		ORDER BY m.name ASC
+    </select>
+    
+    <select id="findStatusNoCount" resultType="HashMap" parameterType="int">
+    	SELECT m.user_id, name, title, create_date
+		FROM member m
+		JOIN task t ON m.user_id = t.user_id
+		WHERE t.status = 0 and m.group_seq = #{groupSeq}
+		GROUP BY m.user_id, name, title, create_date
+		ORDER BY create_date desc
+    </select>
+
+</mapper>

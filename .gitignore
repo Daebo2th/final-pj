@@ -16,7 +16,8 @@ target/
 mvnw.cmd
 mvnw
 db.properties
-
+email.properties
+aws.properties
 ### Eclipse ###
 .apt_generated
 .classpath
