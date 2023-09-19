@@ -63,6 +63,7 @@
             /*overflow: hidden;*/
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
+            background: #f6f9ff !important;
         }
         /* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
         .fc-header-toolbar {
@@ -229,7 +230,13 @@
             margin-top:10px;
             float: inherit;
         }
-
+        .tui-editor-defaultUI .tui-editor-mode-switch-left {
+            display: none !important;
+        }
+        #contents {
+            /*border: 2px solid gainsboro;*/ /* 1픽셀 두께의 검은색 테두리 적용 */
+            padding: 60px;
+        }
 
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
@@ -253,28 +260,23 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <section class="section">
-        <div id="contents">
-            <div class="page-title">
-                <div class="container">
-                    <h3>${taskVO.title}</h3>
-                </div>
-            </div>
-            <!-- 에디터를 적용할 요소 (컨테이너) -->
-            <div id="editor">
+    <!-- Default Card -->
+    <div class="card">
+        <div class="card-body">
+            <section class="section">
+                <div id="contents">
+                    <div class="page-title">
+                        <div class="container">
+                            <div id="cardTitleflex">
+                            <h4 class="card-title">${taskVO.title}</h4>
+                            </div>
+                          <%--<h3>${taskVO.title}</h3>--%>
+                              </div>
+                             </div>
+                            <!-- 에디터를 적용할 요소 (컨테이너) -->
+                            <div id="viewer">
 
-            </div>
-
-            <div id="upbtn" style="display: flex; justify-content: center;">
-                <a href="/student/daily-task-update?taskSeq=${taskVO.taskSeq}" class="inline-link">
-                    <button class="custom-btn btn-16">수정</button>
-                </a>
-                <button id="deleteButton" class="custom-btn btn-16">삭 제</button>&nbsp;&nbsp;
-<%--                <a href="/student/daily-task-delete?taskSeq=${taskVO.taskSeq}" class="inline-link">
-                    <button class="custom-btn btn-16">삭 제</button>
-                </a>--%>
-            </div>
-
+                            </div>
             <%
                 Object taskObject = request.getAttribute("taskVO");
                 /* out.println(taskObject);*/
@@ -305,14 +307,12 @@
                         var task = JSON.parse(taskJsonStrUnescaped); //복원된 JSON 문자열을 JavaScript 객체로 변환합니다.
 
                         //에디터 인스턴스를 생성하고 초기화 한다
-                        var editor = new toastui.Editor({
-                            el:document.querySelector('#editor'),
-                            initialEditType: 'wysiwyg',
-                            previewStyle: 'vertical',
-                            height: '600px',
+                        const viewer = new toastui.Editor.factory({
+                            el:document.querySelector('#viewer'),
                             initialValue: task.content,
-                            readOnly: true // 읽기 전용으로 설정하면 사용자가 내용을 변경할 수 없습니다.
-
+                            height: '600px',
+                            toolbarItems: [],
+                            viewer:true
                         });
                         //editor.setMarkdown();
                         // message 값이 존재하면 alert 창을 띄웁니다.
@@ -327,10 +327,25 @@
                 };
 
             </script>
+            </div>
+         </section>
         </div>
-    </section>
+    </div><!-- End Default Card -->
+    <p></p><p></p>
+    <div id="upbtn" style="display: flex; justify-content: center;">
+        <a href="/student/daily-task-update?taskSeq=${taskVO.taskSeq}" class="inline-link">
+            <button class="custom-btn btn-16">수정</button>
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="deleteButton" class="custom-btn btn-16">삭 제</button>&nbsp;&nbsp;
+        <%--                <a href="/student/daily-task-delete?taskSeq=${taskVO.taskSeq}" class="inline-link">
+                            <button class="custom-btn btn-16">삭 제</button>
+                        </a>--%>
+    </div>
+
+
     <div class="con reply">
-        <h1>Comment</h1>
+        <h3> Comment</h3>
         <div class="user-comment">
             <div class="comments-section">
                 <div class="comment-post">
@@ -358,7 +373,7 @@
                         <input id='replyConfirm' type='button' value='Post Your Comment' class='btn btn--blue btn--medium pull-right'>
                     </div>
                     <!-- hidden fields for replyer and taskSeq -->
-                    <input type="hidden" id="replyer" value="<sec:authentication property='principal.username'/>"/>
+                    <input type="hidden" id="replyer" value="<sec:authentication property='principal.name'/>"/>
                     <input type="hidden" id="taskSeq" value="${taskVO.taskSeq}"/>
                 </div>
             </div>
@@ -376,8 +391,11 @@
                 type: 'GET',
                 url: '/student/daily-task-delete?taskSeq=' + taskSeq,
                 success: function(result) {
-                    alert('삭제가 완료되었습니다.');
-                    window.location.href = "/student/daily-task-list";  // 페이지 리다이렉트 (필요한 URL로 변경)
+                    swal({
+                        text: "글 삭제가 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        window.location.href = "/student/daily-task-list";  // 페이지 리다이렉트 (필요한 URL로 변경)
+                    })
                 },
                 error: function(error) {
                     alert('삭제하는 중에 오류가 발생했습니다.');
@@ -421,12 +439,18 @@
                                     type: 'GET',
                                     url: '/student/delete-reply?replySeq=' + reply.replySeq,  // 실제 댓글 삭제 API URL로 변경 필요
                                     success: function(result) {
-                                        alert('댓글 삭제가 완료되었습니다.');
-                                        replyList();  // 댓글 목록 새로고침
+                                        swal({
+                                            text: "댓글 삭제가 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                                        }).then(function (){
+                                            replyList();  // 댓글 목록 새로고침
+                                        })
                                     },
                                     error: function(error) {
-                                        alert('댓글을 삭제하는 중에 오류가 발생했습니다.');
-                                        console.log(error);
+                                        swal({
+                                            text: "댓글 삭제에 실패했습니다.", buttons: "확인", closeOnClickOutside: false
+                                        }).then(function (){
+                                            replyList();  // 댓글 목록 새로고침
+                                        })
                                     }
                                 });
                             });
@@ -437,8 +461,11 @@
                     });
                 },
                 error: function(error) {
-                    alert('Failed to load replies');
-                    console.log(error);
+                    swal({
+                        text: "댓글 삭제에 실패했습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        replyList();  // 댓글 목록 새로고침
+                    })
                 }
             });
         }
@@ -463,10 +490,13 @@
                     data: JSON.stringify(formData),
                     url:'/student/daily-task-reply',
                     success:function(result){
-                        alert("댓글 등록이 안료되었습니다.");
-                        //화면 초기화
-                        $('#replyContent').val('');
-                        replyList();
+                        swal({
+                            text: "댓글 등록이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                        }).then(function (){
+                            //화면 초기화
+                            $('#replyContent').val('');
+                            replyList();
+                        })
                     },
                     error: function(error){
                         alert('error');

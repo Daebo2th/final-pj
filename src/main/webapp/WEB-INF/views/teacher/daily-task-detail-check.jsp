@@ -62,7 +62,7 @@
             font-weight: 600;
             font-size: 17px;
             letter-spacing: 0.5px;
-            color: #547ef8;
+            color:#3CB371 !important;
         }
 
         .comments-section .comment-time {
@@ -173,6 +173,10 @@
             border-color: red !important;
             background-color: red !important;
         }
+        #contents {
+            padding: 60px;
+        }
+
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
 
@@ -195,18 +199,24 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <section class="section">
-        <div id="contents">
-            <div class="page-title">
-                <div class="container">
-                    <h3>${taskVO.title}</h3>
-                </div>
-            </div>
-            <!-- 에디터를 적용할 요소 (컨테이너) -->
-            <div id="editor">
+       <!-- Default Card -->
+    <div class="card">
+        <div class="card-body">
+            <section class="section">
+                <div id="contents">
+                    <div class="page-title">
+                        <div class="container">
+                            <div id="cardTitleflex">
+                                <h4 class="card-title">${taskVO.title}</h4>
+                            </div>
+                            <%--<h3>${taskVO.title}</h3>--%>
+                        </div>
+                    </div>
+                    <!-- 에디터를 적용할 요소 (컨테이너) -->
+                    <div id="viewer">
 
-            </div>
-            <%
+                    </div>
+                <%
                 Object taskObject = request.getAttribute("taskVO");
                 /* out.println(taskObject);*/
                 String taskJson ="{}";
@@ -222,9 +232,9 @@
                     }
                 }
 
-            %>
+                %>
 
-            <script type = "text/javascript">
+             <script type = "text/javascript">
 
                 //페이지가 로드 되면 실행 됨
                 window.onload = function(){
@@ -236,14 +246,13 @@
                         var task = JSON.parse(taskJsonStrUnescaped); //복원된 JSON 문자열을 JavaScript 객체로 변환합니다.
 
                         //에디터 인스턴스를 생성하고 초기화 한다
-                        var editor = new toastui.Editor({
-                            el:document.querySelector('#editor'),
-                            initialEditType: 'wysiwyg',
-                            previewStyle: 'vertical',
-                            height: '600px',
+                        const viewer = new toastui.Editor.factory({
+                            el:document.querySelector('#viewer'),
                             initialValue: task.content,
-                            readOnly: true // 읽기 전용으로 설정하면 사용자가 내용을 변경할 수 없습니다.
-
+                            height: '600px',
+                            toolbarItems: [],
+                            viewer:true
+                           /* hideModeSwitch: true,*/
                         });
                         //editor.setMarkdown();
                         // message 값이 존재하면 alert 창을 띄웁니다.
@@ -256,10 +265,10 @@
                     }
 
                 };
-
             </script>
+            </section>
         </div>
-    </section>
+    </div>
     <div class="con reply">
         <h1>Comment</h1>
         <div class="user-comment">
@@ -280,7 +289,7 @@
                         </div>
                     </div>
                     <!-- hidden fields for replyer and taskSeq -->
-                    <input type="hidden" id="replyer" value="<sec:authentication property='principal.username'/>"/>
+                    <input type="hidden" id="replyer" value="<sec:authentication property='principal.name'/>"/>
                     <input type="hidden" id="taskSeq" value="${taskVO.taskSeq}"/>
 
                 </div>

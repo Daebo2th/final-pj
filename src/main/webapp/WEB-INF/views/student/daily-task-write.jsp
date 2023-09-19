@@ -200,8 +200,8 @@
             <input id="author" type="text" class="form-control" value="${userName}" readonly="false">
           </div>
           <div class="form-group">
-            <label for="userid">UserId</label>
-            <input id="userid" type="text" class="form-control" value="${userId}" readonly="false">
+            <%--<label for="userid">UserId</label>--%>
+            <input type="hidden" id="userid" type="text" class="form-control" value="${userId}" readonly="false">
           </div>
         </div>
       </div>
@@ -280,11 +280,18 @@
             contentType: 'application/json',
             data: JSON.stringify(formData),
             success: function (response) {
-              console.log('Data sent successfully!');
-              window.location.href=response;
+              swal({
+                text: "글 작성이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+              }).then(function (){
+                window.location.href=response;
+              })
             },
             error: function (xhr, status, error) {
-              console.error('Error occurred while sending data:', error);
+              swal({
+                text: "글 작성에 실패했습니다", buttons: "확인", closeOnClickOutside: false
+              }).then(function (){
+                console.error('Error occurred while sending data:', error);
+              })
             }
           });
         }

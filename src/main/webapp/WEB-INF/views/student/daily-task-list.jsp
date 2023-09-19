@@ -97,6 +97,16 @@
             text-align: center;
             font-family: monospace;
         }
+        .page-link{
+            color:#28a745 !important;
+        }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #fff !important;
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
 
@@ -132,24 +142,27 @@
                 <div class="container">
                     <div class="search-window">
                         <form action="/student/daily-task-list" method="get">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">
-                                 검색조건
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" data-value="title">제목</a>
-                                    <a class="dropdown-item" data-value="createDate">작성일</a>
-                                    <a class="dropdown-item" data-value="updateDate">수정일</a>
-                                </div>
-                            </div>
-                             <input type='hidden' name='searchCondition' id='searchCondition'>
 
                             <div class="search-wrap">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">
+                                        검색조건
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" data-value="title">제목</a>
+                                        <a class="dropdown-item" data-value="createDate">작성일</a>
+                                        <a class="dropdown-item" data-value="updateDate">수정일</a>
+                                    </div>
+                                </div>
+                                <input type='hidden' name='searchCondition' id='searchCondition'>
+
                                 <label for="searchKeyword" class="blind">내용 검색</label>
                                 <input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요." value="">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-dark">검색</button>
 
                             </div>
-                            <button type="submit" class="btn btn-dark">검색</button>
+
                         </form>
                     </div>
                 </div>
@@ -198,7 +211,7 @@
     <c:set var="totalItems" value="${pagingVO.total}" /> &lt;%&ndash; 검색 결과의 전체 개수 &ndash;%&gt;
     <c:set var="totalPages" value="${Math.ceil(totalItems.doubleValue() / itemsPerPage.doubleValue())}" />--%> <%-- 전체 페이지 수 --%>
 
-    <div id="pageNation" style="display: flex;justify-content: space-evenly;">
+    <div id="pageNation" style="display: flex;justify-content: space-evenly;padding: 20px;">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <c:if test="${pagingVO.nowPage > 1}">

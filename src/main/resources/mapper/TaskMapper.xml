@@ -101,6 +101,7 @@
         <if test="searchCondition == 'createDate'.toString()">
             and  to_char(create_date,'yyyy-MM-dd') = #{searchKeyword}
         </if>
+        ORDER BY task_seq DESC
         ) WHERE rn BETWEEN #{start} AND #{end}
     </select>
 
