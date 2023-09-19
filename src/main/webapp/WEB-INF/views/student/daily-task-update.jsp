@@ -15,7 +15,6 @@
 
 <html>
 <head>
-    <title>일일과제현황</title>
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
@@ -42,6 +41,8 @@
     <style>
         .breadcrumb { background-color: white;}
     </style>
+    <title>일일과제 수정 페이지</title>
+
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Editor's Style -->
@@ -338,11 +339,18 @@
                         contentType: 'application/json',
                         data: JSON.stringify(formData),
                         success: function (response) {
-                            console.log('Data sent successfully!');
-                            window.location.href=response;
+                            swal({
+                                text: "글 수정이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                            }).then(function (){
+                                window.location.href=response;
+                            })
                         },
                         error: function (xhr, status, error) {
-                            console.error('Error occurred while sending data:', error);
+                            swal({
+                                text: "글 수정에 실패하였습니다.", buttons: "확인", closeOnClickOutside: false
+                            }).then(function (){
+                                console.error('Error occurred while sending data:', error);
+                            })
                         }
                     });
                 }
