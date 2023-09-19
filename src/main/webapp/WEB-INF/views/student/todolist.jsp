@@ -104,7 +104,7 @@
 							<div class="card" draggable="true">
 								<div class="status green"></div>
 								<div class="content">
-										${list.cardName}&nbsp;&nbsp;&nbsp;
+										${list.cardName}&nbsp;&nbsp;
 										<fmt:formatDate value="${list.cardDate}" pattern="MM/dd"/>
 								</div>
 								<input type="hidden" value="${list.cardNum} ">
@@ -139,7 +139,10 @@
 
 							<div class="card" draggable="true">
 								<div class="status yellow"></div>
-								<div class="content">${list.cardName }</div>
+								<div class="content">
+									${list.cardName}&nbsp;&nbsp;
+									<fmt:formatDate value="${list.cardDate}" pattern="MM/dd"/>
+								</div>
 								<input type="hidden" class="cardNum" value="${list.cardNum} ">
 								<!-- Button 수정 modal -->
 								<button type="button" class="btn btn-primary update-btn"
@@ -174,7 +177,10 @@
 
 							<div class="card" draggable="true">
 								<div class="status red"></div>
-								<div class="content">${list.cardName }</div>
+								<div class="content">
+										${list.cardName }&nbsp;&nbsp;
+										<fmt:formatDate value="${list.cardDate}" pattern="MM/dd"/>
+								</div>
 								<input type="hidden" value="${list.cardNum} ">
 								<!-- Button 수정 modal -->
 								<button type="button" class="btn btn-primary update-btn"
@@ -287,9 +293,11 @@
 				"listNum" : zone
 			}),
 			success : function(response) {
-				alert('등록완료')
-				console.log('Data sent successfully!');
-				location.href = "/student/todolist"
+				swal({
+					text: "등록되었습니다.", buttons: "확인", closeOnClickOutside: false
+				}).then(function (){
+					location.href = "/student/todolist"
+				})
 			},
 			error : function(xhr, status, error) {
 				console.error('Error occurred while sending data:', error);
@@ -318,9 +326,11 @@
 				"cardNum" : cardNum
 			}),
 			success : function(response) {
-				alert('수정완료')
-				console.log('Data sent successfully!');
-				location.href = "/student/todolist"
+				swal({
+					text: "수정되었습니다.", buttons: "확인", closeOnClickOutside: false
+				}).then(function (){
+					location.href = "/student/todolist"
+				})
 			},
 			error : function(xhr, status, error) {
 				console.error('Error occurred while sending data:', error);
@@ -339,9 +349,11 @@
 				"cardNum" : cardNum
 			}),
 			success : function(response) {
-				alert('삭제완료')
-				console.log('Data sent successfully!');
-				location.href = "/student/todolist"
+				swal({
+					text: "삭제되었습니다.", buttons: "확인", closeOnClickOutside: false
+				}).then(function (){
+					location.href = "/student/todolist"
+				})
 			},
 			error : function(xhr, status, error) {
 				console.error('Error occurred while sending data:', error);

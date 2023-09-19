@@ -21,27 +21,24 @@ public class ToDoListServiceImpl implements ToDoListService {
 	}
 
 	@Override
-	public List<ToDoListVO> selectToDoList() {
-		return todolistDAO.selectToDoList();
+	public List<ToDoListVO> selectToDoList(String userId) {
+		return todolistDAO.selectToDoList(userId);
 	}
 
 	@Override
 	public void updateToDoList(ToDoListVO vo) {
 		todolistDAO.updateToDoList(vo);
-		
 	}
 
 	@Override
 	public void deleteToDoList(ToDoListVO vo) {
 		todolistDAO.deleteToDoList(vo);
-		
 	}
 
 	@Override
 	public void cardTaxisUpdate(ToDoListVO vo) {
 		todolistDAO.cardTaxisUpdate(vo);
-		
 	}
-	
+
 
 }

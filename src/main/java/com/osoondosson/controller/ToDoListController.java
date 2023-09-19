@@ -2,7 +2,9 @@ package com.osoondosson.controller;
 
 import java.security.Principal;
 
+import com.osoondosson.security.config.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +32,10 @@ public class ToDoListController {
 	}
 	// http://localhost:8080/student/todolist
 	@GetMapping("/student/todolist")
-	public String selectToDoList(Model model) {
-		model.addAttribute("list", todolistService.selectToDoList());
+	public String selectToDoList(Model model, Authentication auth) {
+		CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
+		String userId = detail.getUsername();
+		model.addAttribute("list", todolistService.selectToDoList(userId));
 		
 		return "/student/todolist";
 	}

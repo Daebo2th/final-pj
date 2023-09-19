@@ -5,6 +5,7 @@ import com.osoondosson.service.ScheduleService;
 import com.osoondosson.service.ScheduleServiceImpl;
 import com.osoondosson.service.ToDoListService;
 import com.osoondosson.vo.ScheduleVO;
+import com.osoondosson.vo.ToDoListVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Controller
@@ -32,13 +34,10 @@ public class ScheduleController {
     @GetMapping("/schedule/main")
     public String data(Model model, HttpServletRequest request, Authentication auth) {
         CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
-        System.out.println("디테일" + detail.getName());
-        System.out.println("디테일" + detail.getUsername());
         HttpSession session = request.getSession(); //
-        System.out.println("세션 : " + session);// 현재 요청의 세션 객체 얻기
         model.addAttribute("list",scheduleService.calendarList(detail.getUsername()));
         model.addAttribute("userId", detail.getUsername());
-        model.addAttribute("todoList",toDoListService.selectToDoList());
+        model.addAttribute("todoList",toDoListService.selectToDoList(detail.getUsername()));
         /* To do List 가져오기 */
         return "/admin/schedule-management";
     }
