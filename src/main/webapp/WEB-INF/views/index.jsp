@@ -48,7 +48,6 @@
 	<c:choose>
 		<c:when test="${user[0] == 'ROLE_ADMIN'}">
 			<script>
-				alert("?")
 				location.href="/admin"
 			</script>
 		</c:when>
