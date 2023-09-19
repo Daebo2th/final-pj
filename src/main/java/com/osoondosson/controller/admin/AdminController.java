@@ -61,22 +61,36 @@ public class AdminController {
                             @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
                             @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage) {
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
-        String groupSeq= String.valueOf(detail.getGroupSeq());
+        int groupSeq= detail.getGroupSeq();
 
+        Map<String, Object> map =new HashMap<>();
+        map.put("groupSeq", groupSeq);
 
-        List<MemberWithClassVO> list = adminService.selectByGroup(Integer.parseInt(groupSeq));
+        int total=adminService.countStudent(map);
+        PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
+        map.put("start", pagingVO.getStart());
+        map.put("end", pagingVO.getEnd());
+
+        System.out.println(pagingVO+"-------------------------------------");
+
+        List<MemberWithClassVO> list = adminService.selectByGroup(map);
 
         System.out.println("리스트: " + list);
         model.addAttribute("list", list);
-        model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(Integer.parseInt(groupSeq)));
+        model.addAttribute("pagingVO", pagingVO);
+        model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(groupSeq));
         return "admin/student-record";
     }
 
     @GetMapping("/admin/student-detail")
-    public String stuDetail(Model model,
+    public String stuDetail(Model model,Authentication authentication,
                             @RequestParam(value = "studentUserId", required = false) String userId) {
-        List<MemberWithClassVO> list = adminService.selectByGroup(1);
-        System.out.println("리스트: " + list);
+        CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
+        String groupSeq= String.valueOf(detail.getGroupSeq());
+
+        Map<String, Object> map =new HashMap<>();
+        map.put("groupSeq", String.valueOf(groupSeq));
+
         System.out.println("유저아이디:" + userId);
         UserVO studentList = myPageService.selectMyPage(userId);
         model.addAttribute("mypage", studentList);

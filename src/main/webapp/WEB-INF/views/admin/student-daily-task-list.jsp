@@ -85,6 +85,16 @@
       text-align: center;
       font-family: monospace;
     }
+    .page-link{
+      color:#28a745 !important;
+    }
+
+    .page-item.active .page-link {
+      z-index: 1;
+      color: #fff !important;
+      background-color: #28a745 !important;
+      border-color: #28a745 !important;
+    }
   </style>
   <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
 </head>
@@ -119,24 +129,25 @@
         <div class="container">
           <div class="search-window">
             <form action="/teacher/daily-task-check" method="get">
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">
-                  검색조건
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" data-value="title">제목</a>
-                  <a class="dropdown-item" data-value="author">작성자</a>
-                  <a class="dropdown-item" data-value="createDate">작성일</a>
-                </div>
-              </div>
-              <input type='hidden' name='searchCondition' id='searchCondition'>
-
               <div class="search-wrap">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">
+                    검색조건
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" data-value="title">제목</a>
+                    <a class="dropdown-item" data-value="author">작성자</a>
+                    <a class="dropdown-item" data-value="createDate">작성일</a>
+                  </div>
+                </div>
+                <input type='hidden' name='searchCondition' id='searchCondition'>
+
                 <label for="searchKeyword" class="blind">내용 검색</label>
                 <input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요." value="">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="submit" class="btn btn-dark">검색</button>
 
               </div>
-              <button type="submit" class="btn btn-dark">검색</button>
             </form>
           </div>
         </div>
@@ -256,9 +267,13 @@
       // 모든 AJAX 요청이 완료되면 alert을 표시합니다.
       $(document).ajaxStop(function () {
         if (successCount > 0) {
-          alert("상태 업데이트가 완료되었습니다.");
+          swal({
+            text: "상태 업데이트가 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+          }).then(function (){
+            $(document).off("ajaxStop");  // 이 이벤트 핸들러를 제거합니다.
+          })
         }
-        $(document).off("ajaxStop");  // 이 이벤트 핸들러를 제거합니다.
+
       });
     });
   });

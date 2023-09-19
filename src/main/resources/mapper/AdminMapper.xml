@@ -6,6 +6,10 @@
     <select id="selectByGroup" parameterType="Integer" resultType="MemberWithClassVO">
         select rownum, user_id ,m.name, m.phone, m.gender, c.group_name, c.start_date, c.end_date
         from member m inner join class c ON m.group_seq = c.group_seq
-        where c.group_seq = #{groupSeq}
+        where c.group_seq = #{groupSeq} and rownum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="countStudent" resultType="int" parameterType="map">
+        select count(*) from member where group_seq =#{groupSeq}
     </select>
 </mapper>
