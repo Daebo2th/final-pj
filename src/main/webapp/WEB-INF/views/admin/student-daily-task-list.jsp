@@ -38,8 +38,6 @@
   <style>
     .breadcrumb { background-color: white;}
   </style>
-
-  <title>Hello, world!</title>
   <!-- jquery CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- moment.js -->
@@ -110,7 +108,7 @@
     <h1>일일과제 현황</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item active">일일과제</li>
       </ol>
     </nav>

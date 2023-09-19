@@ -129,4 +129,10 @@ public class AdminController {
 
         return "/admin/student-daily-task-list";
     }
+    
+    // 만족도 조사
+    @GetMapping("/common/survey")
+    public String survey() {
+        return "common/survey";
+    }
 }

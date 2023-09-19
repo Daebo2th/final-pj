@@ -61,7 +61,7 @@
                             <h1>학생 기록부</h1>
                             <nav>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
                                     <li class="breadcrumb-item active">학생기록부</li>
                                 </ol>
                             </nav>
