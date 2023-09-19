@@ -44,14 +44,26 @@ public class S3FileService {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("Empty file provided");
         }
+
+
+        // UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        // 새로운 파일명 생성 (UUID 추가)
+        String newFilename = uuid + "_" + file.getOriginalFilename();
+        // 각 사용자의 ID에 해당하는 서브 디렉토리에 파일이 저장되도록 키 값을 설정합니다.
+        String objectKey = "dailytask/" + newFilename;
+
+        String url = "https://osdsbucket.s3.amazonaws.com/dailytask/" + newFilename;
+
         PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket("osdsbucket")
-                .key(file.getOriginalFilename()).build();
+                .key(objectKey).build();
 
         try (InputStream is = file.getInputStream()) {
             PutObjectResponse response = s3Client.putObject(putObjectRequest,
                     RequestBody.fromInputStream(is, file.getSize()));
             if (response.sdkHttpResponse().isSuccessful()) {
-                return "https://osdsbucket.s3.amazonaws.com/" + file.getOriginalFilename();
+                return url;
+              /*  return "https://osdsbucket.s3.amazonaws.com/dailytask/" + file.getOriginalFilename();*/
                 /* return "File uploaded successfully"; */
             } else {
                 return "Error occurred while uploading file";

@@ -19,7 +19,7 @@ section.notice {
 
 #board-search .search-window {
     display: flex !important;
-    justify-content: flex-start;
+    justify-content: space-around;
     padding: 15px 0;
     background-color: #f9f7f9;
 }
@@ -35,7 +35,7 @@ section.notice {
     height: 40px;
     width: 2000px;
     font-size: 14px;
-    padding: 7px 14px;
+    padding: 7px 130px;
     border: 1px solid #ccc;
 }
 #board-search .search-window .search-wrap input:focus {
@@ -194,7 +194,7 @@ body, ul, li, h1, h2, h3, h4, h5, h6 {
 }
 
 a:link {
-    color: lightblue;
+    color: #28a745;
 }
 
 /* 라이브러리 */
