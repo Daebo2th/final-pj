@@ -396,6 +396,7 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
@@ -439,16 +440,33 @@
         $.ajax({
             url: '/auth/mail-check',
             type: 'POST',
-            contentType: 'plain/text',
-            data: to.val(),
+            contentType: 'application/json',
+            data: JSON.stringify({"userId":to.val()}),
+            beforeSend: function( xhr ) {
+                swal(
+                    '잠시만 기다려주세요'
+                )
+            },
             success: function (response) {
-                console.log('Data sent successfully!' + response.status);
-                alert("이메일 전송!")
+                swal.close();
+                console.log(response.status)
                 if (response.status == "duplication") {
-                    alert("중복된 이메일입니다.")
-                    to.val('');
-                    to.focus();
+                    swal({
+                        text: "입력하신 정보와 일치하는 회원이 없어 인증번로를 발송할 수 없습니다.", Buttons:[], closeOnClickOutside: false
+                    })
                     return false;
+                }
+
+                if(response.status == "SUCCESS"){
+                    swal({
+                        text: "이메일을 전송했습니다.", Buttons:[], closeOnClickOutside: false
+                    })
+                }
+
+                if(response.status == "FAIL"){
+                    swal({
+                        text: "이메일 전송 실패...", Buttons:[], closeOnClickOutside: false
+                    })
                 }
                 // window.location.href=response;
             },
@@ -458,6 +476,20 @@
         });
     }
 
+    // ,
+    // success: function (response) {
+    //     alert("이메일 전송!")
+    //     if (response.status == "duplication") {
+    //         alert("중복된 이메일입니다.")
+    //         to.val('');
+    //         to.focus();
+    //         return false;
+    //     }
+    //     // window.location.href=response;
+    // },
+    // error: function (xhr, status, error) {
+    //     console.error('Error occurred while sending data:', error);
+    // }
     let emailVerified = false;
 
     function chkCertNum() {
