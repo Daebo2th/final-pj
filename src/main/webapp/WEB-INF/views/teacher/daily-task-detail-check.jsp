@@ -221,54 +221,43 @@
                     <div id="viewer">
 
                     </div>
-                <%
-                Object taskObject = request.getAttribute("taskVO");
-                /* out.println(taskObject);*/
-                String taskJson ="{}";
-                if(taskObject != null){
-                    try{ //서버에서 받아온 'taskVO' 객체를 JSON 문자열로 변환하고, 이스케이프 처리합니다.
-                        ObjectMapper mapper = new ObjectMapper();
-                        String jsonStr = mapper.writeValueAsString(taskObject);
-                        // 모든 제어문자와 특수문자를 Java 스트링 리터럴에서 안전하게 사용할 수 있는 형태로 변환
-                        taskJson = StringEscapeUtils.escapeJava(jsonStr);
-                        /*out.println("taskJSON : "+ taskJson);*/
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-
-                %>
 
              <script type = "text/javascript">
 
                 //페이지가 로드 되면 실행 됨
                 window.onload = function(){
-                    var taskJsonStrEscaped = '<%=taskJson%>';
-                    //이스케이프 처리된 문자열에서 역슬래시와 따옴표(\') 조합을 일반 따옴표(')로 치환하여 원래 형태로 복원합니다.
-                    var taskJsonStrUnescaped = String(taskJsonStrEscaped).replace(/\\'/g, "'");
-
-                    try{
-                        var task = JSON.parse(taskJsonStrUnescaped); //복원된 JSON 문자열을 JavaScript 객체로 변환합니다.
-
-                        //에디터 인스턴스를 생성하고 초기화 한다
-                        const viewer = new toastui.Editor.factory({
-                            el:document.querySelector('#viewer'),
-                            initialValue: task.content,
-                            height: '600px',
-                            toolbarItems: [],
-                            viewer:true
-                           /* hideModeSwitch: true,*/
-                        });
-                        //editor.setMarkdown();
-                        // message 값이 존재하면 alert 창을 띄웁니다.
-                        if (message) {
-                            alert(message);
+                    $.ajax({
+                        url: "/api/task-list/${param.taskSeq}",
+                        type: "GET",
+                        dataType: 'json',
+                        success: function (response) {
+                            tosatUI(response)
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error occurred while sending data:', error);
                         }
-                    }catch(e){
-                        console.error(e);
-                        console.log(taskJsonStrUnescaped);
+                    });
+                    function tosatUI(response){
+                        try{
+                            //에디터 인스턴스를 생성하고 초기화 한다
+                            const viewer = new toastui.Editor.factory({
+                                el:document.querySelector('#viewer'),
+                                initialValue: response.content,
+                                height: '600px',
+                                toolbarItems: [],
+                                viewer:true
+                               /* hideModeSwitch: true,*/
+                            });
+                            //editor.setMarkdown();
+                            // message 값이 존재하면 alert 창을 띄웁니다.
+                            if (message) {
+                                alert(message);
+                            }
+                        }catch(e){
+                            console.error(e);
+                            console.log(taskJsonStrUnescaped);
+                        }
                     }
-
                 };
             </script>
             </section>

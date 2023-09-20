@@ -195,9 +195,7 @@ public class TaskController {
 
     @GetMapping("/teacher/daily-task-detail")
     public String DetailCheckDailyTask(Model model, TaskVO vo) {
-        System.out.println("VO:-----------------------"+vo);
-        TaskVO task = taskService.getDetailTask(vo);
-        model.addAttribute("taskVO", task);
+        model.addAttribute("taskVO", taskService.getDetailTask(vo));
         return "/teacher/daily-task-detail-check";
     }
 
@@ -208,6 +206,18 @@ public class TaskController {
         return "/teacher/updateTaskStatus";
     }
 
+
+    /**
+     * 게시글 번호로 게시글 상세 조회
+     * @param taskSeq
+     * @return taskVO
+     * */
+    @GetMapping("/api/task-list/{taskSeq}")
+    @ResponseBody
+    public TaskVO getTaskList(@PathVariable("taskSeq") int taskSeq, TaskVO vo){
+        vo.setTaskSeq(taskSeq);
+        return taskService.getDetailTask(vo);
+    }
 
 }
 
