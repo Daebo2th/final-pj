@@ -12,4 +12,6 @@ public interface BoardService {
 	List<Map<String, Object>> findStatusNoCount(int groupSeq);
 	List<Map<String, Object>> selectMyTask(UserVO vo);
 	List<Map<String, Object>> selectMyTaskStatus(UserVO vo);
+	int countTasks(int groupSeq);
+	int countTasksOk(int groupSeq);
 }

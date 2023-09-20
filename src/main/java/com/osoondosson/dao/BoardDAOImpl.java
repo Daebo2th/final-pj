@@ -45,4 +45,16 @@ public class BoardDAOImpl implements BoardDAO {
 		System.out.println("==> mybatis selectMyTaskStatus() 호출");
 		return sqlSession.selectList("selectMyTaskStatus", vo);
 	}
+
+	@Override
+	public int countTasks(int groupSeq) {
+		System.out.println("==> mybatis countTasks() 호출");
+		return sqlSession.selectOne("countTasks", groupSeq);
+	}
+
+	@Override
+	public int countTasksOk(int groupSeq) {
+		System.out.println("==> mybatis countTasksOk() 호출");
+		return sqlSession.selectOne("countTasksOk", groupSeq);
+	}
 }
