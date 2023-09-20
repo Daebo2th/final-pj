@@ -126,7 +126,7 @@
       <div id="board-search">
         <div class="container">
           <div class="search-window">
-            <form action="/admin/student-daily-task-list" method="get">
+            <form action="/teacher/student-daily-task-list" method="get">
               <div class="search-wrap">
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">

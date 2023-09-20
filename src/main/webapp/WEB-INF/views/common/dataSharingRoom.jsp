@@ -196,7 +196,7 @@
                                 </div>
                                 <div class="col-lg-6 col-xl-6">
                                     <h6 class="header-title m-b-30">
-                                        <form action="/teacher/dataSharingRoom/upload" method="post"
+                                        <form action="/class/${principal.groupSeq}/dataSharingRoom/upload" method="post"
                                               enctype="multipart/form-data">
                                             <div class="filebox">
                                                 <input class="upload-name" value="첨부파일" placeholder="첨부파일">
@@ -263,7 +263,6 @@
 
 <!-- Template Main JS File -->
 <script>
-
     /* 더보기 버튼 */
     $(function(){
         $(".fileTable").slice(0,8).show(); // 초기갯수
@@ -293,7 +292,7 @@
             // 서버에 삭제 요청 보내기
             $.ajax({
                 type: "POST", // 또는 다른 HTTP 메서드 (GET, DELETE 등)
-                url: "/teacher/dataSharingRoom/delete", // 삭제 요청을 처리하는 서버 엔드포인트 URL
+                url: "/api/dataSharingRoom/delete", // 삭제 요청을 처리하는 서버 엔드포인트 URL
                 contentType: "application/json",
                 data: JSON.stringify(formData),
                 success: function (data) {
@@ -311,43 +310,6 @@
             });
         });
     });
-
-    $(document).ready(function () {
-        // .file-close를 클릭했을 때
-        $(".file-close").click(function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var formData = {};
-            formData.uuid = $this.data("uuid"); // 데이터 속성에서 UUID 추출
-            formData.uploadName = $this.data("uploadname");
-
-            // 파일이 속할 폴더의 ID를 가져옵니다. 예를 들어, 파일 이름에 따라 동적으로 생성하거나 폴더 ID를 설정합니다.
-            var folderId = getFolderId(formData.uploadName);
-
-            // 해당 폴더로 .file-man-box를 이동시킵니다.
-            $("#folder-" + folderId).append($this.closest(".file-man-box"));
-
-            // 서버에 삭제 요청 보내기
-            $.ajax({
-                type: "POST",
-                url: "/teacher/dataSharingRoom/delete",
-                contentType: "application/json",
-                data: JSON.stringify(formData),
-                success: function (data) {
-                    if (data.status) {
-                        console.log(data.message);
-                    }
-                    alert("파일이 성공적으로 삭제되었습니다.");
-                    // 클라이언트에서 파일을 DOM에서 제거 (선택적)
-                    $this.closest(".file-man-box").remove();
-                },
-                error: function (error) {
-                    console.error("파일 삭제 중 오류가 발생했습니다.");
-                }
-            });
-        });
-    });
-
 </script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 <%@include file="../include/footer.jsp" %>

@@ -5,15 +5,12 @@ import com.osoondosson.dao.FileDAO;
 import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.FileServiceImpl;
 import com.osoondosson.service.S3FileService;
-import com.osoondosson.service.UserService;
 import com.osoondosson.vo.FileVO;
 import com.osoondosson.vo.UploadResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +19,10 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
-import software.amazon.awssdk.services.s3.model.Redirect;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
@@ -47,24 +42,17 @@ public class DriveController {
     private S3FileService s3FileService;
 
     // 파일 업로드 처리
-    @PostMapping("/teacher/dataSharingRoom/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file, Authentication authentication) {
-
-        CustomUserDetail detail = (CustomUserDetail) authentication.getPrincipal();
-        int groupSeq = detail.getGroupSeq();
-        log.error(groupSeq+ " ");
-
+    @PostMapping("/class/{groupSeq}/dataSharingRoom/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file,@PathVariable int groupSeq, Authentication authentication) {
         long fileSize = file.getSize();
         ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         buffer.putLong(fileSize);
-        byte[] bytes = buffer.array();
 
         String uuid = UUID.randomUUID().toString();
         // 새로운 파일명 생성 (UUID 추가)
         String newFilename = uuid + "_" + file.getOriginalFilename();
         // 각 사용자의 ID에 해당하는 서브 디렉토리에 파일이 저장되도록 키 값을 설정합니다.
         String objectKey = "dataSharing/" + groupSeq + "/" + newFilename; // 나중에 userId가 아닌 groupName으로
-        String url = "https://osdsbucket.s3.amazonaws.com/" + objectKey;
 
         // 업로드된 파일 정보 추출
         FileVO fileVO = new FileVO();
@@ -99,14 +87,13 @@ public class DriveController {
                 throw new RuntimeException("Error occurred while uploading file", e);
             }
         }
-        return "redirect:/teacher/dataSharingRoom";
+        return "redirect:/class/"+groupSeq+"/dataSharingRoom";
     }
 
 
-    @GetMapping("/teacher/dataSharingRoom")
-    public String listDriveFiles(Model model, Authentication auth) {
+    @GetMapping("/class/{groupSeq}/dataSharingRoom")
+    public String listDriveFiles(Model model,@PathVariable int groupSeq, Authentication auth) {
         CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
-        int groupSeq = detail.getGroupSeq();
 
         // Java 코드에서 두 개의 목록 결합
         List<FileVO> list = fileService.selectFile(groupSeq); // 첫 번째 목록
@@ -115,28 +102,12 @@ public class DriveController {
         model.addAttribute("getName", detail.getName());
         model.addAttribute("list", list);
         //model.addAttribute("contentType", fileExtensionList);
-        return "teacher/dataSharingRoom";
+        return "common/dataSharingRoom";
     }
 
-    @PostMapping("/teacher/dataSharingRoom")
-    @ResponseBody
-    public ResponseEntity<Map> listDriveFiles(Model model, Authentication auth,Map<String,Object> map) {
-        CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
-        int groupSeq = detail.getGroupSeq();
-
-        // Java 코드에서 두 개의 목록 결합
-        List<FileVO> list = fileService.selectFile(groupSeq); // 첫 번째 목록
-        log.error(list + " ");
-
-        //model.addAttribute("getName", detail.getName());
-        //model.addAttribute("list", list);
-        //model.addAttribute("contentType", fileExtensionList);
-        map.put("list", list);
-        return ResponseEntity.ok().body(map);
-    }
 
     // 파일 삭제
-    @PostMapping("/teacher/dataSharingRoom/delete")
+    @PostMapping("/api/dataSharingRoom/delete")
     @ResponseBody
     public ResponseEntity<UploadResponse> deleteFile(@org.springframework.web.bind.annotation.RequestBody Map<String, String> formData, Principal principal) {
         log.error(formData.get("uuid"));
@@ -153,7 +124,7 @@ public class DriveController {
         return ResponseEntity.ok(new UploadResponse("success", "성공했어요!"));
     }
 
-    @PostMapping("/teacher/dataSharingRoom/createFolder")
+    @PostMapping("/api/dataSharingRoom/createFolder")
     @ResponseBody
     public ResponseEntity<UploadResponse> createFolder(@org.springframework.web.bind.annotation.RequestBody String folderName, Authentication auth) {
         CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();

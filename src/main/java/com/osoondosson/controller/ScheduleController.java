@@ -2,10 +2,8 @@ package com.osoondosson.controller;
 
 import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.service.ScheduleService;
-import com.osoondosson.service.ScheduleServiceImpl;
 import com.osoondosson.service.ToDoListService;
 import com.osoondosson.vo.ScheduleVO;
-import com.osoondosson.vo.ToDoListVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 
 @Controller
@@ -31,7 +27,7 @@ public class ScheduleController {
     private ToDoListService toDoListService;
 
     // 일정 조회
-    @GetMapping("/schedule/main")
+    @GetMapping("/schedule")
     public String data(Model model, HttpServletRequest request, Authentication auth) {
         CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
         HttpSession session = request.getSession(); //
@@ -39,7 +35,7 @@ public class ScheduleController {
         model.addAttribute("userId", detail.getUsername());
         model.addAttribute("todoList",toDoListService.selectToDoList(detail.getUsername()));
         /* To do List 가져오기 */
-        return "/admin/schedule-management";
+        return "teacher/schedule-management";
     }
 
     // 일정 등록
