@@ -4,9 +4,18 @@
 
 <mapper namespace="memberWithClassVO">
     <select id="selectByGroup" parameterType="Integer" resultType="MemberWithClassVO">
-        select rownum, user_id ,m.name, m.phone, m.gender, c.group_name, c.start_date, c.end_date
-        from member m inner join class c ON m.group_seq = c.group_seq
-        where c.group_seq = #{groupSeq} and rownum BETWEEN #{start} AND #{end}
+        SELECT *
+        FROM (
+                 SELECT rownum AS rnum, user_id, name, phone, gender, group_name, start_date, end_date
+                 FROM (
+                          SELECT *
+                          FROM member m
+                                   INNER JOIN class c ON m.group_seq = c.group_seq
+                          WHERE c.group_seq = #{groupSeq}
+                          ORDER BY m.name -- 이름으로 오름차순 정렬
+                      )
+             )
+        WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
     <select id="countStudent" resultType="int" parameterType="map">
