@@ -186,7 +186,7 @@
                         text: "삭제되었습니다.", buttons: "확인", closeOnClickOutside: false
                     }).then(function (){
                         $("#calendarModal").modal("hide");
-                        location.href="/schedule/main";
+                        location.href="/schedule";
                     })
                 },
                 error: function(xhr, status, error) {
@@ -222,7 +222,7 @@
                         text: "수정되었습니다.", buttons: "확인", closeOnClickOutside: false
                     }).then(function (){
                         $("#calendarModal").modal("hide");
-                        location.href="/schedule/main";
+                        location.href="/schedule";
                     })
                 },
                 error: function(xhr, status, error) {
@@ -260,7 +260,7 @@
                         text: "등록이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
                     }).then(function (){
                         $("#calendarModal").modal("hide");
-                        location.href="/schedule/main";
+                        location.href="/schedule";
                     })
                 },
                 error: function(xhr, status, error) {
@@ -395,7 +395,6 @@
                                 }).then(function (){
 
                                 })
-                                //location.href="/schedule/main";
                             },
                             error: function(xhr, status, error) {
                                 // 요청이 실패했을 때의 처리 로직

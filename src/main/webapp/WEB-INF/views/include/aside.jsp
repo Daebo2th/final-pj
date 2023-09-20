@@ -102,7 +102,7 @@
             </a>
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="/schedule/main">
+                    <a href="/schedule">
                         <i class="bi bi-circle"></i><span>캘린더</span>
                     </a>
                 </li>
@@ -124,7 +124,7 @@
             </a>
             <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="/admin/student-record">
+                    <a href="/teacher/student-record">
                         <i class="bi bi-circle"></i><span>학생기록부</span>
                     </a>
                 </li>

@@ -31,7 +31,7 @@ public class ScheduleController {
     private ToDoListService toDoListService;
 
     // 일정 조회
-    @GetMapping("/schedule/main")
+    @GetMapping("/schedule")
     public String data(Model model, HttpServletRequest request, Authentication auth) {
         CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
         HttpSession session = request.getSession(); //

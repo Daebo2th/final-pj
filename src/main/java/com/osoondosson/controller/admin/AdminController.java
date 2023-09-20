@@ -56,7 +56,7 @@ public class AdminController {
     @Autowired
     private MyPageService myPageService;
 
-    @GetMapping("/admin/student-record")
+    @GetMapping("/teacher/student-record")
     public String stuRecord(Model model,Authentication authentication,
                             @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
                             @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage) {
