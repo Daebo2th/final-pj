@@ -45,6 +45,8 @@ public class AdminController {
     	List<Map<String, Object>> count = boardService.findStatusCount(detail.getGroupSeq());
     	List<Map<String, Object>> noCount = boardService.findStatusNoCount(detail.getGroupSeq());
     	model.addAttribute("user", boardService.selectCountUser(detail.getGroupSeq()));
+    	model.addAttribute("countTasks", boardService.countTasks(detail.getGroupSeq()));
+    	model.addAttribute("countTasksOk", boardService.countTasksOk(detail.getGroupSeq()));
     	model.addAttribute("count", count);
     	model.addAttribute("noCount", noCount);
     	return "teacher/main";
