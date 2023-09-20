@@ -295,6 +295,10 @@
         #remember-me{
             width: auto;
         }
+        .border-bottom-line{
+            padding: 5px;
+            border-bottom: 1px solid black;
+        }
     </style>
 </head>
 <body>
@@ -366,13 +370,7 @@
     </div>
     <div class="form-container sign-in-container">
         <form action="/auth/login_check" method="post">
-            <h1>Sign in</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your account</span>
+            <h1 class="border-bottom-line">Sign in</h1>
             <input type="text" placeholder="Email" name="id"/>
             <input type="password" placeholder="Password" name="pwd"/>
             <div class="remember">

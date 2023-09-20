@@ -3,13 +3,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <sec:authentication property="principal" var="principal" />
 
-<html>
-<head>
-
-    <title>Title</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting.css">
-</head>
-<body>
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
@@ -132,7 +125,4 @@
 
     </ul>
   </nav><!-- End Icons Navigation -->
-
 </header>
-</body>
-</html>
