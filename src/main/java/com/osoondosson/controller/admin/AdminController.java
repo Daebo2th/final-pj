@@ -41,13 +41,13 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String findStatusCount(Model model, Authentication authentication) {
-        CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
-        List<Map<String, Object>> count = boardService.findStatusCount(detail.getGroupSeq());
-        List<Map<String, Object>> noCount = boardService.findStatusNoCount(detail.getGroupSeq());
-        model.addAttribute("user", boardService.selectCountUser());
-        model.addAttribute("count", count);
-        model.addAttribute("noCount", noCount);
-        return "teacher/main";
+    	CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
+    	List<Map<String, Object>> count = boardService.findStatusCount(detail.getGroupSeq());
+    	List<Map<String, Object>> noCount = boardService.findStatusNoCount(detail.getGroupSeq());
+    	model.addAttribute("user", boardService.selectCountUser(detail.getGroupSeq()));
+    	model.addAttribute("count", count);
+    	model.addAttribute("noCount", noCount);
+    	return "teacher/main";
     }
 
 

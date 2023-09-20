@@ -1,4 +1,4 @@
-<%@ page import="java.security.Principal" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: KOSA
   Date: 2023-08-11
@@ -56,6 +56,11 @@
             text-decoration: none;
             margin: 15px 0;
         }
+        .gender-button{
+            border-color: #eee;
+            background-color: #eee;
+            color:#003050;
+        }
 
         button {
             border-radius: 20px;
@@ -71,6 +76,7 @@
         }
 
         .btn_custom {
+            width: 90%;
             border-radius: 0px;
             padding: 12px 15px;
             margin: 8px 0;
@@ -273,11 +279,12 @@
         .box {
             display: flex;
             flex-wrap: wrap;
+            justify-content: space-between;
             width: 100%;
         }
 
         .w-5 {
-            width: 50%;
+            width: 48%;
         }
         .remember{
             display: flex;
@@ -291,7 +298,7 @@
     </style>
 </head>
 <body>
-<c:if test="${user!=null}">
+<c:if test="${isLogin}">
     <c:redirect url="/"/>
 </c:if>
 
@@ -340,10 +347,12 @@
             <input type="password" id="chkPwdVal" placeholder="비밀번호 확인">
             <input type="text" name="name" placeholder="이름">
             <input type="date" name="birthday">
-            <select name="gender" id="gender">
-                <option value="M" selected>남자</option>
-                <option value="W">여자</option>
-            </select>
+            <!-- 성별 선택 버튼 추가 -->
+            <div class="box">
+                <button type="button" class="btn_custom gender-button w-5" data-value="M">남자</button>
+                <button type="button" class="btn_custom gender-button w-5" data-value="W">여자</button>
+            </div>
+            <input type="hidden" name="gender" id="selected-gender" value="M">
             <input type="text" name="phone" placeholder="000-0000-0000">
             <div class="box">
                 <input style="width: 50%" type="text" id="postcode" name="postcode" placeholder="우편번호">
@@ -370,7 +379,7 @@
                 <label for="remember-me" style>로그인 유지</label>
                 <input type="checkbox" id="remember-me" name="remember-me" />
             </div>
-            <a href="#">비밀번호를 잊어버리셧나요?</a>
+            <a href="/auth/forgot">비밀번호를 잊어버리셧나요?</a>
             <button type="submit">로그인</button>
         </form>
     </div>
@@ -391,6 +400,30 @@
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+    // 성별 선택 버튼 클릭 이벤트 처리
+    const genderButtons = document.querySelectorAll('.gender-button');
+    const selectedGenderInput = document.getElementById('selected-gender');
+
+    genderButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // 선택한 버튼의 data-value 값을 hidden input에 저장
+            const selectedGender = button.getAttribute('data-value');
+            selectedGenderInput.value = selectedGender;
+
+            // 버튼 스타일 변경 (선택한 버튼은 강조하고 나머지 버튼은 스타일 초기화)
+            genderButtons.forEach(btn => {
+                if (btn === button) {
+                    btn.classList.add('selected');
+                    $(btn).css({"color":"#eee","background-color":"#003050","border-color":"#003050"});
+                } else {
+                    btn.classList.remove('selected');
+                    $(btn).css({"color":"#003050","background-color":"#eee","border-color":"#eee"});
+                }
+            });
+        });
+    });
+
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');
@@ -404,7 +437,6 @@
     });
 
     function sendEmail() {
-        console.log("이메일 전송 이벤트 시작")
         const to = $("input[name=email]");
         $.ajax({
             url: '/auth/mail-check',
@@ -471,7 +503,7 @@
         let chkPwdVal = $('#chkPwdVal').val();
         let name = $('input[name="name"]').val();
         let birthday = $('input[name="birthday"]').val();
-        let gender = $('#gender').val();
+        let gender = $('input[name="gender"]').val();
         let phone = $('input[name="phone"]').val();
         let postcode = $('#postcode').val();
         let addr1 = $('#roadAddress').val();
