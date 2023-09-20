@@ -145,7 +145,6 @@ public class S3FileService {
 
             DeleteObjectResponse response = s3Client.deleteObject(deleteObjectRequest);
 
-
             if (response.sdkHttpResponse().isSuccessful()) {
                 fileDAO.deleteImage(fileVO);
                 vo.setProfile(null);
