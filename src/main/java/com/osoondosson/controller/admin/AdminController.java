@@ -79,10 +79,10 @@ public class AdminController {
         model.addAttribute("list", list);
         model.addAttribute("pagingVO", pagingVO);
         model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(groupSeq));
-        return "admin/student-record";
+        return "teacher/student-record";
     }
 
-    @GetMapping("/admin/student-detail")
+    @GetMapping("/teacher/student-detail")
     public String stuDetail(Model model,Authentication authentication,
                             @RequestParam(value = "studentUserId", required = false) String userId) {
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
@@ -96,9 +96,9 @@ public class AdminController {
         model.addAttribute("mypage", studentList);
         System.out.println("리스트2 : " + studentList);
         //model.addAttribute("list", list);
-        return "admin/student-detail";
+        return "teacher/student-detail";
     }
-    @GetMapping("/admin/student-daily-task-list")
+    @GetMapping("/teacher/student-daily-task-list")
     public String stuDailyTaskList(Model model,
                                    @RequestParam(value="studentUserId",required = false) String userId,
                                    @RequestParam(value = "searchCondition", required = false) String searchCondition,
@@ -127,7 +127,7 @@ public class AdminController {
         model.addAttribute("pagingVO", pagingVO); //페이징 정보도 모델에 담아서 보내줍니다.
         model.addAttribute("taskUserList", taskUserList);
 
-        return "/admin/student-daily-task-list";
+        return "teacher/student-daily-task-list";
     }
     
     // 만족도 조사
