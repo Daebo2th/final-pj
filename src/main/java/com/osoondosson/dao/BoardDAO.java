@@ -11,4 +11,6 @@ public interface BoardDAO {
 	public List<Map<String, Object>> findStatusNoCount(int groupSeq);
 	public List<Map<String, Object>> selectMyTask(UserVO vo);
 	public List<Map<String, Object>> selectMyTaskStatus(UserVO vo);
+	public int countTasks(int groupSeq);
+	public int countTasksOk(int groupSeq);
 }

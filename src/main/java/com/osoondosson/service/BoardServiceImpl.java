@@ -40,4 +40,14 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.selectMyTaskStatus(vo);
 	}
 
+	@Override
+	public int countTasks(int groupSeq) {
+		return boardDAO.countTasks(groupSeq);
+	}
+
+	@Override
+	public int countTasksOk(int groupSeq) {
+		return boardDAO.countTasksOk(groupSeq);
+	}
+
 }

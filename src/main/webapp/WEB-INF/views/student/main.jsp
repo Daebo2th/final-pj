@@ -116,25 +116,24 @@
 										<table class="table">
 											<thead>
 												<tr>
-													<th scope="col">No</th>
-													<th scope="col">Name</th>
-													<th scope="col">ID</th>
-													<th scope="col">Title</th>
-													<th scope="col">Create Date</th>
+													<th scope="col">번호</th>
+													<th scope="col">이름</th>
+													<th scope="col">제목</th>
+													<th scope="col">작성일</th>
+													<th scope="col">수정일</th>
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach items="${task }" var="task">
+												<c:forEach items="${task }" var="task" begin="0" end="4">
 													<c:set var="i" value="${i + 1 }" />
 													<tr>
 														<th scope="row">${i }</th>
 														<td>${task.NAME }</td>
-														<td>${task.USER_ID}</td>
-														<td>${task.TITLE }</td>
-														<td>${task.CREATE_DATE }</td>
+														<td><a href="/student/daily-task-detail?taskSeq=${task.TASK_SEQ}">${task.TITLE }</td>
+														<td><fmt:formatDate value="${task.CREATE_DATE }" pattern="yyyy-MM-dd hh:mm"/></td>
+														<td><fmt:formatDate value="${task.UPDATE_DATE }" pattern="yyyy-MM-dd hh:mm"/></td>
 													</tr>
-											</tbody>
-											</c:forEach>
+												</c:forEach>
 										</table>
 										<!-- End Default Table Example -->
 									</div>
@@ -143,25 +142,9 @@
 								<!-- Reports -->
 								<div class="col-12">
 									<div class="card">
-
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
-
 										<div class="card-body">
 											<h5 class="card-title">
-												과제 제출 현황 <span>/Today</span>
+												과제 제출 현황
 											</h5>
 
 											<!-- Line Chart -->
@@ -224,23 +207,9 @@
 
 							<!-- Recent Activity -->
 							<div class="card">
-								<div class="filter">
-									<a class="icon" href="#" data-bs-toggle="dropdown"><i
-										class="bi bi-three-dots"></i></a>
-									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-										<li class="dropdown-header text-start">
-											<h6>Filter</h6>
-										</li>
-
-										<li><a class="dropdown-item" href="#">Today</a></li>
-										<li><a class="dropdown-item" href="#">This Month</a></li>
-										<li><a class="dropdown-item" href="#">This Year</a></li>
-									</ul>
-								</div>
-
 								<div class="card-body">
 									<h5 class="card-title">
-										미확인 과제 <span>| Today</span>
+										미확인 과제
 									</h5>
 									<c:forEach items="${taskStatus }" var="taskStatus">
 										<div class="activity">
@@ -250,7 +219,7 @@
 												<i
 													class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 												<div class="activity-content">
-													<a href="/teacher/daily-task-check"
+													<a href="/student/daily-task-list"
 														class="fw-bold text-dark">${taskStatus.NAME }</a>
 													${taskStatus.TITLE }
 												</div>
@@ -264,23 +233,21 @@
 							<!-- End Recent Activity -->
 							<div class="card">
 								<div class="card-body pb-0">
-									<h5 class="card-title">
-										도움말
-									</h5>
+									<h5 class="card-title">도움말</h5>
 
 									<div class="news">
 										<div class="post-item clearfix">
-											<img src="/resources/img/과제.png" alt="">
+											<img src="/resources/img/일일과제.png" alt="">
 											<h4>
-												<a href="#">일일과제 작성</a>
+												<a href="/student/daily-task">일일과제 작성</a>
 											</h4>
-											<p>일일과제 메뉴에 일일과제 작성 기능을 활용하여 쉽고 간편하게 일일과제를 작성하고 수정 할 수 있습니다.</p>
+											<p>일일과제 메뉴에 일일과제 작성 기능을 활용해 쉽고 간편하게 일일과제를 작성 할 수 있습니다.</p>
 										</div>
 
 										<div class="post-item clearfix">
 											<img src="/resources/img/캘린더.png" alt="">
 											<h4>
-												<a href="#">캘린더</a>
+												<a href="/schedule/main">캘린더</a>
 											</h4>
 											<p>일정관리 메뉴에 캘린더 기능을 활용하여 일정을 관리하고 확인 할 수 있습니다.</p>
 										</div>
@@ -288,7 +255,7 @@
 										<div class="post-item clearfix">
 											<img src="resources/img/투두리스트.png" alt="">
 											<h4>
-												<a href="#">투두리스트</a>
+												<a href="/student/todolist">투두리스트</a>
 											</h4>
 											<p>일정관리 메뉴에 투두리스트 기능을 활용하여 해야 할 일을 정리하고 확인 할 수 있습니다.</p>
 										</div>
@@ -296,17 +263,19 @@
 										<div class="post-item clearfix">
 											<img src="resources/img/자료공유실.png" alt="">
 											<h4>
-												<a href="#">자료공유실</a>
+												<a href="/teacher/dataSharingRoom">자료공유실</a>
 											</h4>
-											<p>수업관리 메뉴에 자료공유실 기능을 활용하여 교육시 참고할만한 자료들과 정보 들을 공유 할 수 있습니다.</p>
+											<p>수업관리 메뉴에 자료공유실 기능을 활용하여 교육시 참고할만한 자료들과 정보 들을 공유 할 수
+												있습니다.</p>
 										</div>
 
 										<div class="post-item clearfix">
 											<img src="resources/img/만족도조사.png" alt="">
 											<h4>
-												<a href="#">만족도 조사</a>
+												<a href="/common/survey">만족도 조사</a>
 											</h4>
-											<p>만족도 조사 기능을 활용하여 교육에 대한 만족도 조사와 교사 평가서를 교육생이 작성하여 제출한다.</p>
+											<p>만족도 조사 기능을 활용하여 교육에 대한 만족도 조사와 교사 평가서를 교육생이 작성하여 제출 할
+												수 있습니다.</p>
 										</div>
 
 									</div>
