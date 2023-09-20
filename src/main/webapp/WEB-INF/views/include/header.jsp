@@ -3,16 +3,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <sec:authentication property="principal" var="principal" />
 
-<html>
-<head>
-
-    <title>Title</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting.css">
-</head>
-<body>
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
-  <div class="d-flex align-items-center justify-content-between">
+  <div class="d-flex align-items-center justify-content-between">add
     <a href="/" class="logo d-flex align-items-center">
       <img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
       <span class="d-none d-lg-block">OSDS</span>
@@ -132,7 +125,4 @@
 
     </ul>
   </nav><!-- End Icons Navigation -->
-
 </header>
-</body>
-</html>
