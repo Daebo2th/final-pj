@@ -126,7 +126,7 @@
       <div id="board-search">
         <div class="container">
           <div class="search-window">
-            <form action="/teacher/daily-task-check" method="get">
+            <form action="/admin/student-daily-task-list" method="get">
               <div class="search-wrap">
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 150px; height: 40px;">
@@ -139,6 +139,7 @@
                   </div>
                 </div>
                 <input type='hidden' name='searchCondition' id='searchCondition'>
+                <input type="hidden" name="studentUserId" value="${userId}" />
 
                 <label for="searchKeyword" class="blind">내용 검색</label>
                 <input id="searchKeyword" type="search" name="searchKeyword" placeholder="검색어를 입력해주세요." value="">

@@ -29,25 +29,25 @@ public class AdminController {
 
     @Autowired
     private AdminServiceImpl adminService;
-    
+
     @Autowired
     private BoardServiceImpl boardService;
-    
-	/*
-	 * @GetMapping("/admin") public String selectCountUser(Model model) { int user =
-	 * boardService.selectCountUser(); model.addAttribute("user", user); return
-	 * "index"; }
-	 */
-    
+
+    /*
+     * @GetMapping("/admin") public String selectCountUser(Model model) { int user =
+     * boardService.selectCountUser(); model.addAttribute("user", user); return
+     * "index"; }
+     */
+
     @GetMapping("/admin")
     public String findStatusCount(Model model, Authentication authentication) {
-    	CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
-    	List<Map<String, Object>> count = boardService.findStatusCount(detail.getGroupSeq());
-    	List<Map<String, Object>> noCount = boardService.findStatusNoCount(detail.getGroupSeq());
-    	model.addAttribute("user", boardService.selectCountUser());
-    	model.addAttribute("count", count);
-    	model.addAttribute("noCount", noCount);
-    	return "teacher/main";
+        CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
+        List<Map<String, Object>> count = boardService.findStatusCount(detail.getGroupSeq());
+        List<Map<String, Object>> noCount = boardService.findStatusNoCount(detail.getGroupSeq());
+        model.addAttribute("user", boardService.selectCountUser());
+        model.addAttribute("count", count);
+        model.addAttribute("noCount", noCount);
+        return "teacher/main";
     }
 
 
@@ -129,7 +129,7 @@ public class AdminController {
 
         return "/admin/student-daily-task-list";
     }
-    
+
     // 만족도 조사
     @GetMapping("/common/survey")
     public String survey() {
