@@ -247,7 +247,7 @@
 										<div class="post-item clearfix">
 											<img src="/resources/img/캘린더.png" alt="">
 											<h4>
-												<a href="/schedule/main">캘린더</a>
+												<a href="/schedule">캘린더</a>
 											</h4>
 											<p>일정관리 메뉴에 캘린더 기능을 활용하여 일정을 관리하고 확인 할 수 있습니다.</p>
 										</div>
@@ -255,17 +255,17 @@
 										<div class="post-item clearfix">
 											<img src="resources/img/투두리스트.png" alt="">
 											<h4>
-												<a href="/student/todolist">투두리스트</a>
+												<a href="/student/todolist">ToDoList</a>
 											</h4>
-											<p>일정관리 메뉴에 투두리스트 기능을 활용하여 해야 할 일을 정리하고 확인 할 수 있습니다.</p>
+											<p>일정관리 메뉴에 ToDoList 기능을 활용하여 해야 할 일을 정리하고 확인 할 수 있습니다.</p>
 										</div>
 
 										<div class="post-item clearfix">
 											<img src="resources/img/자료공유실.png" alt="">
 											<h4>
-												<a href="/teacher/dataSharingRoom">자료공유실</a>
+												<a href="/class/${principal.groupSeq}/dataSharingRoom">자료 공유실</a>
 											</h4>
-											<p>수업관리 메뉴에 자료공유실 기능을 활용하여 교육시 참고할만한 자료들과 정보 들을 공유 할 수
+											<p>자료 공유실 기능을 활용하여 교육시 참고할만한 자료들과 정보들을 공유 할 수
 												있습니다.</p>
 										</div>
 
@@ -274,7 +274,7 @@
 											<h4>
 												<a href="/common/survey">만족도 조사</a>
 											</h4>
-											<p>만족도 조사 기능을 활용하여 교육에 대한 만족도 조사와 교사 평가서를 교육생이 작성하여 제출 할
+											<p>교육에 대한 만족도 조사와 교사 평가서를 교육생이 작성하여 제출 할
 												수 있습니다.</p>
 										</div>
 

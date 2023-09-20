@@ -889,9 +889,9 @@ h6 {
 }
 
 .dashboard .news img {
-  width: 15%;
+  width: 12%;
   float: left;
-  transform: translate(20%, 0px);
+  transform: translate(30%, 10%);
 }
 
 .dashboard .news h4 {
