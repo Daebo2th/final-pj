@@ -155,7 +155,7 @@
             </a>
             <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="/teacher/dataSharingRoom">
+                    <a href="/class/${principal.groupSeq}/dataSharingRoom">
                         <i class="bi bi-circle"></i><span>자료 공유실</span>
                     </a>
                 </li>
