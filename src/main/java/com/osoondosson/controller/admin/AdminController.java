@@ -39,7 +39,7 @@ public class AdminController {
      * "index"; }
      */
 
-    @GetMapping("/admin")
+    @GetMapping("/teacher")
     public String findStatusCount(Model model, Authentication authentication) {
     	CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
     	List<Map<String, Object>> count = boardService.findStatusCount(detail.getGroupSeq());
