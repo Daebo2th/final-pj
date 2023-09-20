@@ -35,7 +35,7 @@ public class HomeController {
 
         model.addAttribute("msg", "죄송합니다. 요청하신 페이지에 대한 접근 권한이 없습니다.");
 
-        return "error/accessError";
+        return "common/error/accessError";
     }
 
 }
