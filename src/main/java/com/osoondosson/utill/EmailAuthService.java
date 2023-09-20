@@ -17,7 +17,45 @@ public class EmailAuthService {
     public boolean sendEmail(String to, HttpSession session){
         String authCode = new TempKey().getKey(6,true);
                 String subject = "DailyRecord 회원가입 인증번호";
-        String content = "인증번호:"+ authCode;
+        String emailContent = "<!DOCTYPE html>"
+                + "<html>"
+                + "<head>"
+                + "<title>이메일 인증</title>"
+                + "<style>"
+                + "/* 스타일을 원하는 대로 수정하세요. */"
+                + "body {"
+                + "    font-family: Arial, sans-serif;"
+                + "    background-color: #f4f4f4;"
+                + "}"
+                + ".container {"
+                + "    max-width: 600px;"
+                + "    margin: 0 auto;"
+                + "    padding: 20px;"
+                + "    background-color: #fff;"
+                + "    border-radius: 5px;"
+                + "    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"
+                + "}"
+                + "h2 {"
+                + "    color: #333;"
+                + "}"
+                + "p {"
+                + "    color: #555;"
+                + "}"
+                + ".verification-code {"
+                + "    font-size: 24px;"
+                + "    font-weight: bold;"
+                + "    color: #007bff;"
+                + "}"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<div class=\"container\">"
+                + "<h2>이메일 인증</h2>"
+                + "<p>아래의 인증번호를 사용하여 계정을 인증하세요:</p>"
+                + "<p>인증번호: <span class=\"verification-code\">" + authCode + "</span></p>"
+                + "</div>"
+                + "</body>"
+                + "</html>";
         String from = "ghgsb6200@gmail.com";
 
 
@@ -31,7 +69,7 @@ public class EmailAuthService {
             mailHelper.setFrom(from);
             mailHelper.setTo(to);
             mailHelper.setSubject(subject);
-            mailHelper.setText(content, true);
+            mailHelper.setText(emailContent, true);
 
             mailSender.send(mail);
 

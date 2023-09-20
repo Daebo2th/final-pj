@@ -123,11 +123,12 @@ public class UserController {
         String to = data.get("to");
         String authCode = data.get("authCode");
 
+        log.warn(data.toString());
         if (emailAuthService.verifyAuthCode(to, authCode, session)) {
             status.put("status", "SUCCESS");
             session.removeAttribute(to);
             session.removeAttribute("validTime");
-            status.put("msg",userService.findById(to).getUserId());
+            status.put("msg","인증 성공!");
         } else {
             status.put("status", "FAIL");
         }
