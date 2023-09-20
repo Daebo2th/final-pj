@@ -210,13 +210,15 @@
                             </div>
 
                             <c:set var="contentTypeArray" value="${['jpg', 'pdf', 'png', 'txt', 'gif', 'html', 'js', 'json', 'md']}"/>
+
                             <%-- 어딘가에서 contentTypes 배열을 설정하거나 가져오는 코드 --%>
                             <div class="row location pt-5">
                                 <c:forEach var="list" items="${list}">
                                     <div class="col-lg-3 col-xl-3 fileTable" style="display: none; padding-bottom: 14px;">
                                         <div class="file-man-box">
-                                            <a href class="file-close" data-uuid="${list.uuid}" data-uploadname="${list.uploadName} data-filetype="${list.fileType}"><i class="fa fa-times-circle"></i></a>
-
+                                            <sec:authorize access="hasRole('ROLE_ADMIN')" var="u">
+                                                <a href class="file-close" data-uuid="${list.uuid}" data-uploadname="${list.uploadName}" data-filetype="${list.fileType}"><i class="fa fa-times-circle"></i></a>
+                                            </sec:authorize>
                                             <div class="file-img-box">
                                                 <i style="font-size: 100px;" class="bx ${list.fileType == 'folder'?'bxs-folder': contentTypeArray.contains(fn:split(list.uploadName,'.')[1])?'bxs-file-'+=fn:split(list.uploadName,'.')[1]:'bxs-file-blank'}"></i>
                                                 <c:if test="${list.fileType != 'folder'}">
