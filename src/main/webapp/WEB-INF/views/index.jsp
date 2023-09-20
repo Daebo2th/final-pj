@@ -6,24 +6,7 @@
 <head>
 	<title>JSP - Hello World</title>
 
-	<!-- Favicons -->
-	<link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
-	<link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-	<!-- Google Fonts -->
-	<link href="https://fonts.gstatic.com" rel="preconnect">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-		  rel="stylesheet">
-
-	<!-- Vendor CSS Files -->
-	<link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css"
-		  rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/resources/vendor/simple-datatables/style.css" rel="stylesheet">
+	<jsp:include page="include/commonCss.jsp"/>
 
 	<!-- Template Main CSS File -->
 	<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
@@ -44,21 +27,21 @@
 <body>
 <%@include file="include/header.jsp" %>
 <%@include file="include/aside.jsp" %>
-<c:if test="${user[0] != null}">
-	<c:choose>
-		<c:when test="${user[0] == 'ROLE_ADMIN'}">
-			<script>
-				location.href="/admin"
-			</script>
-		</c:when>
-		<c:when test="${user[0] == 'ROLE_USER'}">
-			<%--            <c:redirect url="/student" />--%>
-		</c:when>
-		<c:when test="${user[0] == 'ROLE_GUEST'}">
+<script>
+	let uri;
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+	redirect("/teacher");
+</sec:authorize>
+<sec:authorize access="hasRole('ROLE_USER')">
+	redirect("/student");
+</sec:authorize>
 
-		</c:when>
-	</c:choose>
-</c:if>
+	function redirect(uri){
+		location.href=uri;
+	}
+
+
+</script>
 
 <main id="main" class="main">
 
@@ -106,9 +89,9 @@
 
 							<hr>
 
-							<a href="/schedule/main">일정관리 페이지</a>
-							<a href="/admin/student-record">학생기록부 페이지</a>
-							<a href="/admin/student-detail">학생 상세 정보</a>
+							<a href="/schedule">일정관리 페이지</a>
+							<a href="/teacher/student-record">학생기록부 페이지</a>
+							<a href="/teacher/student-detail">학생 상세 정보</a>
 							<a href="/student/todolist">칸반보드</a>
 							<a href="/student/daily-task">학생 일일과제 작성 페이지</a>
 							<hr>
