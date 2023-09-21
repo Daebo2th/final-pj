@@ -117,7 +117,6 @@
 											<thead>
 												<tr>
 													<th scope="col">번호</th>
-													<th scope="col">이름</th>
 													<th scope="col">제목</th>
 													<th scope="col">작성일</th>
 													<th scope="col">수정일</th>
@@ -128,7 +127,6 @@
 													<c:set var="i" value="${i + 1 }" />
 													<tr>
 														<th scope="row">${i }</th>
-														<td>${task.NAME }</td>
 														<td><a href="/student/daily-task-detail?taskSeq=${task.TASK_SEQ}">${task.TITLE }</td>
 														<td><fmt:formatDate value="${task.CREATE_DATE }" pattern="yyyy-MM-dd hh:mm"/></td>
 														<td><fmt:formatDate value="${task.UPDATE_DATE }" pattern="yyyy-MM-dd hh:mm"/></td>
@@ -207,7 +205,7 @@
 
 							<!-- Recent Activity -->
 							<div class="card">
-								<div class="card-body">
+								<div class="card-body-taskStatus">
 									<h5 class="card-title">
 										미확인 과제
 									</h5>
