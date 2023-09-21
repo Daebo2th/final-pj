@@ -72,7 +72,7 @@
                         <div>
                         <h1 id="studentInfoTitle" style="display: flex; justify-content: space-around;">CLASS 리스트</h1>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-                                Vertically centered
+                                반 생성
                             </button>
                         </div>
                         <div class="modal fade" id="verticalycentered" tabindex="-1" style="display: none;" aria-hidden="true">

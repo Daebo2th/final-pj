@@ -143,13 +143,13 @@
             </a>
             <ul id="class-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="/teacher/student-record">
-                        <i class="bi bi-circle"></i><span>학생기록부</span>
+                    <a href="/teacher/class-info">
+                        <i class="bi bi-circle"></i><span>CLASS 조회</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>교육생 평가</span>
+                    <a href="/teacher/nogroupuser">
+                        <i class="bi bi-circle"></i><span>CLASS 배정</span>
                     </a>
                 </li>
             </ul>
