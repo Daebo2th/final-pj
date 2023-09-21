@@ -330,14 +330,18 @@
 	<script>
 		let msg = '${message}';
 		if (msg != '') {
-			alert(msg)
+			swal({
+                text: msg, buttons: "확인", closeOnClickOutside: false
+            })
 		}
 		function validateForm() {
 			var newPassword = document.getElementById("newPassword").value;
 			var renewPassword = document.getElementById("renewPassword").value;
 
 			if (newPassword !== renewPassword) {
-				alert("새로운 비밀번호가 일치하지 않습니다.");
+				swal({
+                    text: "새로운 비밀번호가 일치하지 않습니다.", buttons: "확인", closeOnClickOutside: false
+                })
 				return false; // 폼 제출 중단
 			}
 
@@ -357,9 +361,11 @@
 					"addr1" : addr1
 				}),
 				success : function(response) {
-					alert('수정완료')
-					console.log('Data sent successfully!');
-					location.href = "/student/MyPage"
+					swal({
+                        text: "수정이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                    	location.href = "/student/MyPage"
+                    })
 				},
 				error : function(xhr, status, error) {
 					alert('수정실패')
