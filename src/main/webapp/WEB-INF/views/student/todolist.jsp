@@ -109,15 +109,16 @@
 								</div>
 								<input type="hidden" value="${list.cardNum} ">
 								<!-- Button 수정 modal -->
-								<button type="button" class="btn btn-primary update-btn"
+								<div id="updateDelete">
+								<button type="button" class="btn btn-outline-primary update-btn"
 									data-toggle="modal" data-target="#updateModal"
-									data-cardnum="${list.cardNum}" data-cardname="${list.cardName}">수정
+									data-cardnum="${list.cardNum}" data-cardname="${list.cardName}"><i class="bi bi-gear"></i>
 								</button>
 
 
-								<button type="button" class="btn btn-danger delete-btn"
-									data-cardnum="${list.cardNum}">삭제</button>
-
+								<button type="button" class="btn btn-outline-danger delete-btn"
+									data-cardnum="${list.cardNum}"><i class="bi bi-trash"></i></button>
+								</div>
 							</div>
 
 						</c:if>
@@ -145,15 +146,16 @@
 								</div>
 								<input type="hidden" class="cardNum" value="${list.cardNum} ">
 								<!-- Button 수정 modal -->
-								<button type="button" class="btn btn-primary update-btn"
+								<div id="updateDelete">
+								<button type="button" class="btn btn-outline-primary update-btn"
 									data-toggle="modal" data-target="#updateModal"
-									data-cardnum="${list.cardNum}" data-cardname="${list.cardName}">수정
+									data-cardnum="${list.cardNum}" data-cardname="${list.cardName}"><i class="bi bi-gear"></i>
 								</button>
 
 
-								<button type="button" class="btn btn-danger delete-btn"
-									data-cardnum="${list.cardNum}">삭제</button>
-
+								<button type="button" class="btn btn-outline-danger delete-btn"
+									data-cardnum="${list.cardNum}"><i class="bi bi-trash"></i></button>
+								</div>
 							</div>
 
 						</c:if>
@@ -183,15 +185,16 @@
 								</div>
 								<input type="hidden" value="${list.cardNum} ">
 								<!-- Button 수정 modal -->
-								<button type="button" class="btn btn-primary update-btn"
+								<div id="updateDelete">
+								<button type="button" class="btn btn-outline-primary update-btn"
 									data-toggle="modal" data-target="#updateModal"
-									data-cardnum="${list.cardNum}" data-cardname="${list.cardName}">수정
+									data-cardnum="${list.cardNum}" data-cardname="${list.cardName}"><i class="bi bi-gear"></i>
 								</button>
 
 
-								<button type="button" class="btn btn-danger delete-btn"
-									data-cardnum="${list.cardNum}">삭제</button>
-
+								<button type="button" class="btn btn-outline-danger delete-btn"
+									data-cardnum="${list.cardNum}"><i class="bi bi-trash"></i></button>
+								</div>
 							</div>
 
 						</c:if>
