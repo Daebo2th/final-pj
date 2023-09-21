@@ -408,7 +408,7 @@
                     events: [
                         <c:forEach var="userlist" items="${list}">
                         {
-                            color:'E9BFD1',
+                            color: '${userlist.importance eq 'up' ? '#ED9CA5' : (userlist.importance eq 'mid' ? '#FFBF8B' : (userlist.importance eq 'bottom' ? '#CFFFE5' : 'black'))}',
                             textColor:'5D082D',
                             title: '${userlist.title}',
                             start: '<fmt:formatDate value="${userlist.startDate}" pattern="yyyy-MM-dd HH:mm" />',
