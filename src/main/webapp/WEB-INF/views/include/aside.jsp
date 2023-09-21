@@ -137,6 +137,25 @@
         </li><!-- End Tables Nav -->
 
         <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#class-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>CLASS 관리</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="class-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/teacher/student-record">
+                        <i class="bi bi-circle"></i><span>학생기록부</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bi bi-circle"></i><span>교육생 평가</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Tables Nav -->
+
+        <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-gem"></i><span>수업 관리</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
