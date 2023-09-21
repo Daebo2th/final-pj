@@ -119,8 +119,6 @@
 												</div>
 												<div class="ps-3">
 													<h6>${countTasksOk }개</h6>
-													<span class="text-success small pt-1 fw-bold">12%</span> <span
-														class="text-muted small pt-2 ps-1">increase</span>
 
 												</div>
 											</div>
@@ -145,8 +143,6 @@
 												</div>
 												<div class="ps-3">
 													<h6>${countTasks }개</h6>
-													<span class="text-success small pt-1 fw-bold">8%</span> <span
-														class="text-muted small pt-2 ps-1">increase</span>
 
 												</div>
 											</div>
@@ -173,8 +169,6 @@
 												</div>
 												<div class="ps-3">
 													<h6 id="userCount">${user }명</h6>
-													<span class="text-danger small pt-1 fw-bold">12%</span> <span
-														class="text-muted small pt-2 ps-1">decrease</span>
 
 												</div>
 											</div>
@@ -256,7 +250,7 @@
 
 							<!-- Recent Activity -->
 							<div class="card">
-								<div class="card-body">
+								<div class="card-body-noCount">
 									<h5 class="card-title">
 										미확인 과제 
 									</h5>
