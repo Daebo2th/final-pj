@@ -32,12 +32,10 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/calendar.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <style>
-        .breadcrumb { background-color: white;}
-    </style>
 
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -61,6 +59,7 @@
             padding-left: 1em;
             padding-right: 1em;
         }
+        .breadcrumb { background-color: white;}
     </style>
 </head>
 <body>
@@ -327,10 +326,18 @@
                         $("#calendarModal").modal("show"); // modal 나타내기
 
                     },
-
+                    eventRender: function(info) {
+                        var eventDate = info.event.start;
+                        var dayOfWeek = eventDate.getDay(); // 해당 날짜의 요일 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+                        console.log(dayOfWeek);
+                        if (dayOfWeek === 0) { // 일요일
+                            info.el.classList.add('fc-sun-bg'); // 일요일 클래스 추가
+                        } else if (dayOfWeek === 6) { // 토요일
+                            info.el.classList.add('fc-sat-bg'); // 토요일 클래스 추가
+                        }
+                    },
                     dateClick: function(info) { // 캘린더 날짜 클릭시 이벤트 생성
                         $("#calendarModal").modal("show"); // modal 나타내기
-
                     },
 
                     eventClick: function (info) { //이벤트 클릭시 모달창 나타내기

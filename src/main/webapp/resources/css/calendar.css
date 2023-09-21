@@ -5,13 +5,13 @@ body {
 
 
 #calendar {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 
 #form-div {
-    background-color: '';
+    background-color: white;
     padding:5px 5px 5px;
     width: 100%;
     margin-top:5px;
@@ -132,4 +132,20 @@ input:focus, textarea:focus {
 
 #dialog {
     background-color: wheat;
+}
+
+.fc-daygrid-day-number {
+    color: black;
+    text-decoration: none;
+}
+/* 일요일 날짜 빨간색 */
+.fc-day-sun a {
+    color: red;
+    text-decoration: none;
+}
+
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+    color: blue;
+    text-decoration: none;
 }
