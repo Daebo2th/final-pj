@@ -240,7 +240,7 @@
         }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
-
+    <link rel="stylesheet" href="/resources/css/chatting.css">
 </head>
 <body>
 <%@include file="../include/header.jsp"%>

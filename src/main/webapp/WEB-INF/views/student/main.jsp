@@ -47,6 +47,8 @@
 <!-- Template Main CSS File -->
 <link href="${pageContext.request.contextPath}/resources/css/style.css"
 	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/chatting.css"
+	rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- moment.js -->

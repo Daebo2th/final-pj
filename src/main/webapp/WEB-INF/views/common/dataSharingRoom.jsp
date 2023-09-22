@@ -262,6 +262,7 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
+<link rel="stylesheet" href="/resources/css/chatting.css">
 
 <!-- Template Main JS File -->
 <script>

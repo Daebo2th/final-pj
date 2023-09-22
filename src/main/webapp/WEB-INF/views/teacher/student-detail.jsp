@@ -24,6 +24,7 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/chatting.css">
 </head>
 <body>
 <main id="main" class="main">
