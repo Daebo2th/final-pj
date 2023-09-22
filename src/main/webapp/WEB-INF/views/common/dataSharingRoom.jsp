@@ -14,10 +14,27 @@
     <meta charset="utf-8">
     <title>자료공유실</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <jsp:include page="../include/commonCss.jsp"/>
+    <!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css"
+          rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/simple-datatables/style.css" rel="stylesheet">
+
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <style type="text/css">
         body {
             margin-top: 20px;
@@ -144,7 +161,6 @@
             overflow: hidden;
             border: 0;
         }
-
         #moreBtn {
             cursor: pointer;
         }
@@ -153,7 +169,7 @@
 <body>
 <%@include file="../include/header.jsp" %>
 <%@include file="../include/aside.jsp" %>
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
 <main id="main" class="main">
 
@@ -193,27 +209,21 @@
                                 </div>
                             </div>
 
-                            <c:set var="contentTypeArray"
-                                   value="${['jpg', 'pdf', 'png', 'txt', 'gif', 'html', 'js', 'json', 'md']}"/>
+                            <c:set var="contentTypeArray" value="${['jpg', 'pdf', 'png', 'txt', 'gif', 'html', 'js', 'json', 'md']}"/>
 
                             <%-- 어딘가에서 contentTypes 배열을 설정하거나 가져오는 코드 --%>
                             <div class="row location pt-5">
                                 <c:forEach var="list" items="${list}">
-                                    <div class="col-lg-3 col-xl-3 fileTable"
-                                         style="display: none; padding-bottom: 14px;">
+                                    <div class="col-lg-3 col-xl-3 fileTable" style="display: none; padding-bottom: 14px;">
                                         <div class="file-man-box">
                                             <sec:authorize access="hasRole('ROLE_ADMIN')" var="u">
-                                                <a href class="file-close" data-uuid="${list.uuid}"
-                                                   data-uploadname="${list.uploadName}"
-                                                   data-filetype="${list.fileType}"><i
-                                                        class="fa fa-times-circle"></i></a>
+                                                <a href class="file-close" data-uuid="${list.uuid}" data-uploadname="${list.uploadName}" data-filetype="${list.fileType}"><i class="fa fa-times-circle"></i></a>
                                             </sec:authorize>
                                             <div class="file-img-box">
-                                                <i style="font-size: 100px;"
-                                                   class="bx ${list.fileType == 'folder'?'bxs-folder': contentTypeArray.contains(fn:split(list.uploadName,'.')[1])?'bxs-file-'+=fn:split(list.uploadName,'.')[1]:'bxs-file-blank'}"></i>
+                                                <i style="font-size: 100px;" class="bx ${list.fileType == 'folder'?'bxs-folder': contentTypeArray.contains(fn:split(list.uploadName,'.')[1])?'bxs-file-'+=fn:split(list.uploadName,'.')[1]:'bxs-file-blank'}"></i>
                                                 <c:if test="${list.fileType != 'folder'}">
                                                     <a href="<c:url value="https://osdsbucket.s3.ap-northeast-2.amazonaws.com/dataSharing/${list.groupSeq}/${list.uploadName}"/>"
-                                                       class="file-download"><i class="fa fa-download"></i></a>
+                                               class="file-download"><i class="fa fa-download"></i></a>
                                                 </c:if>
                                             </div>
                                             <div class="file-man-title">
@@ -222,14 +232,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <%--                                    </c:if>--%>
-                                    <%--                                    </c:forEach>--%>
+<%--                                    </c:if>--%>
+<%--                                    </c:forEach>--%>
                                 </c:forEach>
                             </div>
 
                             <div class="text-center mt-3">
-                                <button type="button" id="moreBtn"
-                                        class="btn btn-outline-danger w-md waves-effect waves-light"><i
+                                <button type="button" id="moreBtn" class="btn btn-outline-danger w-md waves-effect waves-light"><i
                                         class="mdi mdi-refresh"></i>더보기
                                 </button>
                             </div>
@@ -243,16 +252,26 @@
 
 </main>
 
-<jsp:include page="../include/footer.jsp"/>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Vendor JS Files -->
+<script src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/chart.umd.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/echarts/echarts.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
+
 <!-- Template Main JS File -->
 <script>
     /* 더보기 버튼 */
-    $(function () {
-        $(".fileTable").slice(0, 8).show(); // 초기갯수
-        $("#moreBtn").click(function (e) { // 클릭시 more
+    $(function(){
+        $(".fileTable").slice(0,8).show(); // 초기갯수
+        $("#moreBtn").click(function(e){ // 클릭시 more
             e.preventDefault();
             $(".fileTable:hidden").slice(0, 8).show(); // 클릭시 more 갯수 지정
-            if ($(".fileTable:hidden").length === 0) { // 컨텐츠 남아있는지 확인
+            if($(".fileTable:hidden").length === 0){ // 컨텐츠 남아있는지 확인
                 $("#moreBtn").hide();
             }
         });
@@ -282,7 +301,7 @@
                     // 성공적으로 삭제되었을 때 실행할 코드
                     swal({
                         text: "파일이 삭제되었습니다.", buttons: "확인", closeOnClickOutside: false
-                    }).then(function () {
+                    }).then(function (){
                         $($this).closest(".file-man-box").remove();
                     })
                 },
@@ -295,5 +314,6 @@
     });
 </script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>
