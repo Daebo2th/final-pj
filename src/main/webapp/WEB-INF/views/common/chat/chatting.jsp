@@ -25,9 +25,9 @@
                     </ul>
                 </div>
                 <%-- 채팅 목록 끝 --%>
-                <div class="card card-bordered chat">
-                    <div class="card-header">
-                        <h4 class="card-title"><strong>Chat</strong></h4>
+                <div class="chat-card chat-card-bordered chat">
+                    <div class="chat-card-header">
+                        <h4 class="chat-card-title"><strong>Chat</strong></h4>
                         <a class="btn btn-xs btn-secondary chat_back" href="#" data-abc="true">채팅방 나가기</a>
                     </div>
 
@@ -35,29 +35,6 @@
                     <%-- 남의꺼 --%>
                     <div class="ps-container ps-theme-default ps-active-y" id="chat-content"
                          style="overflow-y: scroll !important; height:400px !important;">
-                        <%--                    <div class="media media-chat">--%>
-                        <%--                      <div>--%>
-                        <%--                        <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">--%>
-                        <%--                        <span>name</span>--%>
-                        <%--                      </div>--%>
-                        <%--                      <div class="media-body">--%>
-                        <%--                        <p>message</p>--%>
-                        <%--                        <p class="meta"><time datetime="2018">23:58</time></p>--%>
-                        <%--                      </div>--%>
-                        <%--                    </div>--%>
-
-                        <%--                    &lt;%&ndash;                    <div class="media media-meta-day">Today</div>&ndash;%&gt;--%>
-
-                        <%-- 자기꺼 --%>
-                        <%--                    <div class="media media-chat media-chat-reverse">--%>
-                        <%--                      <div class="media-body">--%>
-                        <%--                        <p>message</p>--%>
-                        <%--                        <p>Long time no see! Tomorrow office. will be free on sunday.</p>--%>
-                        <%--                        <p class="meta"><time datetime="2018">00:06</time></p>--%>
-                        <%--                      </div>--%>
-                        <%--                    </div>--%>
-
-
                         <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
                             <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                         </div>

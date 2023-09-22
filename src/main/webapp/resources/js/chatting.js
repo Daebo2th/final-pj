@@ -191,7 +191,7 @@ $(document).ready(function () {
         info.setRoomNumber(room.roomNumber);
 
         $(".chat").show();
-        $(".chat .card-title").html(`<strong>${room.roomName}</strong>`);
+        $(".chat .chat-card-title").html(`<strong>${room.roomName}</strong>`);
 
         userList(room.users);
         chatingConnect(room.roomNumber);
