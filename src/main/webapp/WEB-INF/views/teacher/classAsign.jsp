@@ -101,7 +101,7 @@
                                                         </c:forEach>
                                                     </select>
                                                 </td>
-                                                <td><input type="button" data-userid="${list.userId}" onclick="classUpdateBtn(this)"></td>
+                                                <td><input type="button" data-userid="${list.userId}" value="배정" onclick="classUpdateBtn(this)"></td>
                                             </tr>
                                         </c:forEach>
 
@@ -113,42 +113,6 @@
                                 </div>
                             </div> <%--End Card--%>
                         </section>
-                        <div id="pageNation" style="display: flex;justify-content: space-evenly;">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <c:if test="${pagingVO.nowPage > 1}">
-                                        <li class="page-item">
-                                            <!-- 아래 라인에서 쿼리 문자열 시작 부분에 &가 누락되었습니다. -->
-                                            <a class="page-link" href="?nowPage=${pagingVO.nowPage - 1}" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                    </c:if>
-
-                                    <!-- 시작페이지부터 끝페이지까지 반복 -->
-                                    <c:forEach varStatus='status' begin='${pagingVO.startPage}' end='${pagingVO.endPage}'>
-                                        <!-- 현재 페이지일 경우 'active' 클래스 적용 -->
-                                        <c:choose>
-                                            <c:when test="${status.index == pagingVO.nowPage}">
-                                                <li class='page-item active'><a class='page-link'>${status.index}</a></li>
-                                            </c:when>
-                                            <c:otherwise><li class='page-item'><a class='page-link' href="?nowPage=${status.index}">${status.index}</a></li></c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-
-                                    <!-- 다음 버튼 -->
-                                    <!-- 마지막 페이지가 아닌 경우만 '다음' 버튼을 보여줍니다. -->
-                                    <c:if test="${pagingVO.nowPage != pagingVO.lastPage}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="?nowPage=${pagingVO.nowPage + 1}" aria-label="Next">
-                                                &raquo;
-                                            </a>
-                                        </li>
-                                    </c:if>
-
-                                </ul>
-                            </nav><!-- End Pagination with icons -->
-                        </div>
                     </main><!-- End #main -->
                 </div>
             </div>
@@ -188,8 +152,12 @@
             //var result = jQuery.parseJSON(data);
             console.log(data.status);
             if (data.status == 'true') {
-                swal(data.msg);
-                location.href="/teacher/nogroupuser"
+                swal({
+                    text: data.msg, buttons: "확인", closeOnClickOutside: false
+                }).then(function (){
+                    location.href="/teacher/nogroupuser"
+                })
+
                 return;
             }
             swal(data.msg)
