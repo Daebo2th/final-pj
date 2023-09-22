@@ -452,7 +452,7 @@
                 console.log(response.status)
                 if (response.status == "duplication") {
                     swal({
-                        text: "입력하신 정보와 일치하는 회원이 없어 인증번호를 발송할 수 없습니다.", Buttons:[], closeOnClickOutside: false
+                        text: "입력하신 정보와 일치하는 회원이 없어 인증번로를 발송할 수 없습니다.", Buttons:[], closeOnClickOutside: false
                     })
                     return false;
                 }

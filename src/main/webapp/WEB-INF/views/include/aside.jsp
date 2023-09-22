@@ -70,6 +70,36 @@
             </ul>
         </li><!-- End Tables Nav -->
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#class-nav"  href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>CLASS 관리</span>
+            </a>
+            <ul id="class-nav" class="nav-content collapse show " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/teacher/class-info">
+                        <i class="bi bi-circle"></i><span>CLASS 조회</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/teacher/nogroupuser">
+                        <i class="bi bi-circle"></i><span>CLASS 배정</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Tables Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#icons-nav" href="#">
+                <i class="bi bi-gem"></i><span>수업 관리</span>
+            </a>
+            <ul id="icons-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/teacher/daily-task-check">
+                        <i class="bi bi-circle"></i><span>일일과제 현황</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Icons Nav -->
 <%--        <li class="nav-item">--%>
 <%--            <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">--%>
 <%--                <i class="bi bi-gem"></i><span>수업 관리</span><i class="bi bi-chevron-down ms-auto"></i>--%>
