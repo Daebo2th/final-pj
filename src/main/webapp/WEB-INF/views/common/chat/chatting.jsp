@@ -2,7 +2,7 @@
 <%--채팅 드롭다운 시작--%>
 <div class="page-content page-container dropdown-menu dropdown-menu-end dropdown-menu-arrow messages"
      onclick="event.stopPropagation();" id="page-content">
-    <div>
+    <div id="custom-chat-container">
         <div class="container d-flex justify-content-center">
             <div class="col">
                 <!-- 채팅방 목록 -->

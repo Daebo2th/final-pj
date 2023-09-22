@@ -61,6 +61,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Turret+Road:wght@300;400;500;700;800&display=swap"
 	rel="stylesheet">
+	<link rel="stylesheet" href="/resources/css/chatting.css">
 	<style>
 		.breadcrumb { background-color: white;}
 	</style>
