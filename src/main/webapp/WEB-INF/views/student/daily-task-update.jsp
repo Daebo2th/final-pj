@@ -357,15 +357,6 @@
 
 </main>
 <%@include file="../include/footer.jsp"%>
-<!-- Vendor JS Files -->
-<script src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/chart.umd.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/echarts/echarts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
-
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>

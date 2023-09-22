@@ -2,7 +2,7 @@
     border: 1px solid #ebebeb;
 }
 
-.card {
+.chat-card {
     border: 0;
     border-radius: 0px;
     margin-bottom: 30px;
@@ -30,12 +30,12 @@ body {
     background-color: #f9f9fa
 }
 
-.card-header:first-child {
+.chat-card-header:first-child {
     border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
 }
 
 
-.card-header {
+.chat-card-header {
     display: -webkit-box;
     display: flex;
     -webkit-box-pack: justify;
@@ -47,20 +47,20 @@ body {
     border-bottom: 1px solid rgba(77, 82, 89, 0.07);
 }
 
-.card-header .card-title {
+.chat-card-header .chat-card-title {
     padding: 0;
     border: none;
 }
 
-h4.card-title {
+h4.chat-card-title {
     font-size: 17px;
 }
 
-.card-header > *:last-child {
+.chat-card-header > *:last-child {
     margin-right: 0;
 }
 
-.card-header > * {
+.chat-card-header > * {
     margin-left: 8px;
     margin-right: 8px;
 }
@@ -83,7 +83,7 @@ h4.card-title {
 }
 
 
-.card-title {
+.chat-card-title {
     font-family: Roboto, sans-serif;
     font-weight: 300;
     line-height: 1.5;
