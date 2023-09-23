@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>JSP - Hello World</title>
+	<title>게스트전용</title>
 
 	<jsp:include page="include/commonCss.jsp"/>
 
@@ -61,46 +61,8 @@
 				<div class="card">
 					<div class="card-body pt-3">
 						<div id="container">
-							<h1><%= "Hello World!" %>
-							</h1>
-							<br/>
 
-							<a href="hello-servlet">Hello Servlet</a>
-
-							<table border="1" align="center" style="width: 30%;">
-								<thead>
-								<tr>
-									<th>아이디</th>
-									<th>비번</th>
-									<th>가입일</th>
-								</tr>
-								</thead>
-								<tbody>
-								<c:forEach var="list" items="${test}">
-									<tr>
-										<td>${list.userId}</td>
-										<td>${list.userPwd}</td>
-										<td>${list.regDate}</td>
-									</tr>
-								</c:forEach>
-								</tbody>
-							</table>
-							<a href="/auth/logout">로그아웃</a>
-
-							<hr>
-
-							<a href="/schedule">일정관리 페이지</a>
-							<a href="/teacher/student-record">학생기록부 페이지</a>
-							<a href="/teacher/student-detail">학생 상세 정보</a>
-							<a href="/student/todolist">칸반보드</a>
-							<a href="/student/daily-task">학생 일일과제 작성 페이지</a>
-							<hr>
-							<a href="/student/SMain"> 학생 LayoutForm</a>
-							<a href="teacher/TMain"> 교직원 LayoutForm</a>
-							<a href="/index2.jsp">UI 예시</a>
-							<a href="/chat/main">채팅</a>
-							<a href="/teacher/dataSharingRoom">자료공유실</a>
-							<a href="/student/MyPage">마이페이지</a>
+							<h1>반 배정중입니다! <br> 대기해주세요</h1>
 
 
 						</div>

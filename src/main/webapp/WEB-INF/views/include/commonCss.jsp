@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <!-- Favicons -->
-<link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+<link href="${pageContext.request.contextPath}favicon.ico" rel="icon">
 <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
 <!-- Google Fonts -->

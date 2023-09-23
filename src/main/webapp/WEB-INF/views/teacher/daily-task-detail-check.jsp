@@ -14,7 +14,7 @@
     <title>일일과제현황</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png"
+    <link href="${pageContext.request.contextPath}favicon.ico"
           rel="icon">
     <link
             href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png"

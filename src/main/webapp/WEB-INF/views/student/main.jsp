@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>JSP - Hello World</title>
+<title>학생-메인</title>
 
 <!-- Favicons -->
 <link
-	href="${pageContext.request.contextPath}/resources/img/favicon.png"
+	href="${pageContext.request.contextPath}favicon.ico"
 	rel="icon">
 <link
 	href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png"

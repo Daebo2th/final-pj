@@ -501,9 +501,10 @@
                     if (response.status == 'SUCCESS') {
                         $('input[name="authCode"]').attr("disabled", "disabled")
                         swal("이메일 검증이 완료되었습니다. 이메일로 전달드린 인증번호로 로그인해주세요.")
-                        AjaxPWReset(data.authCode);
-
-
+                        setTimeout(function() {
+                            swal.close(); // 일정 시간 후에 swal 창 닫기
+                            AjaxPWReset(data.authCode);
+                        }, 3000); // 3초 후에 닫음 (1000ms = 1초)
                     } else if(response.status == 'FAIL'){
                         alert("인증 실패");
                     }

@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>로그인</title>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
@@ -310,7 +310,7 @@
     <div>
         로그인실패<br>
         <c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
-            이유 : <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+            swal("다시 입력해주세요");
         </c:if>
     </div>
 </c:if>

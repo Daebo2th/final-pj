@@ -10,12 +10,12 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>교육생 관리</title>
+    <title>CLASS 배정</title>
 
     <jsp:include page="../include/commonCss.jsp"/>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}favicon.ico" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->

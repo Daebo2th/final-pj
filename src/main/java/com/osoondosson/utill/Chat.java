@@ -1,9 +1,12 @@
 package com.osoondosson.utill;
 
 import com.osoondosson.vo.chat.ChatingRoom;
+import com.osoondosson.vo.chat.Message;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -11,11 +14,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
-@Getter
+@Data
+@Component
 @Slf4j
 public class Chat {
 
@@ -35,6 +37,18 @@ public class Chat {
             log.info(users.toString());
             addCookie("roomNumber", chatingRoom.getRoomNumber());
             return true;
+        }
+    }
+
+    public void addMessageToChatHistory(String roomNumber, Message message) {
+        // 해당 방번호로 방 객체 찾기
+        ChatingRoom room = findRoom(roomNumber);
+        log.error("탓냐?"+roomNumber);
+        log.error("탓냐2?"+room);
+        if (room != null) {
+            List<Message> chatHistory = room.getChatHistory();
+            chatHistory.add(message);
+            log.error("여기는 채팅내역 저장"+chatHistory);
         }
     }
 
@@ -72,13 +86,22 @@ public class Chat {
 
     // 방 번호로 방 찾기
     public ChatingRoom findRoom(String roomNumber) {
-        ChatingRoom room = ChatingRoom.builder().roomNumber(roomNumber).build();
-        int index = chatingRoomList.indexOf(room);
+        log.warn("chatingRoomList"+chatingRoomList);
 
-        if(chatingRoomList.contains(room)) {
-            return chatingRoomList.get(index);
+        for (ChatingRoom room : chatingRoomList) {
+            if (room.getRoomNumber().equals(roomNumber)) {
+                return room;
+            }
         }
         return null;
+
+//        ChatingRoom room = ChatingRoom.builder().roomNumber(roomNumber).build();
+//        int index = chatingRoomList.indexOf(room);
+//
+//        if(chatingRoomList.contains(room)) {
+//            return chatingRoomList.get(index);
+//        }
+//        return null;
     }
 
     // 쿠키에서 방번호, 닉네임 찾기
@@ -115,4 +138,6 @@ public class Chat {
 
         return null;
     }
+
+
 }
