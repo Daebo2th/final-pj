@@ -56,10 +56,11 @@
             text-decoration: none;
             margin: 15px 0;
         }
-        .gender-button{
+
+        .gender-button {
             border-color: #eee;
             background-color: #eee;
-            color:#003050;
+            color: #003050;
         }
 
         button {
@@ -286,13 +287,15 @@
         .w-5 {
             width: 48%;
         }
-        .remember{
+
+        .remember {
             display: flex;
             width: 100%;
             justify-content: center;
             align-items: center;
         }
-        #remember-me{
+
+        #remember-me {
             width: auto;
         }
     </style>
@@ -366,10 +369,10 @@
             genderButtons.forEach(btn => {
                 if (btn === button) {
                     btn.classList.add('selected');
-                    $(btn).css({"color":"#eee","background-color":"#003050","border-color":"#003050"});
+                    $(btn).css({"color": "#eee", "background-color": "#003050", "border-color": "#003050"});
                 } else {
                     btn.classList.remove('selected');
-                    $(btn).css({"color":"#003050","background-color":"#eee","border-color":"#eee"});
+                    $(btn).css({"color": "#003050", "background-color": "#eee", "border-color": "#eee"});
                 }
             });
         });
@@ -388,10 +391,10 @@
     });
 
     /* 아이디 찾기 DB 조회*/
-    function findEmail(){
+    function findEmail() {
         var name = $("input[name='findIdName").val()
         var email = $("input[name='findIdEmail").val()
-        if (validateForm(name,email)) {
+        if (validateForm(name, email)) {
             let formData = {};
             formData.name = $("input[name=findIdName]").val();
             formData.userId = $("input[name=findIdEmail]").val();
@@ -433,7 +436,7 @@
     function sendEmail() {
         let name = $("input[name=findPwdName]").val();
         let email = $("input[name=findPwdEmail]").val();
-        if(validateForm(name,email)){
+        if (validateForm(name, email)) {
             let formData = {};
             formData.name = $("input[name=findPwdName]").val();
             formData.userId = $("input[name=findPwdEmail]").val();
@@ -443,7 +446,7 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
-                beforeSend: function( xhr ) {
+                beforeSend: function (xhr) {
                     swal(
                         '잠시만 기다려주세요'
                     )
@@ -453,20 +456,20 @@
                     console.log(response.status)
                     if (response.status == "duplication") {
                         swal({
-                            text: "입력하신 정보와 일치하는 회원이 없어 인증번로를 발송할 수 없습니다.", Buttons:[], closeOnClickOutside: false
+                            text: "입력하신 정보와 일치하는 회원이 없어 인증번로를 발송할 수 없습니다.", Buttons: [], closeOnClickOutside: false
                         })
                         return false;
                     }
 
-                    if(response.status == "SUCCESS"){
+                    if (response.status == "SUCCESS") {
                         swal({
-                            text: "이메일을 전송했습니다.", Buttons:[], closeOnClickOutside: false
+                            text: "이메일을 전송했습니다.", Buttons: [], closeOnClickOutside: false
                         })
                     }
 
-                    if(response.status == "FAIL"){
+                    if (response.status == "FAIL") {
                         swal({
-                            text: "이메일 전송 실패...", Buttons:[], closeOnClickOutside: false
+                            text: "이메일 전송 실패...", Buttons: [], closeOnClickOutside: false
                         })
                     }
                     // window.location.href=response;
@@ -486,7 +489,7 @@
         // 이름과 이메일 입력란의 값을 가져옵니다.
         let name = $("input[name='findPwdName']").val()
         let email = $("input[name='findPwdEmail']").val()
-        if(validateForm(name,email)){
+        if (validateForm(name, email)) {
             let data = {};
             data.authCode = $("input[name='findPwdAuthCode']").val();
             data.to = email;
@@ -500,11 +503,10 @@
                 success: function (response) {
                     if (response.status == 'SUCCESS') {
                         $('input[name="authCode"]').attr("disabled", "disabled")
-                        swal("이메일 검증이 완료되었습니다. 이메일로 전달드린 인증번호로 로그인해주세요.")
                         AjaxPWReset(data.authCode);
 
+                    } else if (response.status == 'FAIL') {
 
-                    } else if(response.status == 'FAIL'){
                         alert("인증 실패");
                     }
                 },
@@ -516,14 +518,20 @@
 
     }
 
-    function AjaxPWReset(key){
+    function AjaxPWReset(key) {
         $.ajax({
             url: '/auth/verify-authCode',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({authCode:key}),
+            data: JSON.stringify({authCode: key}),
             success: function (response) {
-               location.href="/";
+
+                if (response.status == 'SUCCESS') {
+                    swal("이메일 검증이 완료되었습니다. 이메일로 전달드린 인증번호로 로그인해주세요.").then(result =>{
+                        location.href = "/";
+                    })
+
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Error occurred while sending data:', error);
@@ -531,7 +539,7 @@
         });
     }
 
-    function validateForm(name,email) {
+    function validateForm(name, email) {
 
         // 이름과 이메일이 모두 입력되었는지 확인합니다.
         if (name === "" || email === "") {

@@ -1,11 +1,15 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
+
+
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
+
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
@@ -16,6 +20,7 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
+        <sec:authorize access="hasAnyRole('ROLE_GUEST','ROLE_USER','ROLE_ADMIN')">
         <li class="nav-heading">교육생 Pages</li>
 
         <li class="nav-item">
@@ -54,7 +59,8 @@
 
             </ul>
         </li><!-- End Forms Nav -->
-
+        </sec:authorize>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
         <li class="nav-heading">교직원 Pages</li>
 
         <li class="nav-item">
@@ -112,7 +118,7 @@
 <%--                </li>--%>
 <%--            </ul>--%>
 <%--        </li><!-- End Icons Nav -->--%>
-
+        </sec:authorize>
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#charts-nav" href="#">
                 <i class="bi bi-bar-chart"></i><span>기타</span>

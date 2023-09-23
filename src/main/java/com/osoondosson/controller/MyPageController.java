@@ -3,7 +3,13 @@ package com.osoondosson.controller;
 import java.security.Principal;
 import java.util.Map;
 
+import com.osoondosson.security.config.CustomUserDetail;
+import com.osoondosson.security.config.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +30,9 @@ public class MyPageController {
 
 	@Autowired
 	private MyPageService mypageService;
+
+	@Autowired
+	private CustomUserDetailsService customUserDetailsService;
 
 //	@GetMapping("/student/MyPage")
 //	public String MyPageMain(Model model, Principal principal) {
@@ -46,6 +55,28 @@ public class MyPageController {
 		vo.setUserId(userId);
 		System.out.println("--------------------------------------------------------" + vo);
 		mypageService.updateMyPage(vo);
+
+		// 2. 현재 Authentication에 저장된 account의 age값 변경
+		// 2-1. 현재 Authentication 정보 호출
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetail userDetail = (CustomUserDetail) authentication.getPrincipal();
+
+		// 2-2. 현재 Authentication로 사용자 인증 후 새 Authentication 정보를 SecurityContextHolder에 세팅
+		SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(authentication,userDetail.getUsername()));
+	}
+
+	/**
+	 * @description 새로운 인증 생성
+	 * @param currentAuth 현재 auth 정보
+	 * @param username	현재 사용자 Id
+	 * @return Authentication
+	 * @author Armton
+	 */
+	protected Authentication createNewAuthentication(Authentication currentAuth, String username) {
+		UserDetails newPrincipal = customUserDetailsService.loadUserByUsername(username);
+		UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(newPrincipal, currentAuth.getCredentials(), newPrincipal.getAuthorities());
+		newAuth.setDetails(currentAuth.getDetails());
+		return newAuth;
 	}
 
 	@PostMapping("/changePw")

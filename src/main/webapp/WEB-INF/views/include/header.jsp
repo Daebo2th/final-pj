@@ -21,64 +21,64 @@
         </a>
       </li><!-- End Search Icon-->
 
-      <li class="nav-item dropdown">
+<%--      <li class="nav-item dropdown">--%>
 
-        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-          <i class="bi bi-bell"></i>
-          <span class="badge bg-primary badge-number">알림 횟수</span>
-        </a><!-- End Notification Icon -->
+<%--        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">--%>
+<%--          <i class="bi bi-bell"></i>--%>
+<%--          <span class="badge bg-primary badge-number">알림 횟수</span>--%>
+<%--        </a><!-- End Notification Icon -->--%>
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-          <li class="dropdown-header">
-            당신에게 2개의 알림이 왔습니다.
-            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+<%--        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">--%>
+<%--          <li class="dropdown-header">--%>
+<%--            당신에게 2개의 알림이 왔습니다.--%>
+<%--            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>--%>
+<%--          </li>--%>
+<%--          <li>--%>
+<%--            <hr class="dropdown-divider">--%>
+<%--          </li>--%>
 
-          <li class="notification-item">
-            <i class="bi bi-exclamation-circle text-warning"></i>
-            <div>
-              <h4>공지사항</h4>
-              <p>이곳은 오순도순 사이트입니다.(내용 1줄 정도 들어가는 부분)</p>
-              <p>알림 온 시간</p>
-            </div>
-          </li>
+<%--          <li class="notification-item">--%>
+<%--            <i class="bi bi-exclamation-circle text-warning"></i>--%>
+<%--            <div>--%>
+<%--              <h4>공지사항</h4>--%>
+<%--              <p>이곳은 오순도순 사이트입니다.(내용 1줄 정도 들어가는 부분)</p>--%>
+<%--              <p>알림 온 시간</p>--%>
+<%--            </div>--%>
+<%--          </li>--%>
 
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+<%--          <li>--%>
+<%--            <hr class="dropdown-divider">--%>
+<%--          </li>--%>
 
-          <li class="notification-item">
-            <i class="bi bi-x-circle text-danger"></i>
-            <div>
-              <h4>알림2</h4>
-              <p>이곳은 오순도순 사이트입니다(내용))</p>
-              <p>1 hr. ago</p>
-            </div>
-          </li>
+<%--          <li class="notification-item">--%>
+<%--            <i class="bi bi-x-circle text-danger"></i>--%>
+<%--            <div>--%>
+<%--              <h4>알림2</h4>--%>
+<%--              <p>이곳은 오순도순 사이트입니다(내용))</p>--%>
+<%--              <p>1 hr. ago</p>--%>
+<%--            </div>--%>
+<%--          </li>--%>
 
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+<%--          <li>--%>
+<%--            <hr class="dropdown-divider">--%>
+<%--          </li>--%>
 
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li class="dropdown-footer">
-            <a href="#">전체보기(알림페이지 생성하는 경우 링크)</a>
-          </li>
+<%--          <li>--%>
+<%--            <hr class="dropdown-divider">--%>
+<%--          </li>--%>
+<%--          <li class="dropdown-footer">--%>
+<%--            <a href="#">전체보기(알림페이지 생성하는 경우 링크)</a>--%>
+<%--          </li>--%>
 
-        </ul><!-- End Notification Dropdown Items -->
+<%--        </ul><!-- End Notification Dropdown Items -->--%>
 
-      </li><!-- End Notification Nav -->
+<%--      </li><!-- End Notification Nav -->--%>
 
       <li class="nav-item dropdown">
 
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-chat-left-text"></i>
-          <span class="badge bg-success badge-number">메시지 수</span>
+<%--          <span class="badge bg-success badge-number">메시지 수</span>--%>
         </a><!-- End Messages Icon -->
 
         <%-- 채팅 영역 --%>

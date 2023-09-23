@@ -28,7 +28,7 @@ $(document).ready(function () {
                 listHtml(result)
             })
             .fail(function () {
-                alert("에러가 발생했습니다");
+                swal("에러가 발생했습니다");
             })
     }
 
@@ -61,7 +61,6 @@ $(document).ready(function () {
 
         const subscribeId = stomp.subscribe("/topic/roomList", function () {
             // "/topic/roomList"에서 메세지가 왔을때 실행할 함수
-            console.log("채팅방 새로고침")
             chatingRoomList();
         });
 
@@ -77,14 +76,18 @@ $(document).ready(function () {
 
 
 
-    const errorMSG = function (result) {
-        if (result.status == 404) {
-            alert("종료되었거나 없는 방입니다");
-        } else {
-            alert("에러가 발생했습니다");
-        }
-        location.href = "/";
-    }
+    // const errorMSG = function (result) {
+    //     let msg='';
+    //     if (result.status == 404) {
+    //         msg = "종료되었거나 없는 방입니다";
+    //     } else {
+    //         msg= "에러가 발생했습니다";
+    //     }
+    //     swal(msg).then(result=>{
+    //         location.href = "/";
+    //     })
+    //
+    // }
 
 // 참가자 그리기
     const userList = function (users) {
@@ -161,6 +164,7 @@ $(document).ready(function () {
         const id2 = stomp.subscribe("/topic/notification/" + roomNumber, function (result) {
             const room = JSON.parse(result.body);
             const message = room.message;
+            console.log(room)
 
             // 메세지가 왔을때 실행할 함수
             userList(room.users);
@@ -235,14 +239,15 @@ $(document).ready(function () {
         }
     })
 
-// 닉네임 만들고 채팅방 들어가기
+// 채팅방 입장
     const enterChatingRoom = function (roomNumber) {
 
         swal({
             text: "방에 입장하시겠습니까?", buttons: ["취소", "확인"], closeOnClickOutside: false
         }).then(function () {
             const data = {
-                roomNumber: roomNumber, nickname: info.getNickname()
+                roomNumber: roomNumber,
+                nickname: info.getNickname()
             }
 
             $.ajax({
@@ -250,24 +255,29 @@ $(document).ready(function () {
                 type: "GET",
                 data: data,
             })
-                .then(function (room) {
-                    console.log(room)
-                    initRoom(room);
+            .then(function (room) {
+                console.log(room)
+                initRoom(room);
 
-                    // 채팅방 참가 메세지
-                    room.message = info.getNickname() + "님이 참가하셨습니다";
-                    stomp.send("/socket/notification/" + roomNumber, {}, JSON.stringify(room));
-                    chatingConnect(roomNumber);
-                })
-                .fail(function (result) {
-                    errorMSG(result);
-                })
+                // 기존 채팅 내역을 화면에 출력
+                room.chatHistory.forEach(function (message) {
+                    chating(message);
+                });
+
+                // 채팅방 참가 메세지
+                room.message = info.getNickname() + "님이 참가하셨습니다";
+                stomp.send("/socket/notification/" + roomNumber, {}, JSON.stringify(room));
+                chatingConnect(roomNumber);
+            })
+            .fail(function (result) {
+                console.log(result);
+            })
         })
 
 
     }
 
-// 새 채팅방 만들기
+    // 새 채팅방 만들기
     const createRoom = function (roomName) {
         const data = {
             roomName: roomName, nickname: info.getNickname()
@@ -280,7 +290,7 @@ $(document).ready(function () {
                 initRoom(room)
             })
             .fail(function () {
-                alert("에러가 발생했습니다");
+                swal("에러가 발생했습니다");
             })
 
     }

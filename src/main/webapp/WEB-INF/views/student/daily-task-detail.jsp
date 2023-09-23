@@ -15,10 +15,10 @@
 
 <html>
 <head>
-    <title>일일과제현황</title>
+    <title>일일과제-상세</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}favicon.ico" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->

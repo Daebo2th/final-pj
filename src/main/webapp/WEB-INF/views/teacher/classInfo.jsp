@@ -10,12 +10,12 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>교육생 관리</title>
+    <title>CLASS 현황</title>
 
     <jsp:include page="../include/commonCss.jsp"/>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}favicon.ico" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -200,13 +200,17 @@
             data: JSON.stringify(classInfo),
             contentType: "application/json",
             dataType: 'json'
-        }).done(function (data) {
+        }).success(function (data) {
             //var result = jQuery.parseJSON(data);
             console.log(data.status);
             if (data.status == 'true') {
-                swal(data.msg);
-                location.href="/teacher/class-info"
-                return;
+                console.log("??2")
+                swal({
+                    text: data.msg, buttons: "확인", closeOnClickOutside: false
+                }).then(function (){
+
+                })
+                console.log("??")
             }
             swal(data.msg)
         }).fail(function (e) {

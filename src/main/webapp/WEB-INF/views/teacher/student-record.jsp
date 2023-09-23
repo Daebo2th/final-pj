@@ -9,10 +9,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>교육생 관리</title>
+    <title>학생기록부</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}favicon.ico" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
