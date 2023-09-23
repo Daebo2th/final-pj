@@ -76,14 +76,18 @@ $(document).ready(function () {
 
 
 
-    const errorMSG = function (result) {
-        if (result.status == 404) {
-            swal("종료되었거나 없는 방입니다")
-        } else {
-            swal("에러가 발생했습니다")
-        }
-        location.href = "/";
-    }
+    // const errorMSG = function (result) {
+    //     let msg='';
+    //     if (result.status == 404) {
+    //         msg = "종료되었거나 없는 방입니다";
+    //     } else {
+    //         msg= "에러가 발생했습니다";
+    //     }
+    //     swal(msg).then(result=>{
+    //         location.href = "/";
+    //     })
+    //
+    // }
 
 // 참가자 그리기
     const userList = function (users) {
@@ -266,7 +270,7 @@ $(document).ready(function () {
                 chatingConnect(roomNumber);
             })
             .fail(function (result) {
-                errorMSG(result);
+                console.log(result);
             })
         })
 
