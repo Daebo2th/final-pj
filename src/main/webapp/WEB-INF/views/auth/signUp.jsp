@@ -80,6 +80,14 @@
     function mailCheck() {
         let to = $("#frm input[name='email']").val();
 
+        let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        // 이메일 유효성 검사
+        if (!emailPattern.test(email)) {
+            $('#emailError').text('올바른 이메일 형식이 아닙니다.');
+            return;
+        }
+
         console.log(to)
         $.ajax({
             url: "/auth/mail-check",

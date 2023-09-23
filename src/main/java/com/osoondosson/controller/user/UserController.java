@@ -138,15 +138,18 @@ public class UserController {
 
     @PostMapping("/auth/reset-pwd")
     @ResponseBody
-    public Map<String, String> resetPwd(@RequestBody String key, Map<String, Object> map,Principal principal){
+    public Map<String, String> resetPwd(@RequestBody Map<String, Object> map,Principal principal){
         Map<String,String> responseMap = new HashMap<>();
 
-        map.put("userId", principal.getName());
-        map.put("userPwd", key);
+        try {
+            responseMap.put("status", "FAIL");
+            if(myPageService.updatePasswordByEmailAuth(map)> 0){
+                responseMap.put("status", "SUCCESS");
+            }
 
-        responseMap.put("status", "FAIL");
-        if(myPageService.updatePassWord(map)> 0){
-            responseMap.put("status", "SUCCESS");
+            log.warn(responseMap.toString());
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
         return responseMap;
