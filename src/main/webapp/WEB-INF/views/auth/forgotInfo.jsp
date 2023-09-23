@@ -493,7 +493,7 @@
             let data = {};
             data.authCode = $("input[name='findPwdAuthCode']").val();
             data.to = email;
-
+            console.log("인증 클릭")
             console.log(data)
             $.ajax({
                 url: '/auth/verify-authCode',
@@ -503,10 +503,9 @@
                 success: function (response) {
                     if (response.status == 'SUCCESS') {
                         $('input[name="authCode"]').attr("disabled", "disabled")
-                        AjaxPWReset(data.authCode);
+                        AjaxPWReset(data.authCode,data.to);
 
                     } else if (response.status == 'FAIL') {
-
                         alert("인증 실패");
                     }
                 },
@@ -518,20 +517,23 @@
 
     }
 
-    function AjaxPWReset(key) {
+    function AjaxPWReset(key,id) {
         $.ajax({
-            url: '/auth/verify-authCode',
+            url: '/auth/reset-pwd',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({authCode: key}),
+            data: JSON.stringify({
+                userPwd: key,
+                userId:id
+            }),
             success: function (response) {
 
                 if (response.status == 'SUCCESS') {
                     swal("이메일 검증이 완료되었습니다. 이메일로 전달드린 인증번호로 로그인해주세요.").then(result =>{
                         location.href = "/";
                     })
-
                 }
+
             },
             error: function (xhr, status, error) {
                 console.error('Error occurred while sending data:', error);
