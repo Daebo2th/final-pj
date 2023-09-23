@@ -572,10 +572,9 @@
             dataType: "json",
             success: function (response) {
                 if (response.status == "sucess") {
-                    alert("회원가입에 성공하셧습니다.")
-                    location.href = "/";
+                    swal("회원가입에 성공하셧습니다.").then(result => location.href = "/")
                 } else {
-                    alert(response.status)
+                    console.log(response.status)
                 }
             },
             error: function (xhr, status, error) {
