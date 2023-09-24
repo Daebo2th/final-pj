@@ -307,12 +307,13 @@
 </c:if>
 
 <c:if test="${param.fail == true}">
-    <div>
-        로그인실패<br>
         <c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
-            swal("다시 입력해주세요");
+           <script>
+               $( document ).ready(function() {
+                   swal("다시 입력해주세요");
+               });
+           </script>
         </c:if>
-    </div>
 </c:if>
 
 <%--<form action="/auth/login_check" method="post">--%>

@@ -95,7 +95,7 @@
                                                 <td>
                                                     <a href="/teacher/student-daily-task-list?studentUserId=${student.userId}">${student.name} 일일과제 리스트</a>
                                                 </td>
-                                                <td>${student.gender}</td>
+                                                <td>${student.gender=='M'?'남자':'여자'}</td>
                                                 <td>${student.phone}</td>
                                             </tr>
                                         </c:forEach>
