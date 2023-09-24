@@ -98,7 +98,7 @@
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">성별</div>
-                                    <div class="col-lg-9 col-md-8">${mypage.gender}</div>
+                                    <div class="col-lg-9 col-md-8">${mypage.gender=='M'?'남자':'여자'}</div>
                                 </div>
 
                                 <div class="row">

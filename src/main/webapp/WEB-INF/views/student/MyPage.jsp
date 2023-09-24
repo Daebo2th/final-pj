@@ -137,7 +137,7 @@
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">성별</div>
-										<div class="col-lg-9 col-md-8">${mypage.gender}</div>
+										<div class="col-lg-9 col-md-8">${mypage.gender=='M'?'남자':'여자'}</div>
 									</div>
 
 									<div class="row">
@@ -212,7 +212,7 @@
 											<label for="Country" class="col-md-4 col-lg-3 col-form-label">성별</label>
 											<div class="col-md-8 col-lg-9">
 												<input name="country" type="text" class="form-control"
-													id="Country" value="${mypage.gender}" readonly="readonly">
+													id="Country" value="${mypage.gender=='M'?'남자':'여자'}" readonly="readonly">
 											</div>
 										</div>
 
