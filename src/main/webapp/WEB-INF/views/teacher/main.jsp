@@ -8,12 +8,7 @@
 <title>교직원-메인</title>
 
 <!-- Favicons -->
-<link
-	href="/favicon.ico"
-	rel="icon">
-<link
-	href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png"
-	rel="apple-touch-icon">
+	<link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
 
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect">
