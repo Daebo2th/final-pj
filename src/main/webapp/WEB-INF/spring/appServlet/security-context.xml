@@ -6,7 +6,6 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <security:http pattern="/include/**" security="none"/>
-    <security:http pattern="/favicon.ico" security="none"/>
     <security:http pattern="/resources/**" security="none"/>
 
     <context:component-scan base-package="com.osoondosson.dao"/>

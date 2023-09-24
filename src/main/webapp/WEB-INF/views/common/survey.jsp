@@ -11,7 +11,7 @@
 <head>
   <title>만족도 조사</title>
   <!-- Favicons -->
-  <link href="${pageContext.request.contextPath}favicon.ico" rel="icon">
+  <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
   <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->

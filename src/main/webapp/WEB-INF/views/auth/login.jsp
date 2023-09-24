@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>로그인</title>
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
