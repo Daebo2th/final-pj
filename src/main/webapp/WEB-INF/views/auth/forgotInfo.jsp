@@ -550,7 +550,7 @@
         }
 
         // 이메일 형식을 정규표현식을 사용하여 확인합니다.
-        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        var emailPattern = new RegExp('[a-z0-9+]+@[a-z]+\.[a-z]{2,3}');
         if (!emailPattern.test(email)) {
             alert("올바른 이메일 주소를 입력하세요.");
             return false;

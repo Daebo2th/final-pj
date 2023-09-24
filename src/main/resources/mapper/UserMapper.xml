@@ -29,7 +29,10 @@
     </select>
 
     <select id="getUserByIdAndName" parameterType="userVO" resultType="Integer">
-        select count(*) from member where user_id = #{userId} and name = #{name}
+        select count(*) from member where user_id = #{userId}
+        <if test="name != null">
+            and name = #{name}
+        </if>
     </select>
 
     <select id="findRoleById" parameterType="String" resultType="userRoleVO">

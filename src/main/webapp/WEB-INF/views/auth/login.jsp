@@ -437,7 +437,17 @@
     });
 
     function sendEmail() {
+
+        let regex = new RegExp('[a-z0-9+]+@[a-z]+\.[a-z]{2,3}');
+
         const to = $("input[name=email]");
+
+        if(!regex.test(to.val())){
+            swal("이메일 형식을 확인해주세요!")
+            return false;
+        }
+
+
         $.ajax({
             url: '/auth/mail-check',
             type: 'POST',
@@ -453,7 +463,7 @@
                 console.log(response.status)
                 if (response.status == "duplication") {
                     swal({
-                        text: "입력하신 정보와 일치하는 회원이 없어 인증번로를 발송할 수 없습니다.", Buttons:[], closeOnClickOutside: false
+                        text: "이미 가입된 회원입니다!", Buttons:[], closeOnClickOutside: false
                     })
                     return false;
                 }
@@ -524,6 +534,8 @@
 
     function signUp() {
 
+        let reg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+
         if (!emailVerified) {
             alert("이메일 인증을 완료해주세요.");
             return;
@@ -542,15 +554,21 @@
 
         // 비밀번호 확인
         if (pwd !== chkPwdVal) {
-            alert("비밀번호가 일치하지 않습니다.");
+            swal("비밀번호가 일치하지 않습니다.");
             return;
         }
 
         // 필수항목 체크
         if (!email || !pwd || !name || !birthday || !gender || !phone || !postcode || !addr1) {
-            alert("모든 필드를 채워주세요.");
+            swal("모든 필드를 채워주세요.");
             return;
         }
+
+        if(!reg.test(pwd)){
+            swal("영문 숫자 특수기호 조합 8자리 이상으로 입력하세요")
+            return;
+        }
+
 
         // 회원 가입 데이터 객체 생성
         var registerData = {

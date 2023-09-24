@@ -73,7 +73,10 @@ public class UserController {
     public Map<String, String> mail(@RequestBody UserVO vo, HttpSession session) {
         Map<String, String> status = new HashMap<>();
 
-        if (vo.getName()!=null){
+
+        // vo.getName() == 비어있지 않을떄
+        if (vo.getName()!=null){ // 비밀번호 인증 시 여기 작동
+            // DB에서 회원이 있지않다면
             if(!userService.getUserCountByIdAndName(vo)){
                 status.put("status", "duplication");
                 return status;
@@ -85,7 +88,7 @@ public class UserController {
                 status.put("status", "FAIL");
             }
 
-        } else if(vo.getName()==null){
+        } else if(vo.getName()==null){ // 회원 가입시 여기가 동작되야함
             if(userService.getUserCountByIdAndName(vo)){
                 status.put("status", "duplication");
                 return status;
