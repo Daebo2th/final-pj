@@ -250,6 +250,18 @@ h6 {
   padding: 0 20px 20px 20px;
 }
 
+.card-body-noCount {
+  padding: 0 20px 20px 20px;
+  height: 68vh;
+  overflow: scroll;
+}
+
+.card-body-taskStatus {
+  padding: 0 20px 20px 20px;
+  height: 28vh;
+  overflow: scroll;
+}
+
 .card-img-overlay {
   background-color: rgba(255, 255, 255, 0.6);
 }
@@ -889,9 +901,9 @@ h6 {
 }
 
 .dashboard .news img {
-  width: 80px;
+  width: 12%;
   float: left;
-  border-radius: 5px;
+  transform: translate(30%, 10%);
 }
 
 .dashboard .news h4 {

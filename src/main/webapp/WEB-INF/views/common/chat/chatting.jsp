@@ -1,14 +1,17 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--채팅 드롭다운 시작--%>
 <div class="page-content page-container dropdown-menu dropdown-menu-end dropdown-menu-arrow messages"
      onclick="event.stopPropagation();" id="page-content">
-    <div>
+    <div id="custom-chat-container">
         <div class="container d-flex justify-content-center">
             <div class="col">
                 <!-- 채팅방 목록 -->
                 <div class="chat-room-list">
                     <h1>채팅방</h1>
-                    <button class="new_chat">새 채팅방 만들기</button>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <button class="new_chat">새 채팅방 만들기</button>
+                    </sec:authorize>
                     <nav>
                         <span>방 제목</span>
                         <span>인원</span>

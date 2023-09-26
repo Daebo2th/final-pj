@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -12,7 +13,7 @@ public class ChatingRoom {
 	private String roomNumber;
 	private String roomName;
 	private LinkedList<String> users;
-	
+	private List<Message> chatHistory;
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

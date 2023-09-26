@@ -4,6 +4,7 @@ import com.osoondosson.vo.UserRoleVO;
 import com.osoondosson.vo.UserVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserDAO {
 	List<UserVO> getUser();
@@ -19,5 +20,7 @@ public interface UserDAO {
 	UserVO read(String id);
 
 	void updateProfile(UserVO vo);
+
+	int getUserCountByIdAndName(UserVO vo);
 
 }

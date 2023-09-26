@@ -21,9 +21,9 @@ public class ToDoListDAOImpl implements ToDoListDAO {
 	}
 
 	@Override
-	public List<ToDoListVO> selectToDoList() {
+	public List<ToDoListVO> selectToDoList(String userId) {
 		System.out.println("==> mybatis selectToDoList() 호출 ");
-		return mybatis.selectList("com.osoondosson.dao.ToDoListDAO.selectToDoList");
+		return mybatis.selectList("com.osoondosson.dao.ToDoListDAO.selectToDoList", userId);
 	}
 
 	@Override

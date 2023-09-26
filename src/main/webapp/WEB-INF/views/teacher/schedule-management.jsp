@@ -14,7 +14,7 @@
     <title>일정관리</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -32,20 +32,18 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/calendar.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <style>
-        .breadcrumb { background-color: white;}
-    </style>
 
-    <title>Hello, world!</title>
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- moment.js -->
     <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
     <!-- fullcalendar CDN -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+    <link rel="stylesheet" href="/resources/css/chatting.css">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
     <!-- fullcalendar 언어 CDN -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
@@ -62,6 +60,7 @@
             padding-left: 1em;
             padding-right: 1em;
         }
+        .breadcrumb { background-color: white;}
     </style>
 </head>
 <body>
@@ -76,7 +75,7 @@
             <h1>일정관리</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item active">일정관리</li>
                 </ol>
             </nav>
@@ -187,7 +186,7 @@
                         text: "삭제되었습니다.", buttons: "확인", closeOnClickOutside: false
                     }).then(function (){
                         $("#calendarModal").modal("hide");
-                        location.href="/schedule/main";
+                        location.href="/schedule";
                     })
                 },
                 error: function(xhr, status, error) {
@@ -219,9 +218,12 @@
                     // 요청이 성공했을 때의 처리 로직
                     console.log(response); // 응답 데이터 출력
                     // 추가적인 로직 구현 가능
-                    alert("등록이 완료되었습니다.");
-                    $("#calendarModal").modal("hide");
-                    location.href="/schedule/main";
+                    swal({
+                        text: "수정되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        $("#calendarModal").modal("hide");
+                        location.href="/schedule";
+                    })
                 },
                 error: function(xhr, status, error) {
                     // 요청이 실패했을 때의 처리 로직
@@ -254,9 +256,12 @@
                     // 요청이 성공했을 때의 처리 로직
                     console.log(response); // 응답 데이터 출력
                     // 추가적인 로직 구현 가능
-                    alert("등록이 완료되었습니다.");
-                    $("#calendarModal").modal("hide");
-                    location.href="/schedule/main";
+                    swal({
+                        text: "등록이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        $("#calendarModal").modal("hide");
+                        location.href="/schedule";
+                    })
                 },
                 error: function(xhr, status, error) {
                     // 요청이 실패했을 때의 처리 로직
@@ -281,7 +286,7 @@
                     headerToolbar: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        right: 'dayGridMonth,listWeek'
                     },
                     initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
                     //initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
@@ -293,12 +298,12 @@
                     nowIndicator: true, // 현재 시간 마크
                     dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
                     locale: 'ko', // 한국어 설정
+                    allDay: true,
                     eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
                         console.log(obj);
                     },
                     eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
                         console.log(obj);
-                        alert(obj);
                     },
                     eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
                         console.log(obj);
@@ -322,10 +327,18 @@
                         $("#calendarModal").modal("show"); // modal 나타내기
 
                     },
-
+                    eventRender: function(info) {
+                        var eventDate = info.event.start;
+                        var dayOfWeek = eventDate.getDay(); // 해당 날짜의 요일 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+                        console.log(dayOfWeek);
+                        if (dayOfWeek === 0) { // 일요일
+                            info.el.classList.add('fc-sun-bg'); // 일요일 클래스 추가
+                        } else if (dayOfWeek === 6) { // 토요일
+                            info.el.classList.add('fc-sat-bg'); // 토요일 클래스 추가
+                        }
+                    },
                     dateClick: function(info) { // 캘린더 날짜 클릭시 이벤트 생성
                         $("#calendarModal").modal("show"); // modal 나타내기
-
                     },
 
                     eventClick: function (info) { //이벤트 클릭시 모달창 나타내기
@@ -362,12 +375,21 @@
                     eventDrop:function(info) {
                         // 이벤트가 드래그 앤 드롭하여 변경될 때 호출되는 콜백 함수
                         var event = info.event;
-                        console.log(event)
                         var formData = {};
-                        formData.scheduleSeq = event._def.extendedProps.extendsProps.scheduleSeq;
+                        if(event._def.extendedProps.extendsProps === undefined){
+                            formData.scheduleSeq = '';
+                        } else {
+                            formData.scheduleSeq = event._def.extendedProps.extendsProps.scheduleSeq;
+                        }
                         formData.startDate = event.start.toISOString()
-                        formData.endDate = event.end.toISOString()
-                        console.log(formData)
+                        formData.endDate = event.end == null? event.start.toISOString() : event.end.toISOString();
+                        // formData.endDate = event.end.toISOString()
+                        console.log(formData.scheduleSeq)
+
+                        if(formData.scheduleSeq === '') {
+                            info.revert();
+                            return false;
+                        }
 
                         $.ajax({
                             url: "/schedule/updateByDrop",
@@ -376,8 +398,11 @@
                             contentType: "application/json",
                             dataType: "json",
                             success: function (response) {
-                                alert("수정되었습니다");
-                                //location.href="/schedule/main";
+                                swal({
+                                    text: "수정되었습니다.", buttons: "확인", closeOnClickOutside: false
+                                }).then(function (){
+
+                                })
                             },
                             error: function(xhr, status, error) {
                                 // 요청이 실패했을 때의 처리 로직
@@ -385,12 +410,13 @@
                                 // 추가적인 로직 구현 가능
                             }
                         })
+
                     },
 
                     events: [
                         <c:forEach var="userlist" items="${list}">
                         {
-                            color:'E9BFD1',
+                            color: '${userlist.importance eq 'up' ? '#ED9CA5' : (userlist.importance eq 'mid' ? '#FFBF8B' : (userlist.importance eq 'bottom' ? '#CFFFE5' : 'black'))}',
                             textColor:'5D082D',
                             title: '${userlist.title}',
                             start: '<fmt:formatDate value="${userlist.startDate}" pattern="yyyy-MM-dd HH:mm" />',
@@ -403,6 +429,18 @@
                             }
                         },
 
+                        </c:forEach>
+                        <c:forEach var="todolist" items="${todoList}">
+                        <c:if test="${todolist.listNum != 3}" >
+                        {
+                            color:'#2980B9',
+                            textColor:'5D082D',
+                            title: '${todolist.cardName}',
+                            start: '<fmt:formatDate value="${todolist.cardDate}" pattern="yyyy-MM-dd HH:mm" />',
+                            end: '<fmt:formatDate value="${todolist.cardDate}" pattern="yyyy-MM-dd HH:mm" />'
+
+                        },
+                        </c:if>
                         </c:forEach>
                     ]
                 });

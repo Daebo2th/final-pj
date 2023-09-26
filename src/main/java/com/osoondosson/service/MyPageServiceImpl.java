@@ -45,6 +45,10 @@ public class MyPageServiceImpl implements MyPageService {
 	    return 0;
 	}
 
-	
+	public int updatePasswordByEmailAuth(Map<String,Object> map){
+		BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
+		map.put("userPwd", bCrypt.encode((String)map.get("userPwd")));
+		return mypageDAO.updatePassWord(map);
+	}
 
 }

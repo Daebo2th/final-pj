@@ -4,4 +4,22 @@
 
 <mapper namespace="com.osoondosson.dao.BoardDAO">
 
+	<select id="selectMyTask" resultType="HashMap" parameterType="userVO">
+		SELECT m.user_id, name, title, create_date, update_date, task_seq
+		FROM member m
+		JOIN task t ON m.user_id = t.user_id
+		WHERE m.user_id = #{userId} and m.group_seq = #{groupSeq}
+		GROUP BY m.user_id, name, title, create_date, update_date, task_seq
+		ORDER BY create_date desc
+	</select>
+	
+	<select id="selectMyTaskStatus" resultType="HashMap" parameterType="userVO">
+		SELECT m.user_id, name, title, create_date
+		FROM member m
+		JOIN task t ON m.user_id = t.user_id
+		WHERE t.status = 0 and m.group_seq = #{groupSeq} and m.user_id = #{userId}
+		GROUP BY m.user_id, name, title, create_date
+		ORDER BY create_date desc
+	</select>
+
 </mapper>

@@ -15,10 +15,9 @@
 
 <html>
 <head>
-    <title>일일과제현황</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -42,8 +41,8 @@
     <style>
         .breadcrumb { background-color: white;}
     </style>
+    <title>일일과제 수정 페이지</title>
 
-    <title>Hello, world!</title>
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Editor's Style -->
@@ -52,11 +51,7 @@
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <!-- moment.js -->
     <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
-    <!-- fullcalendar CDN -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-    <!-- fullcalendar 언어 CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+
     <style>
         /* body 스타일 */
         html, body {
@@ -197,7 +192,7 @@
 
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
-
+    <link rel="stylesheet" href="/resources/css/chatting.css">
 </head>
 <body>
 <%@include file="../include/header.jsp"%>
@@ -211,7 +206,7 @@
         <h1>일일과제 수정 페이지</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">일일과제</li>
             </ol>
         </nav>
@@ -242,23 +237,7 @@
             <div id="editor">
 
             </div>
-            <%
-                Object taskObject = request.getAttribute("taskVO");
-                /* out.println(taskObject);*/
-                String taskJson ="{}";
-                if(taskObject != null){
-                    try{ //서버에서 받아온 'taskVO' 객체를 JSON 문자열로 변환하고, 이스케이프 처리합니다.
-                        ObjectMapper mapper = new ObjectMapper();
-                        String jsonStr = mapper.writeValueAsString(taskObject);
-                        // 모든 제어문자와 특수문자를 Java 스트링 리터럴에서 안전하게 사용할 수 있는 형태로 변환
-                        taskJson = StringEscapeUtils.escapeJava(jsonStr);
-                        /*out.println("taskJSON : "+ taskJson);*/
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
 
-            %>
             <div id="savebtns" style="display: flex; justify-content: center;">
                     <button class="custom-btn btn-3" onclick="saveData()"><span>Save</span></button>
                     &nbsp;&nbsp;
@@ -267,66 +246,75 @@
                 </a>
             </div>
             <script type = "text/javascript">
+
+
                 var editor;
                 //페이지가 로드 되면 실행 됨
                 window.onload = function(){
-                    var taskJsonStrEscaped = '<%=taskJson%>';
-                    //이스케이프 처리된 문자열에서 역슬래시와 따옴표(\') 조합을 일반 따옴표(')로 치환하여 원래 형태로 복원합니다.
-                    var taskJsonStrUnescaped = String(taskJsonStrEscaped).replace(/\\'/g, "'");
-                    try{
-                        var task = JSON.parse(taskJsonStrUnescaped); //복원된 JSON 문자열을 JavaScript 객체로 변환합니다.
+                    $.ajax({
+                        url: "/api/task-list/${param.taskSeq}",
+                        type: "GET",
+                        dataType: 'json',
+                        success: function (response) {
+                            toastUI(response)
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error occurred while sending data:', error);
+                        }
+                    });
 
-                        //에디터 인스턴스를 생성하고 초기화 한다
-                        editor = new toastui.Editor({
-                            el:document.querySelector('#editor'),
-                            initialEditType: 'markdown',
-                            previewStyle: 'vertical',
-                            height: '700px',
-                            initialValue: task.content,
-                            readOnly: false, // 수정이 가능해야 하므로 false 로 설정
-                            hooks: {
-                                addImageBlobHook: (blob, callback) =>{
-                                    console.log(blob);
-                                    uploadImages(blob, callback);
-                                }
-                            }
-                        });
-                        const uploadImages = (blob, callback) => {
-                            let fileData = new FormData();
-                            fileData.append("fileData", blob);
+                   function toastUI(response){
+                       try{
+                           //에디터 인스턴스를 생성하고 초기화 한다
+                           editor = new toastui.Editor({
+                               el:document.querySelector('#editor'),
+                               initialEditType: 'markdown',
+                               previewStyle: 'vertical',
+                               height: '700px',
+                               initialValue: response.content,
+                               readOnly: false, // 수정이 가능해야 하므로 false 로 설정
+                               hooks: {
+                                   addImageBlobHook: (blob, callback) =>{
+                                       uploadImages(blob, callback);
+                                   }
+                               }
+                           });
+                           const uploadImages = (blob, callback) => {
+                               let fileData = new FormData();
+                               fileData.append("fileData", blob);
 
-                            $.ajax({
-                                type:'POST',
-                                enctype: 'multipart/form-data',
-                                url: '/student/fileUpload',
-                                data: fileData,
-                                dataType:'json',
-                                processData: false,
-                                contentType: false,
-                                cache: false
-                            }).fail(function( jqXHR, textStatus, errorThrown ){
-                                console.log(jqXHR)
-                                console.log('status'+textStatus)
-                                console.log('error'+errorThrown)
-                                //callback();
-                            }).done(function(data){
-                                console.log('들어옴')
-                                console.log(data.message);
-                                console.log(data.status)
-                                if (data.status === "success") {
-                                    callback(data.message);
-                                } else {
-                                    console.error('Image upload failed.');
-                                }
-                            });
+                               $.ajax({
+                                   type:'POST',
+                                   enctype: 'multipart/form-data',
+                                   url: '/student/fileUpload',
+                                   data: fileData,
+                                   dataType:'json',
+                                   processData: false,
+                                   contentType: false,
+                                   cache: false
+                               }).fail(function( jqXHR, textStatus, errorThrown ){
+                                   console.log(jqXHR)
+                                   console.log('status'+textStatus)
+                                   console.log('error'+errorThrown)
+                                   //callback();
+                               }).done(function(data){
+                                   console.log('들어옴')
+                                   console.log(data.message);
+                                   console.log(data.status)
+                                   if (data.status === "success") {
+                                       callback(data.message);
+                                   } else {
+                                       console.error('Image upload failed.');
+                                   }
+                               });
 
-                        }//editor.setMarkdown() + AWS 이미지 저장 완료;
+                           }//editor.setMarkdown() + AWS 이미지 저장 완료;
 
-                    }catch(e){
-                        console.error(e);
-                        console.log(taskJsonStrUnescaped);
-                    }
-                };
+                       }catch(e){
+                           console.error(e);
+                       }
+                   }
+                }
                 // 데이터 전송 함수를 전역 스코프에 선언합니다.
                 window.saveData = function() {
                     const formData = {
@@ -344,11 +332,18 @@
                         contentType: 'application/json',
                         data: JSON.stringify(formData),
                         success: function (response) {
-                            console.log('Data sent successfully!');
-                            window.location.href=response;
+                            swal({
+                                text: "글 수정이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                            }).then(function (){
+                                window.location.href=response;
+                            })
                         },
                         error: function (xhr, status, error) {
-                            console.error('Error occurred while sending data:', error);
+                            swal({
+                                text: "글 수정에 실패하였습니다.", buttons: "확인", closeOnClickOutside: false
+                            }).then(function (){
+                                console.error('Error occurred while sending data:', error);
+                            })
                         }
                     });
                 }

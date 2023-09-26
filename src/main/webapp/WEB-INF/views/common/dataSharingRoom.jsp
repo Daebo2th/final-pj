@@ -15,7 +15,8 @@
     <title>자료공유실</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -196,7 +197,7 @@
                                 </div>
                                 <div class="col-lg-6 col-xl-6">
                                     <h6 class="header-title m-b-30">
-                                        <form action="/teacher/dataSharingRoom/upload" method="post"
+                                        <form action="/class/${principal.groupSeq}/dataSharingRoom/upload" method="post"
                                               enctype="multipart/form-data">
                                             <div class="filebox">
                                                 <input class="upload-name" value="첨부파일" placeholder="첨부파일">
@@ -210,13 +211,15 @@
                             </div>
 
                             <c:set var="contentTypeArray" value="${['jpg', 'pdf', 'png', 'txt', 'gif', 'html', 'js', 'json', 'md']}"/>
+
                             <%-- 어딘가에서 contentTypes 배열을 설정하거나 가져오는 코드 --%>
                             <div class="row location pt-5">
                                 <c:forEach var="list" items="${list}">
                                     <div class="col-lg-3 col-xl-3 fileTable" style="display: none; padding-bottom: 14px;">
                                         <div class="file-man-box">
-                                            <a href class="file-close" data-uuid="${list.uuid}" data-uploadname="${list.uploadName} data-filetype="${list.fileType}"><i class="fa fa-times-circle"></i></a>
-
+                                            <sec:authorize access="hasRole('ROLE_ADMIN')" var="u">
+                                                <a href class="file-close" data-uuid="${list.uuid}" data-uploadname="${list.uploadName}" data-filetype="${list.fileType}"><i class="fa fa-times-circle"></i></a>
+                                            </sec:authorize>
                                             <div class="file-img-box">
                                                 <i style="font-size: 100px;" class="bx ${list.fileType == 'folder'?'bxs-folder': contentTypeArray.contains(fn:split(list.uploadName,'.')[1])?'bxs-file-'+=fn:split(list.uploadName,'.')[1]:'bxs-file-blank'}"></i>
                                                 <c:if test="${list.fileType != 'folder'}">
@@ -250,7 +253,6 @@
 
 </main>
 
-<%@include file="../include/footer.jsp" %>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Vendor JS Files -->
@@ -261,10 +263,10 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
+<link rel="stylesheet" href="/resources/css/chatting.css">
 
 <!-- Template Main JS File -->
 <script>
-
     /* 더보기 버튼 */
     $(function(){
         $(".fileTable").slice(0,8).show(); // 초기갯수
@@ -276,71 +278,6 @@
             }
         });
     });
-
-    $(document).ready(function () {
-        // 폴더 생성 버튼 클릭 시 모달 창 열기
-        $("#createFolderButton").click(function () {
-            $("#folderName").val(""); // 모달 창이 열릴 때 입력 필드 초기화
-            $("#createFolderModal").modal("show");
-        });
-
-        // 폴더 생성 버튼 클릭 시 폴더 생성 요청 처리
-        $("#createFolderConfirm").click(function () {
-            var folderName = $("#folderName").val();
-            if (folderName.trim() !== "") {
-                // 폴더 이름이 비어있지 않은 경우 서버로 요청을 보내 폴더를 생성합니다.
-                createFolder(folderName);
-            }
-        });
-        // 서버로 폴더 생성 요청을 보내는 함수
-        function createFolder(folderName) {
-
-            $.ajax({
-                type: "POST",
-                url: "/teacher/dataSharingRoom/createFolder", // 폴더 생성 요청을 처리하는 서버 엔드포인트 URL
-                contentType: "text/plain",
-                data: folderName,
-                success: function (data) {
-                    console.log(data.message)
-                    if (data.status === 'success') {
-                        alert("폴더가 생성되었습니다.");
-                        $("#createFolderModal").modal("hide"); // 모달 창 닫기
-
-                        var html = `<div class="col-lg-3 col-xl-2">
-                                    <div class="file-man-box"><a href class="file-close"><i
-                                            class="fa fa-times-circle"></i></a>
-
-                                        <a href="#" class="folder-open">
-                                            <div class="file-img-box">
-                                                <i style="font-size: 100px;" class="bx bxs-folder"></i>
-                                            </div>
-                                        </a>
-                                        <div class="file-man-title">
-                                            <h5 class="mb-0 text-overflow">\${folderName}</h5>
-                                            <p class="mb-0"><small></small></p>
-                                        </div>
-                                    </div>
-                                    </div>`
-                        $(".location").append(html);
-                        //새로운 폴더를 화면에 추가하거나 리로드하는 등의 작업 수행
-                    } else {
-                        alert("폴더 생성 중 오류가 발생했습니다.");
-                    }
-                },
-                error: function (error,n , m) {
-                    console.log(error)
-                    console.log(n)
-                    console.log(m)
-                    console.error("폴더 생성 중 오류가 발생했습니다.");
-                }
-            });
-        }
-    });
-    // 폴더 들어가는 기능
-    function enterFolder() {
-        // 호출 방법
-        renderTree(data.fileNames);
-    }
 
     $("#file").on('change', function () {
         var fileName = $("#file").val();
@@ -359,17 +296,16 @@
             // 서버에 삭제 요청 보내기
             $.ajax({
                 type: "POST", // 또는 다른 HTTP 메서드 (GET, DELETE 등)
-                url: "/teacher/dataSharingRoom/delete", // 삭제 요청을 처리하는 서버 엔드포인트 URL
+                url: "/api/dataSharingRoom/delete", // 삭제 요청을 처리하는 서버 엔드포인트 URL
                 contentType: "application/json",
                 data: JSON.stringify(formData),
                 success: function (data) {
                     // 성공적으로 삭제되었을 때 실행할 코드
-                    if(data.status){
-                        console.log( data.message)
-                    }
-                    alert("파일이 성공적으로 삭제되었습니다.");
-                    // 클라이언트에서 파일을 DOM에서 제거 (선택적)
-                    $($this).closest(".file-man-box").remove();
+                    swal({
+                        text: "파일이 삭제되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        $($this).closest(".file-man-box").remove();
+                    })
                 },
                 error: function (error) {
                     // 삭제 중 오류가 발생했을 때 실행할 코드
@@ -378,44 +314,8 @@
             });
         });
     });
-
-    $(document).ready(function () {
-        // .file-close를 클릭했을 때
-        $(".file-close").click(function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var formData = {};
-            formData.uuid = $this.data("uuid"); // 데이터 속성에서 UUID 추출
-            formData.uploadName = $this.data("uploadname");
-
-            // 파일이 속할 폴더의 ID를 가져옵니다. 예를 들어, 파일 이름에 따라 동적으로 생성하거나 폴더 ID를 설정합니다.
-            var folderId = getFolderId(formData.uploadName);
-
-            // 해당 폴더로 .file-man-box를 이동시킵니다.
-            $("#folder-" + folderId).append($this.closest(".file-man-box"));
-
-            // 서버에 삭제 요청 보내기
-            $.ajax({
-                type: "POST",
-                url: "/teacher/dataSharingRoom/delete",
-                contentType: "application/json",
-                data: JSON.stringify(formData),
-                success: function (data) {
-                    if (data.status) {
-                        console.log(data.message);
-                    }
-                    alert("파일이 성공적으로 삭제되었습니다.");
-                    // 클라이언트에서 파일을 DOM에서 제거 (선택적)
-                    $this.closest(".file-man-box").remove();
-                },
-                error: function (error) {
-                    console.error("파일 삭제 중 오류가 발생했습니다.");
-                }
-            });
-        });
-    });
-
 </script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>

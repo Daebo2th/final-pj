@@ -18,7 +18,7 @@
   <title>일일과제현황</title>
 
   <!-- Favicons -->
-  <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+  <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
   <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -42,8 +42,6 @@
   <style>
     .breadcrumb { background-color: white;}
   </style>
-
-  <title>Hello, world!</title>
   <!-- jquery CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Editor's Style -->
@@ -52,11 +50,7 @@
   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
   <!-- moment.js -->
   <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
-  <!-- fullcalendar CDN -->
-  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-  <!-- fullcalendar 언어 CDN -->
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+
   <style>
     /* body 스타일 */
     html, body {
@@ -162,7 +156,7 @@
 
   </style>
   <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
-
+  <link rel="stylesheet" href="/resources/css/chatting.css">
 </head>
 <body>
 <%@include file="../include/header.jsp"%>
@@ -176,7 +170,7 @@
     <h1>일일과제 작성</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item active">write</li>
       </ol>
     </nav>
@@ -200,8 +194,8 @@
             <input id="author" type="text" class="form-control" value="${userName}" readonly="false">
           </div>
           <div class="form-group">
-            <label for="userid">UserId</label>
-            <input id="userid" type="text" class="form-control" value="${userId}" readonly="false">
+            <%--<label for="userid">UserId</label>--%>
+            <input type="hidden" id="userid" type="text" class="form-control" value="${userId}" readonly="false">
           </div>
         </div>
       </div>
@@ -280,11 +274,18 @@
             contentType: 'application/json',
             data: JSON.stringify(formData),
             success: function (response) {
-              console.log('Data sent successfully!');
-              window.location.href=response;
+              swal({
+                text: "글 작성이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+              }).then(function (){
+                window.location.href=response;
+              })
             },
             error: function (xhr, status, error) {
-              console.error('Error occurred while sending data:', error);
+              swal({
+                text: "글 작성에 실패했습니다", buttons: "확인", closeOnClickOutside: false
+              }).then(function (){
+                console.error('Error occurred while sending data:', error);
+              })
             }
           });
         }

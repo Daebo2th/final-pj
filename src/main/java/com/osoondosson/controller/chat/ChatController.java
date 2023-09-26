@@ -4,6 +4,7 @@ package com.osoondosson.controller.chat;
 import com.osoondosson.utill.Chat;
 import com.osoondosson.vo.chat.ChatingRoom;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,9 @@ import java.util.*;
 @Slf4j
 public class ChatController {
 
-    private Chat chat = new Chat();
+    @Autowired
+    private Chat chat;
+//    private Chat chat = new Chat();
 
 
 
@@ -44,6 +47,7 @@ public class ChatController {
                 .roomNumber(roomNumber)
                 .users(new LinkedList<>())
                 .roomName(roomName)
+                .chatHistory(new ArrayList<>())
                 .build();
 
         chat.getChatingRoomList().add(chatingRoom);

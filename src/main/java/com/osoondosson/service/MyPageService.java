@@ -9,5 +9,5 @@ public interface MyPageService {
 	void updateMyPage(UserVO vo);
 	String selectPassWord(String userId);
 	int updatePassWord(Map<String, Object> paramMap);
-
+	int updatePasswordByEmailAuth(Map<String,Object> map);
 }

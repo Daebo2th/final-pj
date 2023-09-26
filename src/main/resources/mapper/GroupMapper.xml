@@ -3,5 +3,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.osoondosson.dao.GroupDAO">
+    <!--운영중인 반 전체 목록 출력-->
+    <select id="selectClass" resultType="classVO">
+        SELECT *
+        FROM class
+        WHERE start_date <![CDATA[ <= ]]> CURRENT_TIMESTAMP AND end_date >= CURRENT_TIMESTAMP
+        ORDER BY group_seq
+    </select>
+
+    <!--반 생성-->
+    <insert id="insertClass" parameterType="classVO">
+        INSERT INTO class (group_seq, group_name, start_Date, end_Date)
+        VALUES (group_seq.nextval, #{groupName}, #{startDate}, #{endDate})
+    </insert>
+
+    <!--그룹seq부여 안된 user출력-->
+    <select id="selectNullGroupUser" resultType="userVO">
+        select * from member where group_seq IS NULL
+    </select>
+
+    <!--그룹seq부여-->
+    <update id="updateClass" parameterType="Map">
+        update member set group_seq=#{groupSeq} where user_id= #{userId}
+    </update>
+
+    <!--그룹seq부여-->
+    <update id="updateRoleType" parameterType="String">
+        update role set role_type='ROLE_USER' where u_id= #{userId}
+    </update>
 
 </mapper>

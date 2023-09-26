@@ -5,15 +5,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>JSP - Hello World</title>
+<title>교직원-메인</title>
 
 <!-- Favicons -->
-<link
-	href="${pageContext.request.contextPath}/resources/img/favicon.png"
-	rel="icon">
-<link
-	href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png"
-	rel="apple-touch-icon">
+	<link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
 
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -47,6 +42,7 @@
 <!-- Template Main CSS File -->
 <link href="${pageContext.request.contextPath}/resources/css/style.css"
 	rel="stylesheet">
+	<link rel="stylesheet" href="/resources/css/chatting.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- moment.js -->
@@ -107,37 +103,18 @@
 								<!-- Sales Card -->
 								<div class="col-xxl-4 col-md-6">
 									<div class="card info-card sales-card">
-
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-
-<<<<<<< HEAD
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
-
 										<div class="card-body">
 											<h5 class="card-title">
-												Sales <span>| Today</span>
+												확인한 과제 수
 											</h5>
 
 											<div class="d-flex align-items-center">
 												<div
 													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-													<i class="bi bi-cart"></i>
+													<i class="bi bi-journal-check"></i>
 												</div>
 												<div class="ps-3">
-													<h6>145</h6>
-													<span class="text-success small pt-1 fw-bold">12%</span> <span
-														class="text-muted small pt-2 ps-1">increase</span>
+													<h6>${countTasksOk }개</h6>
 
 												</div>
 											</div>
@@ -150,36 +127,18 @@
 								<!-- Revenue Card -->
 								<div class="col-xxl-4 col-md-6">
 									<div class="card info-card revenue-card">
-
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
-
 										<div class="card-body">
 											<h5 class="card-title">
-												Revenue <span>| This Month</span>
+												미확인 과제 수
 											</h5>
 
 											<div class="d-flex align-items-center">
 												<div
 													class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-													<i class="bi bi-currency-dollar"></i>
+													<i class="bi bi-journal-x"></i>
 												</div>
 												<div class="ps-3">
-													<h6>$3,264</h6>
-													<span class="text-success small pt-1 fw-bold">8%</span> <span
-														class="text-muted small pt-2 ps-1">increase</span>
+													<h6>${countTasks }개</h6>
 
 												</div>
 											</div>
@@ -194,24 +153,9 @@
 
 									<div class="card info-card customers-card">
 
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
-
 										<div class="card-body">
 											<h5 class="card-title">
-												학생수 <span>| This Year</span>
+												학생수
 											</h5>
 
 											<div class="d-flex align-items-center">
@@ -221,8 +165,6 @@
 												</div>
 												<div class="ps-3">
 													<h6 id="userCount">${user }명</h6>
-													<span class="text-danger small pt-1 fw-bold">12%</span> <span
-														class="text-muted small pt-2 ps-1">decrease</span>
 
 												</div>
 											</div>
@@ -237,24 +179,9 @@
 								<div class="col-12">
 									<div class="card">
 
-										<div class="filter">
-											<a class="icon" href="#" data-bs-toggle="dropdown"><i
-												class="bi bi-three-dots"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<h6>Filter</h6>
-												</li>
-
-												<li><a class="dropdown-item" href="#">Today</a></li>
-												<li><a class="dropdown-item" href="#">This Month</a></li>
-												<li><a class="dropdown-item" href="#">This Year</a></li>
-											</ul>
-										</div>
-
 										<div class="card-body">
 											<h5 class="card-title">
-												과제 제출 현황 <span>/Today</span>
+												과제 제출 현황
 											</h5>
 
 											<!-- Line Chart -->
@@ -319,23 +246,9 @@
 
 							<!-- Recent Activity -->
 							<div class="card">
-								<div class="filter">
-									<a class="icon" href="#" data-bs-toggle="dropdown"><i
-										class="bi bi-three-dots"></i></a>
-									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-										<li class="dropdown-header text-start">
-											<h6>Filter</h6>
-										</li>
-
-										<li><a class="dropdown-item" href="#">Today</a></li>
-										<li><a class="dropdown-item" href="#">This Month</a></li>
-										<li><a class="dropdown-item" href="#">This Year</a></li>
-									</ul>
-								</div>
-
-								<div class="card-body">
+								<div class="card-body-noCount">
 									<h5 class="card-title">
-										미확인 과제 <span>| Today</span>
+										미확인 과제 
 									</h5>
 									<c:forEach items="${noCount }" var="noCount">
 										<div class="activity">

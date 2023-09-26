@@ -1,4 +1,4 @@
-<%@ page import="java.security.Principal" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: KOSA
   Date: 2023-08-11
@@ -9,7 +9,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>로그인</title>
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
@@ -56,6 +57,11 @@
             text-decoration: none;
             margin: 15px 0;
         }
+        .gender-button{
+            border-color: #eee;
+            background-color: #eee;
+            color:#003050;
+        }
 
         button {
             border-radius: 20px;
@@ -71,6 +77,7 @@
         }
 
         .btn_custom {
+            width: 90%;
             border-radius: 0px;
             padding: 12px 15px;
             margin: 8px 0;
@@ -273,11 +280,12 @@
         .box {
             display: flex;
             flex-wrap: wrap;
+            justify-content: space-between;
             width: 100%;
         }
 
         .w-5 {
-            width: 50%;
+            width: 48%;
         }
         .remember{
             display: flex;
@@ -288,20 +296,25 @@
         #remember-me{
             width: auto;
         }
+        .border-bottom-line{
+            padding: 5px;
+            border-bottom: 1px solid black;
+        }
     </style>
 </head>
 <body>
-<c:if test="${user!=null}">
+<c:if test="${isLogin}">
     <c:redirect url="/"/>
 </c:if>
 
 <c:if test="${param.fail == true}">
-    <div>
-        로그인실패<br>
         <c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
-            이유 : <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+           <script>
+               $( document ).ready(function() {
+                   swal("다시 입력해주세요");
+               });
+           </script>
         </c:if>
-    </div>
 </c:if>
 
 <%--<form action="/auth/login_check" method="post">--%>
@@ -340,10 +353,12 @@
             <input type="password" id="chkPwdVal" placeholder="비밀번호 확인">
             <input type="text" name="name" placeholder="이름">
             <input type="date" name="birthday">
-            <select name="gender" id="gender">
-                <option value="M" selected>남자</option>
-                <option value="W">여자</option>
-            </select>
+            <!-- 성별 선택 버튼 추가 -->
+            <div class="box">
+                <button type="button" class="btn_custom gender-button w-5" data-value="M">남자</button>
+                <button type="button" class="btn_custom gender-button w-5" data-value="W">여자</button>
+            </div>
+            <input type="hidden" name="gender" id="selected-gender" value="M">
             <input type="text" name="phone" placeholder="000-0000-0000">
             <div class="box">
                 <input style="width: 50%" type="text" id="postcode" name="postcode" placeholder="우편번호">
@@ -357,20 +372,14 @@
     </div>
     <div class="form-container sign-in-container">
         <form action="/auth/login_check" method="post">
-            <h1>Sign in</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your account</span>
+            <h1 class="border-bottom-line">Sign in</h1>
             <input type="text" placeholder="Email" name="id"/>
             <input type="password" placeholder="Password" name="pwd"/>
             <div class="remember">
                 <label for="remember-me" style>로그인 유지</label>
                 <input type="checkbox" id="remember-me" name="remember-me" />
             </div>
-            <a href="#">비밀번호를 잊어버리셧나요?</a>
+            <a href="/auth/forgot">비밀번호를 잊어버리셧나요?</a>
             <button type="submit">로그인</button>
         </form>
     </div>
@@ -389,8 +398,33 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+    // 성별 선택 버튼 클릭 이벤트 처리
+    const genderButtons = document.querySelectorAll('.gender-button');
+    const selectedGenderInput = document.getElementById('selected-gender');
+
+    genderButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // 선택한 버튼의 data-value 값을 hidden input에 저장
+            const selectedGender = button.getAttribute('data-value');
+            selectedGenderInput.value = selectedGender;
+
+            // 버튼 스타일 변경 (선택한 버튼은 강조하고 나머지 버튼은 스타일 초기화)
+            genderButtons.forEach(btn => {
+                if (btn === button) {
+                    btn.classList.add('selected');
+                    $(btn).css({"color":"#eee","background-color":"#003050","border-color":"#003050"});
+                } else {
+                    btn.classList.remove('selected');
+                    $(btn).css({"color":"#003050","background-color":"#eee","border-color":"#eee"});
+                }
+            });
+        });
+    });
+
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');
@@ -404,21 +438,47 @@
     });
 
     function sendEmail() {
-        console.log("이메일 전송 이벤트 시작")
+
+        let regex = new RegExp('[a-z0-9+]+@[a-z]+\.[a-z]{2,3}');
+
         const to = $("input[name=email]");
+
+        if(!regex.test(to.val())){
+            swal("이메일 형식을 확인해주세요!")
+            return false;
+        }
+
+
         $.ajax({
             url: '/auth/mail-check',
             type: 'POST',
-            contentType: 'plain/text',
-            data: to.val(),
+            contentType: 'application/json',
+            data: JSON.stringify({"userId":to.val()}),
+            beforeSend: function( xhr ) {
+                swal(
+                    '잠시만 기다려주세요'
+                )
+            },
             success: function (response) {
-                console.log('Data sent successfully!' + response.status);
-                alert("이메일 전송!")
+                swal.close();
+                console.log(response.status)
                 if (response.status == "duplication") {
-                    alert("중복된 이메일입니다.")
-                    to.val('');
-                    to.focus();
+                    swal({
+                        text: "이미 가입된 회원입니다!", Buttons:[], closeOnClickOutside: false
+                    })
                     return false;
+                }
+
+                if(response.status == "SUCCESS"){
+                    swal({
+                        text: "이메일을 전송했습니다.", Buttons:[], closeOnClickOutside: false
+                    })
+                }
+
+                if(response.status == "FAIL"){
+                    swal({
+                        text: "이메일 전송 실패...", Buttons:[], closeOnClickOutside: false
+                    })
                 }
                 // window.location.href=response;
             },
@@ -428,6 +488,20 @@
         });
     }
 
+    // ,
+    // success: function (response) {
+    //     alert("이메일 전송!")
+    //     if (response.status == "duplication") {
+    //         alert("중복된 이메일입니다.")
+    //         to.val('');
+    //         to.focus();
+    //         return false;
+    //     }
+    //     // window.location.href=response;
+    // },
+    // error: function (xhr, status, error) {
+    //     console.error('Error occurred while sending data:', error);
+    // }
     let emailVerified = false;
 
     function chkCertNum() {
@@ -461,6 +535,8 @@
 
     function signUp() {
 
+        let reg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+
         if (!emailVerified) {
             alert("이메일 인증을 완료해주세요.");
             return;
@@ -471,7 +547,7 @@
         let chkPwdVal = $('#chkPwdVal').val();
         let name = $('input[name="name"]').val();
         let birthday = $('input[name="birthday"]').val();
-        let gender = $('#gender').val();
+        let gender = $('input[name="gender"]').val();
         let phone = $('input[name="phone"]').val();
         let postcode = $('#postcode').val();
         let addr1 = $('#roadAddress').val();
@@ -479,15 +555,21 @@
 
         // 비밀번호 확인
         if (pwd !== chkPwdVal) {
-            alert("비밀번호가 일치하지 않습니다.");
+            swal("비밀번호가 일치하지 않습니다.");
             return;
         }
 
         // 필수항목 체크
         if (!email || !pwd || !name || !birthday || !gender || !phone || !postcode || !addr1) {
-            alert("모든 필드를 채워주세요.");
+            swal("모든 필드를 채워주세요.");
             return;
         }
+
+        if(!reg.test(pwd)){
+            swal("영문 숫자 특수기호 조합 8자리 이상으로 입력하세요")
+            return;
+        }
+
 
         // 회원 가입 데이터 객체 생성
         var registerData = {
@@ -510,10 +592,9 @@
             dataType: "json",
             success: function (response) {
                 if (response.status == "sucess") {
-                    alert("회원가입에 성공하셧습니다.")
-                    location.href = "/";
+                    swal("회원가입에 성공하셧습니다.").then(result => location.href = "/")
                 } else {
-                    alert(response.status)
+                    console.log(response.status)
                 }
             },
             error: function (xhr, status, error) {

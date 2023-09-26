@@ -1,7 +1,8 @@
 package com.osoondosson.controller;
 
 import com.osoondosson.security.config.CustomUserDetail;
-import com.osoondosson.service.ScheduleServiceImpl;
+import com.osoondosson.service.ScheduleService;
+import com.osoondosson.service.ToDoListService;
 import com.osoondosson.vo.ScheduleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.HashMap;
 
 
@@ -21,19 +21,21 @@ import java.util.HashMap;
 public class ScheduleController {
 
     @Autowired
-    private ScheduleServiceImpl scheduleService;
+    private ScheduleService scheduleService;
+
+    @Autowired
+    private ToDoListService toDoListService;
 
     // 일정 조회
-    @GetMapping("/schedule/main")
+    @GetMapping("/schedule")
     public String data(Model model, HttpServletRequest request, Authentication auth) {
         CustomUserDetail detail = (CustomUserDetail) auth.getPrincipal();
-        System.out.println("디테일" + detail.getName());
-        System.out.println("디테일" + detail.getUsername());
         HttpSession session = request.getSession(); //
-        System.out.println("세션 : " + session);// 현재 요청의 세션 객체 얻기
         model.addAttribute("list",scheduleService.calendarList(detail.getUsername()));
         model.addAttribute("userId", detail.getUsername());
-        return "/admin/schedule-management";
+        model.addAttribute("todoList",toDoListService.selectToDoList(detail.getUsername()));
+        /* To do List 가져오기 */
+        return "teacher/schedule-management";
     }
 
     // 일정 등록
@@ -49,7 +51,7 @@ public class ScheduleController {
         System.out.println("데이터: " + scheduleVO);
 
         scheduleService.insertSchedule(scheduleVO);
-
+        //log.error(scheduleService.insertSchedule(scheduleVO));
         HashMap map = new HashMap<>();
         map.put("status","success");
         map.put("list",scheduleService.calendarList(detail.getUsername()));
@@ -99,4 +101,5 @@ public class ScheduleController {
         map.put("status","success");
         return map;
     }
+
 }

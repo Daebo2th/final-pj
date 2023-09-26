@@ -6,7 +6,7 @@
     <title>학생 상세보기</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -24,6 +24,7 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/chatting.css">
 </head>
 <body>
 <main id="main" class="main">
@@ -33,7 +34,7 @@
         <h1>Profile</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item">Users</li>
                 <li class="breadcrumb-item active">Profile</li>
             </ol>
@@ -97,7 +98,7 @@
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">성별</div>
-                                    <div class="col-lg-9 col-md-8">${mypage.gender}</div>
+                                    <div class="col-lg-9 col-md-8">${mypage.gender=='M'?'남자':'여자'}</div>
                                 </div>
 
                                 <div class="row">

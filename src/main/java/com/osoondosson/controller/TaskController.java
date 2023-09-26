@@ -158,15 +158,29 @@ public class TaskController {
         Map<String, Object> map =new HashMap<>();
         map.put("groupSeq", String.valueOf(groupSeq));
         // 처음으로 검색을 실행하는 경우
+        // 검색 조건이 '상태'인 경우
+        if ("status".equals(searchCondition)) {
+            if ("확인".equals(searchKeyword)) {
+                map.put("status", 1);
+            } else if ("미확인".equals(searchKeyword)) {
+                map.put("status", 0);
+            }
+            searchKeyword=null; // keyword 사용하지 않음
+        } else {
+            map.put("searchCondition", searchCondition);
+            map.put("searchKeyword",searchKeyword);
+        }
 
-        map.put("searchCondition", searchCondition);
-        map.put("searchKeyword",searchKeyword);
         System.out.println(map);
 
         int total = taskService.countGroupSeqTasks(map);
         PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
         map.put("start", pagingVO.getStart());
         map.put("end", pagingVO.getEnd());
+
+
+/*        map.put("searchCondition",searchCondition);
+        map.put("searchKeyword",searchKeyword);*/
 
         System.out.println(pagingVO+"-------------------------------");
 
@@ -181,9 +195,7 @@ public class TaskController {
 
     @GetMapping("/teacher/daily-task-detail")
     public String DetailCheckDailyTask(Model model, TaskVO vo) {
-        System.out.println("VO:-----------------------"+vo);
-        TaskVO task = taskService.getDetailTask(vo);
-        model.addAttribute("taskVO", task);
+        model.addAttribute("taskVO", taskService.getDetailTask(vo));
         return "/teacher/daily-task-detail-check";
     }
 
@@ -194,6 +206,18 @@ public class TaskController {
         return "/teacher/updateTaskStatus";
     }
 
+
+    /**
+     * 게시글 번호로 게시글 상세 조회
+     * @param taskSeq
+     * @return taskVO
+     * */
+    @GetMapping("/api/task-list/{taskSeq}")
+    @ResponseBody
+    public TaskVO getTaskList(@PathVariable("taskSeq") int taskSeq, TaskVO vo){
+        vo.setTaskSeq(taskSeq);
+        return taskService.getDetailTask(vo);
+    }
 
 }
 

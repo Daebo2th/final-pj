@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Slf4j
@@ -96,6 +97,13 @@ public class UserDAOImpl implements UserDAO{
 		System.out.println("==> mybatis updateProfile() 호출 ");
 		mybatis.update("updateProfile", vo);
 	}
+
+    @Override
+    public int getUserCountByIdAndName(UserVO vo) {
+        int result = mybatis.selectOne("getUserByIdAndName", vo);
+        log.error("UserDAO"+result);
+        return result;
+    }
 
 
 }

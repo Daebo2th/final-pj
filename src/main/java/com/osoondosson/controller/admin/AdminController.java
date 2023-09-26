@@ -29,22 +29,24 @@ public class AdminController {
 
     @Autowired
     private AdminServiceImpl adminService;
-    
+
     @Autowired
     private BoardServiceImpl boardService;
-    
-	/*
-	 * @GetMapping("/admin") public String selectCountUser(Model model) { int user =
-	 * boardService.selectCountUser(); model.addAttribute("user", user); return
-	 * "index"; }
-	 */
-    
-    @GetMapping("/admin")
+
+    /*
+     * @GetMapping("/admin") public String selectCountUser(Model model) { int user =
+     * boardService.selectCountUser(); model.addAttribute("user", user); return
+     * "index"; }
+     */
+
+    @GetMapping("/teacher")
     public String findStatusCount(Model model, Authentication authentication) {
     	CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
     	List<Map<String, Object>> count = boardService.findStatusCount(detail.getGroupSeq());
     	List<Map<String, Object>> noCount = boardService.findStatusNoCount(detail.getGroupSeq());
-    	model.addAttribute("user", boardService.selectCountUser());
+    	model.addAttribute("user", boardService.selectCountUser(detail.getGroupSeq()));
+    	model.addAttribute("countTasks", boardService.countTasks(detail.getGroupSeq()));
+    	model.addAttribute("countTasksOk", boardService.countTasksOk(detail.getGroupSeq()));
     	model.addAttribute("count", count);
     	model.addAttribute("noCount", noCount);
     	return "teacher/main";
@@ -56,35 +58,49 @@ public class AdminController {
     @Autowired
     private MyPageService myPageService;
 
-    @GetMapping("/admin/student-record")
+    @GetMapping("/teacher/student-record")
     public String stuRecord(Model model,Authentication authentication,
                             @RequestParam(value = "nowPage", required = false, defaultValue = "1") int nowPage,
                             @RequestParam(value = "cntPerPage", required = false, defaultValue = "5") int cntPerPage) {
         CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
-        String groupSeq= String.valueOf(detail.getGroupSeq());
+        int groupSeq= detail.getGroupSeq();
 
+        Map<String, Object> map =new HashMap<>();
+        map.put("groupSeq", groupSeq);
 
-        List<MemberWithClassVO> list = adminService.selectByGroup(Integer.parseInt(groupSeq));
+        int total=adminService.countStudent(map);
+        PagingVO pagingVO= new PagingVO(total, nowPage,cntPerPage);
+        map.put("start", pagingVO.getStart());
+        map.put("end", pagingVO.getEnd());
+
+        System.out.println(pagingVO+"-------------------------------------");
+
+        List<MemberWithClassVO> list = adminService.selectByGroup(map);
 
         System.out.println("리스트: " + list);
         model.addAttribute("list", list);
-        model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(Integer.parseInt(groupSeq)));
-        return "admin/student-record";
+        model.addAttribute("pagingVO", pagingVO);
+        model.addAttribute("groupInfo",taskService.getGroupInfoBygroupSeq(groupSeq));
+        return "teacher/student-record";
     }
 
-    @GetMapping("/admin/student-detail")
-    public String stuDetail(Model model,
+    @GetMapping("/teacher/student-detail")
+    public String stuDetail(Model model,Authentication authentication,
                             @RequestParam(value = "studentUserId", required = false) String userId) {
-        List<MemberWithClassVO> list = adminService.selectByGroup(1);
-        System.out.println("리스트: " + list);
+        CustomUserDetail detail= (CustomUserDetail) authentication.getPrincipal();
+        String groupSeq= String.valueOf(detail.getGroupSeq());
+
+        Map<String, Object> map =new HashMap<>();
+        map.put("groupSeq", String.valueOf(groupSeq));
+
         System.out.println("유저아이디:" + userId);
         UserVO studentList = myPageService.selectMyPage(userId);
         model.addAttribute("mypage", studentList);
         System.out.println("리스트2 : " + studentList);
         //model.addAttribute("list", list);
-        return "admin/student-detail";
+        return "teacher/student-detail";
     }
-    @GetMapping("/admin/student-daily-task-list")
+    @GetMapping("/teacher/student-daily-task-list")
     public String stuDailyTaskList(Model model,
                                    @RequestParam(value="studentUserId",required = false) String userId,
                                    @RequestParam(value = "searchCondition", required = false) String searchCondition,
@@ -113,6 +129,12 @@ public class AdminController {
         model.addAttribute("pagingVO", pagingVO); //페이징 정보도 모델에 담아서 보내줍니다.
         model.addAttribute("taskUserList", taskUserList);
 
-        return "/admin/student-daily-task-list";
+        return "teacher/student-daily-task-list";
+    }
+
+    // 만족도 조사
+    @GetMapping("/common/survey")
+    public String survey() {
+        return "common/survey";
     }
 }

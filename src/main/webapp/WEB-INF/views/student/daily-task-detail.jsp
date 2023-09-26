@@ -15,10 +15,10 @@
 
 <html>
 <head>
-    <title>일일과제현황</title>
+    <title>일일과제-상세</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
     <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -43,7 +43,6 @@
         .breadcrumb { background-color: white;}
     </style>
 
-    <title>Hello, world!</title>
     <!-- jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Editor's Style -->
@@ -52,17 +51,14 @@
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <!-- moment.js -->
     <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
-<%--    <!-- fullcalendar CDN -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-    <!-- fullcalendar 언어 CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>--%>
+
     <style>
         /* body 스타일 */
         html, body {
             /*overflow: hidden;*/
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
+            background: #f6f9ff !important;
         }
         /* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
         .fc-header-toolbar {
@@ -229,11 +225,22 @@
             margin-top:10px;
             float: inherit;
         }
-
-
+        .tui-editor-defaultUI .tui-editor-mode-switch-left {
+            display: none !important;
+        }
+        #contents {
+            /*border: 2px solid gainsboro;*/ /* 1픽셀 두께의 검은색 테두리 적용 */
+            padding: 60px;
+        }
+        .comment-author {
+            color: #0f5132 !important; /* 원하는 색상으로 변경 */
+        }
+        .current-user {
+            color: #ff0000 !important; /* 원하는 색상으로 변경 */
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/css/daily-task.css">
-
+    <link rel="stylesheet" href="/resources/css/chatting.css">
 </head>
 <body>
 <%@include file="../include/header.jsp"%>
@@ -247,90 +254,49 @@
         <h1>일일과제 상세보기 페이지</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">일일과제</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
-    <section class="section">
-        <div id="contents">
-            <div class="page-title">
-                <div class="container">
-                    <h3>${taskVO.title}</h3>
-                </div>
-            </div>
-            <!-- 에디터를 적용할 요소 (컨테이너) -->
-            <div id="editor">
+    <!-- Default Card -->
+    <div class="card">
+        <div class="card-body">
+            <section class="section">
+                <div id="contents">
+                    <div class="page-title">
+                        <div class="container">
+                            <div id="cardTitleflex">
+                            <h4 class="card-title">${taskVO.title}</h4>
+                            </div>
+                          <%--<h3>${taskVO.title}</h3>--%>
+                              </div>
+                             </div>
+                            <!-- 에디터를 적용할 요소 (컨테이너) -->
+                            <div id="viewer">
+
+                            </div>
 
             </div>
-
-            <div id="upbtn" style="display: flex; justify-content: center;">
-                <a href="/student/daily-task-update?taskSeq=${taskVO.taskSeq}" class="inline-link">
-                    <button class="custom-btn btn-16">수정</button>
-                </a>
-                <button id="deleteButton" class="custom-btn btn-16">삭 제</button>&nbsp;&nbsp;
-<%--                <a href="/student/daily-task-delete?taskSeq=${taskVO.taskSeq}" class="inline-link">
-                    <button class="custom-btn btn-16">삭 제</button>
-                </a>--%>
-            </div>
-
-            <%
-                Object taskObject = request.getAttribute("taskVO");
-                /* out.println(taskObject);*/
-                String taskJson ="{}";
-                if(taskObject != null){
-                    try{ //서버에서 받아온 'taskVO' 객체를 JSON 문자열로 변환하고, 이스케이프 처리합니다.
-                        ObjectMapper mapper = new ObjectMapper();
-                        String jsonStr = mapper.writeValueAsString(taskObject);
-                        // 모든 제어문자와 특수문자를 Java 스트링 리터럴에서 안전하게 사용할 수 있는 형태로 변환
-                        taskJson = StringEscapeUtils.escapeJava(jsonStr);
-                        /*out.println("taskJSON : "+ taskJson);*/
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-
-            %>
-
-            <script type = "text/javascript">
-
-                //페이지가 로드 되면 실행 됨
-                window.onload = function(){
-                    var taskJsonStrEscaped = '<%=taskJson%>';
-                    //이스케이프 처리된 문자열에서 역슬래시와 따옴표(\') 조합을 일반 따옴표(')로 치환하여 원래 형태로 복원합니다.
-                    var taskJsonStrUnescaped = String(taskJsonStrEscaped).replace(/\\'/g, "'");
-
-                    try{
-                        var task = JSON.parse(taskJsonStrUnescaped); //복원된 JSON 문자열을 JavaScript 객체로 변환합니다.
-
-                        //에디터 인스턴스를 생성하고 초기화 한다
-                        var editor = new toastui.Editor({
-                            el:document.querySelector('#editor'),
-                            initialEditType: 'wysiwyg',
-                            previewStyle: 'vertical',
-                            height: '600px',
-                            initialValue: task.content,
-                            readOnly: true // 읽기 전용으로 설정하면 사용자가 내용을 변경할 수 없습니다.
-
-                        });
-                        //editor.setMarkdown();
-                        // message 값이 존재하면 alert 창을 띄웁니다.
-                        if (message) {
-                            alert(message);
-                        }
-                    }catch(e){
-                        console.error(e);
-                        console.log(taskJsonStrUnescaped);
-                    }
-
-                };
-
-            </script>
+         </section>
         </div>
-    </section>
+    </div><!-- End Default Card -->
+    <p></p><p></p>
+    <div id="upbtn" style="display: flex; justify-content: center;">
+        <a href="/student/daily-task-update?taskSeq=${taskVO.taskSeq}" class="inline-link">
+            <button class="custom-btn btn-16">수정</button>
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="deleteButton" class="custom-btn btn-16">삭 제</button>&nbsp;&nbsp;
+        <%--                <a href="/student/daily-task-delete?taskSeq=${taskVO.taskSeq}" class="inline-link">
+                            <button class="custom-btn btn-16">삭 제</button>
+                        </a>--%>
+    </div>
+
+
     <div class="con reply">
-        <h1>Comment</h1>
+        <h3> Comment</h3>
         <div class="user-comment">
             <div class="comments-section">
                 <div class="comment-post">
@@ -358,7 +324,7 @@
                         <input id='replyConfirm' type='button' value='Post Your Comment' class='btn btn--blue btn--medium pull-right'>
                     </div>
                     <!-- hidden fields for replyer and taskSeq -->
-                    <input type="hidden" id="replyer" value="<sec:authentication property='principal.username'/>"/>
+                    <input type="hidden" id="replyer" value="<sec:authentication property='principal.name'/>"/>
                     <input type="hidden" id="taskSeq" value="${taskVO.taskSeq}"/>
                 </div>
             </div>
@@ -367,6 +333,40 @@
 
     <%--삭제 버튼 클릭 + 댓글 입력후 댓글목록 불러오는 ajax 요청--%>
     <script type="text/javascript">
+
+        //페이지가 로드 되면 실행 됨
+        window.onload = function(){
+            $.ajax({
+                url: "/api/task-list/${param.taskSeq}",
+                type: "GET",
+                dataType: 'json',
+                success: function (response) {
+                    toastUI(response)
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred while sending data:', error);
+                }
+            });
+
+
+            function toastUI(response){
+                try{
+                    //에디터 인스턴스를 생성하고 초기화 한다
+                    const viewer = new toastui.Editor.factory({
+                        el:document.querySelector('#viewer'),
+                        initialValue: response.content,
+                        height: '600px',
+                        toolbarItems: [],
+                        viewer:true
+                    });
+                }catch(e){
+                    console.error(e);
+                }
+            }
+
+
+        };
+
         $('#deleteButton').click(function(e) {
             e.preventDefault();
 
@@ -376,8 +376,11 @@
                 type: 'GET',
                 url: '/student/daily-task-delete?taskSeq=' + taskSeq,
                 success: function(result) {
-                    alert('삭제가 완료되었습니다.');
-                    window.location.href = "/student/daily-task-list";  // 페이지 리다이렉트 (필요한 URL로 변경)
+                    swal({
+                        text: "글 삭제가 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        window.location.href = "/student/daily-task-list";  // 페이지 리다이렉트 (필요한 URL로 변경)
+                    })
                 },
                 error: function(error) {
                     alert('삭제하는 중에 오류가 발생했습니다.');
@@ -403,17 +406,22 @@
                         var commentPost = $('<div>').addClass('comment-post');
                         var commentDetails = $('<div>').addClass('comment-details').appendTo(commentPost);
 
-                        $('<p>').append($('<span>').addClass('comment-author').text(reply.replyer)).appendTo(commentDetails);
+                        var commentAuthor = $('<span>').addClass('comment-author').text(reply.replyer);
+                        // 현재 로그인한 사용자와 댓글 작성자가 일치하면 클래스 추가
+                        if (userId === reply.replyer) {
+                            console.log(userId);
+                            console.log(reply.replyer);
+                            commentAuthor.addClass('current-user');
+                        }
+
+                        $('<p>').append(commentAuthor).appendTo(commentDetails);
+
+
+                    /*    $('<p>').append($('<span>').addClass('comment-author').text(reply.replyer)).appendTo(commentDetails);*/
                         $('<p>').addClass('comment-content').text(reply.replyContent).appendTo(commentDetails);
 
                         /*만약 현재 로그인한 사용자가 댓글 작성자와 동일하다면 수정 및 삭제 버튼 추가*/
                         if (userId === reply.replyer) {
-/*                            var editButton = $('<button>Edit</button>');  // 수정 버튼 생성
-                            editButton.click(function() {
-                                // 여기에 댓글 수정 로직 구현
-                            });
-                            commentDetails.append(editButton);  // 수정 버튼 추가*/
-
                             var deleteButton = $('<button type="button" id="deleteButton" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>');  // 삭제 버튼 생성  // 삭제 버튼 생성
                             deleteButton.click(function() {
                                 // 여기에 댓글 삭제 로직 구현
@@ -421,12 +429,18 @@
                                     type: 'GET',
                                     url: '/student/delete-reply?replySeq=' + reply.replySeq,  // 실제 댓글 삭제 API URL로 변경 필요
                                     success: function(result) {
-                                        alert('댓글 삭제가 완료되었습니다.');
-                                        replyList();  // 댓글 목록 새로고침
+                                        swal({
+                                            text: "댓글 삭제가 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                                        }).then(function (){
+                                            replyList();  // 댓글 목록 새로고침
+                                        })
                                     },
                                     error: function(error) {
-                                        alert('댓글을 삭제하는 중에 오류가 발생했습니다.');
-                                        console.log(error);
+                                        swal({
+                                            text: "댓글 삭제에 실패했습니다.", buttons: "확인", closeOnClickOutside: false
+                                        }).then(function (){
+                                            replyList();  // 댓글 목록 새로고침
+                                        })
                                     }
                                 });
                             });
@@ -437,8 +451,11 @@
                     });
                 },
                 error: function(error) {
-                    alert('Failed to load replies');
-                    console.log(error);
+                    swal({
+                        text: "댓글 삭제에 실패했습니다.", buttons: "확인", closeOnClickOutside: false
+                    }).then(function (){
+                        replyList();  // 댓글 목록 새로고침
+                    })
                 }
             });
         }
@@ -463,10 +480,13 @@
                     data: JSON.stringify(formData),
                     url:'/student/daily-task-reply',
                     success:function(result){
-                        alert("댓글 등록이 안료되었습니다.");
-                        //화면 초기화
-                        $('#replyContent').val('');
-                        replyList();
+                        swal({
+                            text: "댓글 등록이 완료되었습니다.", buttons: "확인", closeOnClickOutside: false
+                        }).then(function (){
+                            //화면 초기화
+                            $('#replyContent').val('');
+                            replyList();
+                        })
                     },
                     error: function(error){
                         alert('error');
