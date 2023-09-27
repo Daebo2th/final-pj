@@ -1,12 +1,14 @@
 package com.osoondosson.controller.chat;
 
 
+import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.utill.Chat;
 import com.osoondosson.vo.chat.ChatingRoom;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,14 +34,21 @@ public class ChatController {
 
     // 채팅방 목록
     @GetMapping("/chatingRoomList")
-    public ResponseEntity<?> chatingRoomList() {
+    public ResponseEntity<?> chatingRoomList(Authentication authentication) {
         log.warn("채팅방 목록"+chat.getChatingRoomList());
-        return new ResponseEntity<LinkedList<ChatingRoom>>(chat.getChatingRoomList(), HttpStatus.OK);
+        CustomUserDetail userDetail = (CustomUserDetail) authentication.getPrincipal();
+        LinkedList<ChatingRoom> filteredRooms = new LinkedList<>();
+        for (ChatingRoom room : chat.getChatingRoomList()) {
+            if (room.getGroupSeq() == userDetail.getGroupSeq()) {
+                filteredRooms.add(room);
+            }
+        }
+        return new ResponseEntity<LinkedList<ChatingRoom>>(filteredRooms, HttpStatus.OK);
     }
 
     // 방 만들기
     @PostMapping("/chatingRoom")
-    public ResponseEntity<?> chatingRoom(String roomName, String nickname) {
+    public ResponseEntity<?> chatingRoom(String roomName, String nickname, int groupSeq) {
 
         // 방을 만들고 채팅방목록에 추가
         String roomNumber = UUID.randomUUID().toString();
@@ -47,6 +56,7 @@ public class ChatController {
                 .roomNumber(roomNumber)
                 .users(new LinkedList<>())
                 .roomName(roomName)
+                .groupSeq(groupSeq)
                 .chatHistory(new ArrayList<>())
                 .build();
 

@@ -12,6 +12,7 @@ import java.util.Objects;
 public class ChatingRoom {
 	private String roomNumber;
 	private String roomName;
+	private int groupSeq;
 	private LinkedList<String> users;
 	private List<Message> chatHistory;
 	@Override
