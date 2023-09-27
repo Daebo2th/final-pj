@@ -24,9 +24,13 @@
     const info = (function () {
         let nickname = "${principal.name}";
         let roomNumber = "";
-
+        let groupSeq = "${principal.groupSeq}"
         const getNickname = function () {
             return nickname;
+        }
+
+        const getGroupSeq = function (){
+            return groupSeq;
         }
 
         // const setNickname = function (set) {
@@ -42,7 +46,7 @@
         }
         return {
             getNickname: getNickname, // setNickname: setNickname,
-            getRoomNumber: getRoomNumber, setRoomNumber: setRoomNumber,
+            getRoomNumber: getRoomNumber, setRoomNumber: setRoomNumber, getGroupSeq
         }
     })();
 </script>

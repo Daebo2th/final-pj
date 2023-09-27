@@ -1,12 +1,13 @@
 package com.osoondosson.utill;
 
+import com.osoondosson.security.config.CustomUserDetail;
 import com.osoondosson.vo.chat.ChatingRoom;
 import com.osoondosson.vo.chat.Message;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -27,7 +28,7 @@ public class Chat {
     public boolean enterChatingRoom(ChatingRoom chatingRoom, String nickname) {
         createNickname(nickname);
 
-        if(chatingRoom == null) {
+        if (chatingRoom == null) {
             deleteCookie();
             return false;
         } else {
@@ -43,12 +44,9 @@ public class Chat {
     public void addMessageToChatHistory(String roomNumber, Message message) {
         // 해당 방번호로 방 객체 찾기
         ChatingRoom room = findRoom(roomNumber);
-        log.error("탓냐?"+roomNumber);
-        log.error("탓냐2?"+room);
         if (room != null) {
             List<Message> chatHistory = room.getChatHistory();
             chatHistory.add(message);
-            log.error("여기는 채팅내역 저장"+chatHistory);
         }
     }
 
