@@ -3,20 +3,28 @@
 
 ## 1. 분석 및 설계
 
+### 개발환경
+![img.png](docs/setting.png)
+
 ### 아이디어
 ![img.png](docs/idea.png)
 ``` text
 교육중 불편했던 일일과제 제출 프로그램과 자료 공유 프로그램들을
 통합한 프로그램 구현
 ```
+
 ### 요구사항 정의서
 ![img.png](docs/Requirements.png)
 
-### 개발환경
-![img.png](docs/setting.png)
-
 ### 일정
 ![img.png](docs/log.png)
+
+### 주요 기능
+* **일일과제 작성**
+* **자료공유실**
+* **채팅**
+* **교육생 관리 및 통계**
+
 
 ### 링크
 [팀 노션 바로가기](https://www.notion.so/Final-Project-d3e1a0dc349f4d4ab002651357b624b1)

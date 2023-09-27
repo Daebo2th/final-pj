@@ -280,7 +280,7 @@ $(document).ready(function () {
     // 새 채팅방 만들기
     const createRoom = function (roomName) {
         const data = {
-            roomName: roomName, nickname: info.getNickname()
+            roomName: roomName, nickname: info.getNickname(), groupSeq: info.getGroupSeq()
         }
 
         $.ajax({
