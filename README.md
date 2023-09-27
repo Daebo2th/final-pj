@@ -1,6 +1,16 @@
 # DailyRecord
 팀 오순도순의 대보2기 파이널 프로젝트 Repository
 
+[DailyRecord 바로가기](http://dailyrecord.site)
+ 
+``` text
+테스트용 사용자 아이디
+user1@naver.com qwe
+
+테스트용 관리자 아이디
+qwe qwe
+```
+
 ## 1. 분석 및 설계
 
 ### 개발환경
