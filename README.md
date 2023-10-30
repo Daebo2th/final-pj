@@ -1,9 +1,10 @@
 # DailyRecord
 팀 오순도순의 대보2기 파이널 프로젝트 Repository
 
-[DailyRecord 바로가기](http://dailyrecord.site)
+~~[DailyRecord 바로가기](http://dailyrecord.site)~~
  
 ``` text
+2023-10-30 일자로 서버 내림
 테스트용 사용자 아이디
 user1@naver.com qwe
 
